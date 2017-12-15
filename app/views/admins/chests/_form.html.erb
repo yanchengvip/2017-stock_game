@@ -1,0 +1,94 @@
+<!-- <div class="" id="addChestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">填写赔付信息</h4>
+      </div>
+      <form action="/admins/lotteries" onsubmit="return validate_add_lottery_form(this)" method="post">
+        <div class="modal-body">
+          <input type="hidden"  class="form-control" name='product_id' id="product_id_l">
+          <input type="hidden"  class="form-control" name='product_name' id="product_name_l">
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">赔付率:</label>
+            <div class="col-sm-6">
+             <input type="number" name="odds" id="odds_input" class="form-control"  placeholder="赔付率">
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">数量:</label>
+            <div class="col-sm-6">
+              <input type="number" name="total_count" id="total_count_input" value="10" class="form-control"  placeholder="数量">
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+
+
+<h3 style="text-align: center;">修改赔付信息</h3>
+<div class="container">
+  <!-- <form action="/admins/chests/update" method="put"> -->
+  <%= form_for @chest, url: admins_chest_path, method: :put, class: 'valid_engine' do |f| %>
+
+    <input type="hidden" name="id" value="<%= @chest.id %>">
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">赔付率</label>
+      <div class="col-sm-6">
+        <input type="input" name="chest[odds]" id="chest_odd" required="required" value="<%= @chest.odds %>" class="form-control" placeholder="赔付率">
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" required="required" min="0" max="99999999" class="col-sm-2 col-form-label">数量</label>
+      <div class="col-sm-6">
+        <input type="number" name="chest[total_count]" value="<%= @chest.total_count %>" class="form-control" placeholder="数量" id="chest_count">
+      </div>
+    </div>
+
+    <div class="form-group row" style="text-align: center;">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='/admins/chests/'">取消</button>
+        <button type="submit" class="btn btn-primary update_chest">确定</button>
+      </div>
+    </div>
+
+  <!-- </form> -->
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.update_chest').on('click', function(){
+      var odd = $('#chest_odd').val();
+      console.log(odd);
+      var total_count = $('#chest_count').val();
+      if(odd == ''){
+        alert('赔付率不能为空');
+        return false;
+      }
+      if(total_count == ''){
+        alert('数量不能为空');
+        return false;
+      }
+
+      // $.ajax({
+      //   type: 'POST',
+      //   url: '/admin/chests',
+      //   data: {}
+      // })
+    })
+  })
+</script>

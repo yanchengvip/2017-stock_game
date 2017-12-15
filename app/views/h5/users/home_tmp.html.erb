@@ -1,0 +1,186 @@
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   -->
+<%= stylesheet_link_tag    'h5/bootstrap.min', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag    'h5/cropper.min', media: 'all', 'data-turbolinks-track': 'reload' %>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>   -->
+<%= javascript_include_tag 'h5/bootstrap.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'h5/cropper.min', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag  'h5/main', media: 'all', 'data-turbolinks-track': 'reload'  %>
+<%= javascript_include_tag 'h5/main', 'data-turbolinks-track': 'reload' %>
+<%#= javascript_include_tag 'h5/jquery.form.min', 'data-turbolinks-track': 'reload' %>
+
+<body class="VirMe-Box">
+
+<div class="BuyRecord-box" id="crop-avatar">
+  <!--分割线-->
+  <!-- <div class="Pro-gray"></div> -->
+  <div class="icon-right VirMe-padding VirMe-header ">
+    <a href="javascript:void(0)">
+      <div class="avatar-view" title="Change the avatar">
+        <div class="PetHeader">
+          <%= image_tag current_user.headimgurl, style: "width:60px;height:60px;", id: "xmTanImg", alt: "Avatar" %>
+        </div>
+        <p style="vertical-align:middle;"><%= current_user.nickname || current_user.phone %></p>
+        <!-- <p style="vertical-align:middle;">未登陆</p> -->
+      </div>
+    </a>
+  </div>
+
+  <!--分割线-->
+  <!-- <div class="Pro-gray"></div>
+  <div class="VirMe-padding VirMe-Money">
+    <p>现金奖励：<i>2344元</i></p>
+    <span class="fr">提现</span>
+  </div> -->
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="VirMe-padding VirMe-Money VirMe-Dima">
+    <p>钻石币：<i><%= current_user.total_diamond_coin.to_i %></i></p>
+    <span class="fr VirMe-DimaClick exchange_coin" id="exchange_coin">兑换</span>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-Invitation">
+    <a href="<%= invite_history_h5_user_path(current_user) %>">
+      <p>邀请记录</p>
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding VirMe-record">
+    <a href="/h5/lotteries/buy_record">
+      <p>夺宝记录</p>
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-weixin">
+    <a href="#2">
+      <p>微信号</p>
+      <span class="fr"><%= current_user.openid.present? ? "已绑定" : '未绑定' %></span>
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding VirMe-Phone">
+    <a href="<%= binding_phone_h5_user_path(current_user) %>">
+      <p>手机号</p>
+      <span class="fr">
+          <%#= current_user.phone.gsub(/(\d{3})\d{4}(\d{4})/){"#{$1}****#{$2}"} %>
+        <%= phone_str(current_user.phone) %>
+        </span>
+    </a>
+  </div>
+  <!--分割线-->
+  <% if current_user.phone.present? %>
+      <div class="Pro-gray"></div>
+      <div class="icon-right VirMe-padding VirMe-Passeord">
+        <a href="<%= get_verification_code_h5_user_path(current_user) %>">
+          <p>修改密码</p>
+        </a>
+      </div>
+  <% end %>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <!--分割线-->
+  <div class="icon-right VirMe-padding VirMe-legal">
+    <a href="/h5/users/law_illustration">
+      <p>法律声明</p>
+    </a>
+  </div>
+
+  <!-- Cropping modal -->
+  <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form class="avatar-form"  id="data"  enctype="multipart/form-data">
+          <!-- action="/h5/users/<%= current_user.id %>/change_avatar" -->
+          <!-- action="/h5/users/<%= current_user.id %>/change_avatar" -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+          </div>
+          <div class="modal-body">
+            <div class="avatar-body">
+              <!-- Crop and preview -->
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="avatar-wrapper"></div>
+                </div>
+              </div>
+              <!-- Upload image and data -->
+              <div class="avatar-upload">
+                <input type="hidden" class="avatar-src" name="avatar_src">
+                <input type="hidden" class="avatar-data" name="avatar_data">
+                <span class="fileStyle">选择图片<input type="file"  accept="image/*" class="avatar-input" id="avatarInput" onchange="fileSelected()" name="avatar_file"></span>
+              </div>
+              <div class="row avatar-btns">
+                <div class="col-md-3">
+                  <button type="submit" class="postClick" onclick="doUpload()">确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- /.modal -->
+
+</div>
+
+<!--弹框兑换钻石币-->
+<%= render partial: 'share_template/exchange_diamond', locals: {redirect_url: "/h5/users/home"}  %>
+
+</body>
+
+<script type="text/javascript">
+    //判断浏览器是否支持FileReader接口
+    if (typeof FileReader == 'undefined') {
+        document.getElementById("xmTanDiv").InnerHTML = "<h1>当前浏览器不支持FileReader接口</h1>";
+        //使选择控件不可操作
+        document.getElementById("xdaTanFileImg").setAttribute("disabled", "disabled");
+    }
+
+    $(function(){
+        //    超出为"99+"
+        var overNum = $(".over-num").text();
+        var show_overNum = overflow_num(overNum)
+        $(".over-num").text(show_overNum);
+
+        window.fileSelected = function() {
+            var oFile = document.getElementById('avatarInput').files[0]; //读取文件
+            var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+            if (!rFilter.test(oFile.type)) {
+                alertTx("文件格式错误，请选择相册文件");
+                return;
+            }
+        }
+
+    })
+
+    function doUpload() {
+        var formData = new FormData($( "#data" )[0]);
+        var path = "/h5/users/<%= current_user.id %>/change_avatar"
+        $.ajax({
+            url: path,
+            type: 'POST',
+            data: formData,
+            async: false,
+            // cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                if (returndata['status'] == 200)
+                {
+                    alertTx(returndata['msg']);
+                    // window.location.reload();
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    alertTx(returndata['msg']);
+                }
+            },
+            error: function (returndata) {
+                // alertTx(returndata['msg']);
+                alertTx('修改头像失败')
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,167 @@
+<div class="gfc-box">
+  <div class="ui-box my-Recharge-record">
+    <% if @charge_orders.length == 0 %>
+        <div class="no-data">暂无记录</div>
+    <% end %>
+
+    <% @charge_orders.each do |orders| %>
+        <div class="stretch-box">
+          <div class="bgc-diy-top">
+            <div class="time">
+              <p><%= orders[0][:created_year] %></p>
+            </div>
+          </div>
+          <ul class="top-line-li" id="<%= orders[0][:created_year2] %>">
+            <% orders.each do |order| %>
+
+                <li>
+                  <a href="/h5/charge_orders/<%= order[:id]%>">
+                  <div class="ui-content">
+                    <ul class="line-arrangement">
+                      <li class="txt-al-c">
+                        <p><span><%= order[:created_week] %></span></p>
+                        <p><span><%= order[:created_day] %></span></p>
+                      </li>
+                      <li>
+                        <% if order[:pay_type].to_i == 1 %>
+                            <div class="img-icon alipay-pic"></div>
+                        <% end %>
+
+                        <% if [0, 2, 3].include? (order[:pay_type].to_i) %>
+                            <div class="img-icon wechatpay-pic"></div>
+                        <% end %>
+
+
+                      </li>
+                      <li>
+                        <p><span class="-gfc-red">￥<%= order[:price].to_f %></span></p>
+                        <p>方式：<span class="txt-white"><%= h5_show_pay_type order[:pay_type] %></span></p>
+                      </li>
+                      <li><span class="gfc-green"><%= h5_show_pay_status order[:status] %></span></li>
+                    </ul>
+                  </div>
+                  </a>
+                </li>
+
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+  </div>
+</div>
+
+<script id="record-ul" type="text/x-jsrender">
+<div class="stretch-box">
+			<div class="bgc-diy-top">
+				<div class="time">
+					<p>{{:created_year}}</p>
+				</div>
+			</div>
+			<ul class="top-line-box" id={{:created_year2}}>
+			    {{:lis}}
+			</ul>
+
+</div>
+
+
+
+
+</script>
+
+<script id="record-li" type="text/x-jsrender">
+
+  <li>
+					<a href="/h5/charge_orders/{{:id}}">
+						<div class="ui-content">
+							<ul class="line-arrangement">
+								<li class="txt-al-c">
+									<p><span>{{:created_week}}</span></p>
+									<p><span>{{:created_day}}</span></p>
+								</li>
+								<li>
+                  {{if pay_type == 3 || pay_type == 2 || pay_type == 0}}
+                  <div class="img-icon wechatpay-pic"></div>
+                  {{/if}}
+                  {{if pay_type == 1}}
+                  <div class="img-icon alipay-pic"></div>
+                  {{/if}}
+								</li>
+								<li>
+									<p><span class="-gfc-red">￥{{:price}}</span></p>
+								  <p>方式：<span class="txt-white">
+                  {{if pay_type == 3 || pay_type == 2 || pay_type == 0}}微信{{/if}}
+                  {{if pay_type == 1}} 支付宝{{/if}}
+								</span></p>
+								</li>
+								<li><span class="gfc-green">
+								  {{if status == 1}}支付成功{{else}} 未支付{{/if}}
+								</span></li>
+							</ul>
+						</div>
+					</a>
+
+	</li>
+
+
+
+
+
+</script>
+
+<script>
+    var page = 1;
+    $('.my-Recharge-record').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh">↑上拉加载更多-自定义内容</div>',
+            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>',
+            domNoData: '<div class="dropload-noData">暂无数据...</div>'
+        },
+        loadDownFn: function (me) {
+            $.ajax({
+                type: 'GET',
+                url: "/h5/charge_orders/my_charge_record_page",
+                dataType: 'json',
+                data: {page: page += 1, is_json: true},
+                beforeSend: function () {
+                    me.lock();
+                },
+                success: function (result) {
+                    var ul = ''
+                    var charge_orders = result['data']['charge_orders']
+                    if (charge_orders.length == 0) {
+                        me.lock();
+                        me.noData();
+                    }
+                    for (var i = 0; i < charge_orders.length; i++) {
+                        var month_orders = charge_orders[i]
+                            y_m2 = month_orders[0]['created_year2']
+                            if ($('#' + y_m2).length > 0) {
+                                var li = $('#record-li').render(month_orders);
+                                $('#' + y_m2).append(li)
+                            } else {
+                                var li = $('#record-li').render(month_orders);
+                                var lis = {lis: li, created_year: month_orders[0]['created_year'], created_year2: y_m2}
+                                ul = $('#record-ul').render(lis)
+                            }
+
+                        $('.my-Recharge-record').append(ul)
+
+                    }
+                    me.resetload();
+                    me.unlock();
+
+                },
+                error: function () {
+                    me.resetload();
+                    me.unlock();
+                }
+            });
+        },
+        threshold: 50
+    })
+</script>
+
+

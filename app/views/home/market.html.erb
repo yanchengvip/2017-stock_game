@@ -1,0 +1,91 @@
+
+<div class="gfc-box market-box">
+  <!--title-->
+  <div class="header">
+    <div class="header-c">
+      <a class="left" href=""></a>
+      <div>
+        <p><%=@sale_diamond.name%><span><br><%=@sale_diamond.exchange_code%></span></p>
+      </div>
+      <a class="right" href=""></a>
+    </div>
+    <a class="mark" href=""></a>
+  </div>
+  <!--content-->
+  <div class="market-text">
+    <div class="price">
+      <ul>
+        <li class="-gfc-red"><span><%=@sale_diamond.current_price%></span></li>
+        <li class="-gfc-red">
+          <span><%=@sale_diamond.current_price - @sale_diamond.opening_price%></span>
+          <span class=span1><%= ((@sale_diamond.current_price - @sale_diamond.opening_price) / @sale_diamond.opening_price).round(4)*100 %>%</span>
+        </li>
+      </ul>
+      <ul>
+        <li>昨收<span><%=@sale_diamond.yesterday_close_pirce%></span></li>
+        <li>今开<span><%=@sale_diamond.opening_price%></span></li>
+        <li>最高<span class="-gfc-red"><%=@sale_diamond.max_price%></span></li>
+        <li>最低<span><%=@sale_diamond.min_price%></span></li>
+      </ul>
+    </div>
+    <div class="chart">
+      <ul>
+        <li class="gfc-gray">分时图</li>
+        <li class="gfc-black">走势图</li>
+      </ul>
+      <!--content-->
+      <div class="chart-box"></div>
+      <ul>
+        <li>涨停<span class=-gfc-red><%=(@sale_diamond.opening_price*1.1).round(2)%></span></li>
+        <li>跌停<span class=gfc-green><%=(@sale_diamond.opening_price*0.9).round(2)%></span></li>
+      </ul>
+    </div>
+    <p>我的持仓</p>
+    <div class="house">
+      <%if @hold_diamonds_info%>
+      <ul>
+        <li><span>商品品名</span><span><%=@hold_diamonds_info[:name]%></span></li>
+        <li><span>商品代码</span><span><%=@hold_diamonds_info[:exchange_code]%></span></li>
+        <li><span>商品数量</span><span><%=@hold_diamonds_info[:total_count]%></span></li>
+        <li><span>可卖数量</span><span><%=@hold_diamonds_info[:available_count]%></span></li>
+        <li><span>成本价格</span><span><%=@hold_diamonds_info[:avg_price]%></span></li>
+        <li><span>市场价格</span><span><%=@hold_diamonds_info[:market_price]%></span></li>
+        <li><span>当前市值</span><span><%=@hold_diamonds_info[:market_price] * @hold_diamonds_info[:total_count]%></span></li>
+        <li><span>浮动盈亏</span><span><%=@hold_diamonds_info[:market_price] * @hold_diamonds_info[:total_count] - @hold_diamonds_info[:avg_price] * @hold_diamonds_info[:total_count]%></span></li>
+      </ul>
+      <%end%>
+    </div>
+    <p>我的挂单</p>
+    <%@booking_trades.each do |booking_trade| %>
+    <div class="bill bill-sell">
+      <ul>
+        <li><span>商品品名</span><span><%=@sale_diamond.name%></span></li>
+        <li><span>商品代码</span><span><%=@sale_diamond.exchange_code%></span></li>
+        <li><span>挂单状态</span><span>已报</span></li>
+        <li><span>挂单方向</span><span class="<%=booking_trade.bussiness_type == 1 ? 'gfc-sell gfc-buy' : 'gfc-sell'%>"><%=booking_trade.bussiness_type == 1 ? "买" : "卖"%></span></li>
+        <li><span>挂单价格</span><span><%=booking_trade.booking_price%></span></li>
+        <li><span>挂单数量</span><span><%=booking_trade.total_count%></span></li>
+      </ul>
+      <div class="line"></div>
+      <span class="cancel">撤销</span>
+    </div>
+    <%end%>
+    <!-- <div class="bill bill-buy">
+      <ul>
+        <li><span>商品品名</span><span>3,380.00</span></li>
+        <li><span>商品代码</span><span>3,380.00</span></li>
+        <li><span>挂单状态</span><span>已报</span></li>
+        <li><span>挂单方向</span><span class="gfc-sell gfc-buy">买</span></li>
+        <li><span>挂单价格</span><span>3,380.00</span></li>
+        <li><span>挂单数量</span><span>3,380.00</span></li>
+      </ul>
+      <div class="line"></div>
+      <span class="cancel">撤销</span>
+    </div> -->
+  </div>
+  <div class="btn">
+    <span>买入</span>
+    <span>卖出</span>
+  </div>
+</div>
+

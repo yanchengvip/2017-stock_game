@@ -1,0 +1,47 @@
+<div class="row">
+
+  <form action="/admins/lottery_orders/search" method="post">
+    <div class="input-group">
+
+      <div class="row lottery-search">
+        <div class="col-xs-6">
+          <span class="lottery-search-span">购买时间:</span>
+          <input type="date"  name="created_at"  class="form-control  lottery-search-input"  placeholder="发布日期">
+        </div>
+
+        <div class="col-xs-6">
+          <span class="lottery-search-span">期号&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  :</span>
+          <input type="text"  name="lottery_code"  class="form-control lottery-search-input" placeholder="期号">
+
+        </div>
+
+        <div class="col-xs-6">
+          <span class="lottery-search-span">购买人&nbsp&nbsp&nbsp:</span>
+          <input type="text"  name="purchaser"  class="form-control lottery-search-input" placeholder="购买人">
+
+        </div>
+
+        <div class="col-xs-6">
+          <span class="lottery-search-span">订单状态 :</span>
+          <select class="selectpicker" name="order_status">
+            <option value=100>全部</option>
+            <option value=0>未发货</option>
+            <option value=3>待发货</option>
+            <option value=1>已发货</option>
+            <option value=2>已兑奖收益</option>
+            <option value=-1>已作废</option>
+          </select>
+        </div>
+
+
+        <button class="btn btn-default lottery-search-button" type="submit" >查询</button>
+
+
+      </div>
+
+
+    </div>
+  </form>
+
+
+</div>

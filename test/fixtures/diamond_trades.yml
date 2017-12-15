@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking_trade_id: 1
+  user_id: 1
+  sale_diamond_id: 1
+  business_type: 1
+  total_count: 1
+  total_price: 9.99
+
+two:
+  booking_trade_id: 1
+  user_id: 1
+  sale_diamond_id: 1
+  business_type: 1
+  total_count: 1
+  total_price: 9.99

@@ -1,0 +1,333 @@
+<script type="text/javascript">
+    $(function(){
+      //模拟当日数据
+      var demoData = dataTestOut();
+      // console.log(demoData)
+      // console.log(demoData[demoData.length-1][0])
+
+      // 生成模拟数据函数
+      function dataTestOut(){
+        var dataTest = [];
+        var dataBranch1 = [];
+
+        var a = 300;
+        var b = 1489023000000;
+        var c = 300
+        for(var i=0;i<330;i++){
+          b = b + 60000;
+          if (i<=100){
+            var randomNum = Math.random();
+            dataBranch1.push( b )
+            dataBranch1.push( a + Math.random() * 5 - Math.random() * 5 )
+          }else {
+            var randomNum = Math.random();
+            dataBranch1.push( b )
+            dataBranch1.push( null )
+          }
+          dataTest.push(dataBranch1)
+          dataBranch1 = [];
+        }
+        console.log(dataTest)
+
+        return dataTest
+      }
+      var todayDate = demoData[0];
+      var day = Highcharts.dateFormat('%Y/%m/%d', todayDate),
+        breaks = [{
+          from: new Date(day + ' 11:30').getTime(),
+          to: new Date(day + ' 13:00').getTime(),
+          breakSize: 0 * 60
+        }]
+
+
+
+      Highcharts.setOptions({
+        global: {
+          timezoneOffset: -8*60
+        },
+        lang: {     //缩放后重置按钮,这个按钮的隐藏方式在css中定义
+          resetZoom: "正常显示"
+        },
+      });
+
+      var mychartM = Highcharts.stockChart('containerM', {
+        chart : {
+          spline: {
+              lineWidth: 0,
+            },
+          type:'spline', // 让线条变得圆滑
+          events : {
+            load : function () {
+              // set up the updating of the chart each second
+              var series = this.series[0];
+
+                var idx = 400;
+              setInterval(function () {
+                // var x = demoData[demoData.length-1][0] + 60000;
+                // var x = demoData[idx-1][0] + 60000;
+                y = Math.random() - Math.random() + 300;
+                // series.addPoint([x, y], true, false);
+                idx++;
+                mychartM.redraw();
+              }, 0);
+            }
+          }
+        },
+        rangeSelector: {
+          enabled: false  //隐藏左上角范围选择器
+        },
+        scrollbar: {
+          enabled: false  //隐藏滚动条
+        },
+        navigation: {
+          buttonOptions: {
+            enabled: false  //隐藏顶部导航条
+          }
+        },
+        navigator:{
+          enabled:false    //隐藏底部范围选择
+        },
+        credits: {
+          enabled: false //隐藏highchart.com字样
+        },
+        xAxis: {
+          crosshair:{     //鼠标经过出现十字线
+            dashStyle: 'dash',   //十字线样式
+            color: '#999',      //十字线颜色
+            label:{
+              enabled: true,
+              padding:0,    //坐标轴上提示值的宽高
+              formatter:function(e){
+                return  Highcharts.dateFormat("%H:%M", e);;
+              },
+              borderWidth:0,
+              backgroundColor:"#494949",  // 背景色
+              style:{"color":"#fff","font-size":"18px"}
+            }
+          },
+          min: 1489023000000,
+          max: 1489042800000,
+          type: 'datetime',
+          labels: {
+            x:0,
+            y:12,
+            formatter: function () {
+              // console.log(1489023019560-148904280000)
+              if (this.value === 1489030200000) {
+                // 1489023000000.0   1489030200000.0   1489042800000
+                return '11:30/13:00';
+              }
+              return  Highcharts.dateFormat("%H:%M", this.value);
+            },
+          },
+          tickPositioner: function() {
+            return [1489023000000,1489030200000,1489042800000]
+          },
+
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    states: {
+                        hover: {
+                            radiusPlus: 5,
+                            lineWidthPlus: 2
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        lineWidthPlus: 0  //鼠标滑过线条粗细
+                    }
+                }
+            }
+        },
+        yAxis: [{
+          title: {
+            text: '' // 左侧y轴名字
+          },
+          minorGridLineWidth: 0,
+          minorTickInterval: 'auto',
+          minorTickColor: '#eee',
+          minorTickWidth: 0,
+          minorTickLength: 80,
+          minorTickPosition: 'inside',
+          tickInterval: 3,  //刻度比例
+          max:310,  // 定义Y轴 最大值
+          min:292,  // 定义最小值
+          crosshair:{     //鼠标经过出现十字线
+            dashStyle: 'dash',   //十字线样式
+            color: '#999',      //十字线颜色
+            label:{
+              enabled: true,
+              padding: 0,    //坐标轴上提示值的宽高
+              formatter:function(e){
+                // return e.toFixed(2);
+                // return '<span style="color: #fff;float:right">' + e.toFixed(2) + '</span>'
+
+                // if(e > 300) {
+                //   return '<span style="color: red;float:right">' + e.toFixed(2) + '</span>'
+                // }else if(e < 300) {
+                //   return '<span style="color: green;float:right">' + e.toFixed(2) + '</span>'
+                // }else if(e = 300) {
+                //   return '<span style="color: #fff;float:right">' + e.toFixed(2) + '</span>'
+                // }
+                return '<span style="color: #fff;float:right;transform:translate(10%,10%);">' + e.toFixed(2) + '</span>'
+              },
+              borderWidth:0,
+              backgroundColor:"#494949",  // 背景色
+              style:{"color":"#fff"}  //字体颜色
+            }
+          },
+          opposite: false,
+          labels: {
+            formatter: function () {
+              var a = ( this.value - 300 ) / this.value
+
+              if(this.value > 300) {
+                return '<span style="color: red">' + this.value + '</span>';
+              }else if(this.value < 300) {
+                return '<span style="color: green">' + this.value + '</span>';
+              }else if(this.value = 300) {
+                return '<span style="color: gray">' + this.value + '</span>';
+              }
+
+
+              // return (this.value > 0 ? ' <span style="color: red"> + ' : '<span style="color: green">') + this.value + '% </span>';
+            }
+          },
+
+        }, {
+          title: {
+            text: ''    //右侧Y轴名字
+          },
+          // data:demoData,
+          opposite: true,
+          gridLineWidth: 0,
+          tickInterval: 3,  //刻度比例
+          max:310,  // 定义Y轴 最大值
+          min:292,  // 定义最小值
+          // tickPositions: [260, 280, 300, 320,340,360],
+          crosshair:{     //鼠标经过出现十字线
+            dashStyle: 'dash',   //十字线样式
+            color: '#999',      //十字线颜色
+            label:{
+              enabled: true,
+              padding:0,    //坐标轴上提示值的宽高
+              formatter: function(e){   //鼠标滑过坐标轴上对应的时间显示
+                // return e.toFixed(2);
+                d = e.toFixed(2);
+                return '<span style="color: #fff;float:right">' + (Math.floor( (d-300)/d * 1000) / 100).toFixed(2) + '%</span>'
+                // if(e > 300) {
+                //   return '<span style="color: red;float:right">' + (Math.floor( (d-300)/d * 1000) / 100).toFixed(2) + '%</span>'
+                // }else if(e < 300) {
+                //   return '<span style="color: green;float:right">' + (Math.floor( (d-300)/d * 1000) / 100).toFixed(2) + '%</span>'
+                // }else if(e = 300) {
+                //   return '<span style="color: #fff;float:right">' + (Math.floor( (d-300)/d * 1000) / 100).toFixed(2) + '%</span>'
+                // }
+              },
+              borderWidth:1,
+              backgroundColor:"#494949",  // 背景色
+              style:{"color":"#fff"}  //字体颜色
+            }
+          },
+          labels: {
+            x:0,
+            y:0,
+            formatter: function () {
+              var a = ( this.value - 300 ) / this.value
+              //    return (this.value > 0 ? '' : '') + Math.floor(a * 1000) / 100 + '%';
+              // return (this.value > 0 ? ' + ' : '') + ( this.value - 300 ) / this.value + '%';
+              //
+
+              if(this.value > 300) {
+                return '<span style="color: red">' + (Math.floor(a * 1000) / 100).toFixed(2)  + '% </span>';
+              }else if(this.value < 300) {
+                return '<span style="color: green">' + (Math.floor(a * 1000) / 100).toFixed(2) + '% </span>';
+              }else if(this.value = 300) {
+                return '<span style="color: gray">' + (Math.floor(a * 1000) / 100).toFixed(2) + '% </span>';
+              }
+
+
+              // return (this.value > 0 ? ' <span style="color: red"> + ' : '<span style="color: green">') + this.value + '% </span>';
+            }
+
+          }
+        }],
+
+        series: [{
+          name: 'GOOGL',
+          data: demoData,
+          lineWidth: 1, //曲线线条粗细
+          yAxis: 0,
+          marker: {
+                    enabled:  false,  //是否在点出突出画一个圆点
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+          }
+        }],
+            tooltip: {
+              positioner: function () {
+                return { x: 0, y: -20 }   //提示框的位置
+              },
+              shared: true,
+              useHTML: true,
+              shadow: false,
+              borderColor: "rgba(255, 255, 255, 0)",
+              backgroundColor: "rgba(255, 255, 255, 0)",
+              valueDecimals: 2,
+              formatter: function () {
+                var e, t, z ,o = this;
+                return $.each(this.points, function () {
+                  var n = this.point.index;
+                  var a = Highcharts.numberFormat(o.y,2);
+                  var b = Highcharts.numberFormat(o.y,3);
+                      e = Highcharts.dateFormat("20%y-%m-%d %H:%M", this.x),   //当前点的时间
+                      t = "当前价:" + '<span style="color:red;">' + Highcharts.numberFormat(o.y,2) + '</span>',
+                      z = "成交价：" + Highcharts.numberFormat(o.y,3)
+
+
+
+                      if(a > 300) {
+                        t = "当前价:" + '<span style="color:red;">' + a + '</span>';
+                        z = "涨幅:" + '<span style="color:red;">' + (Math.floor( (a-300)/a * 1000) / 100).toFixed(2) + '% </span>';
+                      }else if(a < 300) {
+                        t = "当前价:" + '<span style="color:green;">' + a + '</span>';
+                        z = "涨幅:" + '<span style="color:green;">' + (Math.floor( (a-300)/a * 1000) / 100).toFixed(2) + '% </span>';
+                      }else if(a = 300) {
+                        t = "当前价:" + '<span style="color:gray;">' + a + '</span>';
+                        z = "涨幅:" + '<span style="color:gray;">' + (Math.floor( (a-300)/a * 1000) / 100).toFixed(2) + '% </span>';
+                      }
+
+
+                  }),
+                  "当前时间："+e + ' ' + t + ' ' + z;
+              }
+            }
+      });
+
+
+
+
+
+
+  for (var i = 0; i < 10000; i++) {
+      var d = new Date();
+      startTime = d.getTime()
+
+
+
+
+    };
+
+    })
+
+
+
+
+
+
+  </script>

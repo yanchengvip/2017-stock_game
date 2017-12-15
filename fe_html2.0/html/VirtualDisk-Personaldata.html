@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>个人资料</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/cropper.min.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="">
+<div class="BuyRecord-box Personaldata-box" id="crop-avatar">
+  <div class="icon-right VirMe-padding VirMe-header ">
+      <div class="avatar-view " title="Change the avatar">
+        <p class="VirMe-userApprove">
+          <span>头像</span>
+        </p>
+        <div class="PetHeader" >
+          <img src="../images/header.jpg" alt="Avatar">
+        </div>
+      </div>
+  </div>
+  <div class="icon-right VirMe-padding Span-rightFl">
+    <a href="#2">
+      <p>昵称</p> 
+      <span class="fr">一个名字最多可以十二个字</span>
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding Span-rightFl">
+    <a href="#2">
+      <p>账户激活</p> 
+      <span class="fr">未激活</span>
+      <!-- <span class="fr">已激活</span> -->
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding">
+    <a href="#2">
+      <p>修改密码</p> 
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding">
+    <a href="#2">
+      <p>地址管理</p> 
+    </a>
+  </div>
+  <!-- Cropping modal -->
+  <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form class="avatar-form" id="data" action="../js/file.json" enctype="multipart/form-data" method="post">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+          </div>
+          <div class="modal-body">
+            <div class="avatar-body">
+              <div class="box-po">
+                <!-- Crop and preview -->
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="avatar-wrapper"></div>
+                  </div>
+                </div>
+                <!-- Upload image and data -->
+                <div class="avatar-upload">
+                  <input type="hidden" class="avatar-src" name="avatar_src">
+                  <input type="hidden" class="avatar-data" name="avatar_data">
+                  <span class="fileStyle"><input type="file"  accept="image/*" class="avatar-input"  id="avatarInput" name="avatar_file"></span>
+                </div>
+              </div>
+              <div class="row avatar-btns">
+                <div class="col-md-3">
+                  <button type="submit" class="postClick" value='0' >确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- /.modal -->
+</div>
+
+<!--底部footer-->
+<div class="footer-box">
+  <div class="footer">
+    <ul>
+      <li>
+        <span></span>
+        <span>夺宝</span>
+      </li>
+      <li>
+        <span></span>
+        <span>赚币</span>
+      </li>
+      <li>
+        <span></span>
+        <span>我的</span>
+      </li>
+      <!--<li>
+        <span></span>
+        <span>0元夺宝</span>
+      </li>-->
+    </ul>
+  </div>
+</div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/jquery.form.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../js/cropper.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/base.js"></script>
+
+<script>
+  $(function(){
+    fileSelected = function() { 
+      /*var oFile = document.getElementById('avatarInput').files[0]; //读取文件 
+      var s=$('.fileStyle').attr('value');
+      if(s==0){
+        $('.fileStyle').attr('value','1');
+        var avatarInput=document.getElementById('avatarInput').value;
+        document.getElementById('oldImg').value=avatarInput;
+        document.getElementById('oldImg').setAttribute('file','oFile');
+      }else{
+        if(oFile==!null){
+          var avatarInput=document.getElementById('avatarInput').value;
+          document.getElementById('oldImg').value=avatarInput;
+          document.getElementById('oldImg').setAttribute('file','oFile');
+        }else{
+          var dd=document.getElementById('oldImg').value;
+          var cc=document.getElementById('avatarInput').value;
+          document.getElementById('avatarInput').files[0]=document.getElementById('oldImg').getAttribute('file');
+        }
+      }*/
+      
+      /*var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i; 
+      if (!rFilter.test(oFile.type)) { 
+        alertTx("文件格式错误，请选择相册文件"); 
+        return; 
+      }*/
+    }
+    addMuin();
+    /*$("form#data").submit(function() {
+        var formData = new FormData($(this)[0]);
+        $.post($(this).attr("action"), formData, function(data) {
+            alert(data);
+        });
+        return;
+    });*/
+    // 准备好Options对象  
+     /*var options = {  
+         url:        '',  
+         success:    function() {  
+             alert('Thanks for your comment!');  
+         } };  
+      
+      // 将options传给ajaxForm  
+     $('#data').ajaxForm(options); */
+
+
+
+      $('.postClick').on('click',function(){
+        var val=$('.postClick').attr('value');
+        if(val==0){
+          alertTx('请选择图片');
+          return false
+        }else{
+          var formData = new FormData($("#data")[0]);
+          var path = "/h5/users/<%= current_user.id %>/change_avatar"
+          $.ajax({
+             url: path,
+             type: 'POST',
+             data: formData,
+             async: false,
+             // cache: false,
+             contentType: false,
+             processData: false,
+             success: function (returndata) {
+                 if (returndata['status'] == 200) {
+                     alertTx(returndata['msg']);
+                     // window.location.reload();
+                     setTimeout(function () {
+                         window.location.reload();
+                     }, 1000);
+                 } else {
+                     alertTx(returndata['msg']);
+                 }
+             },
+             error: function (returndata) {
+                 // alertTx(returndata['msg']);
+                 alertTx('修改头像失败');
+             }
+          });
+        }
+      })
+  })
+</script>
+</body>
+</html>

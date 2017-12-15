@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @share_config.title %>
+</p>
+
+<p>
+  <strong>Desc:</strong>
+  <%= @share_config.desc %>
+</p>
+
+<p>
+  <strong>Img url:</strong>
+  <%= @share_config.img_url %>
+</p>
+
+<p>
+  <strong>Link url:</strong>
+  <%= @share_config.link_url %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @share_config.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_share_config_path(@share_config) %> |
+<%= link_to 'Back', share_configs_path %>

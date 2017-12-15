@@ -1,0 +1,1 @@
+json.array! @share_configs, partial: 'share_configs/share_config', as: :share_config

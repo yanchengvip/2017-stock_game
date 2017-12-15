@@ -1,0 +1,95 @@
+<!-- 商品删除modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">商品删除</h4>
+      </div>
+      <form action="/admins/products/destroy_product" method="post">
+      <div class="modal-body">
+               <h3>确实删除商品：<span id="del_product_name"></span></h3>
+
+            <input type="hidden"  class="form-control" name='id' id="del_product_id">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">确定</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- 添加夺宝lottery的modal -->
+<div class="modal fade" id="addLotteryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">填写该期夺宝信息</h4>
+      </div>
+      <span>当前商品价格：￥<span class="current_pro_price_modal"></span></span>
+      <form action="/admins/lotteries" onsubmit="return validate_add_lottery_form(this)" method="post">
+        <div class="modal-body">
+          <input type="hidden"  class="form-control" name='product_id' id="product_id_l">
+          <input type="hidden"  class="form-control" name='product_name' id="product_name_l">
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">参与人数:</label>
+            <div class="col-sm-6">
+             <input type="number" name="total_count" id="total_count_input" class="form-control"  placeholder="参与人数">
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">参与单价:</label>
+            <div class="col-sm-6">
+              <input type="number" name="price" id="single_price_input" value="10" class="form-control"  placeholder="参与单价">
+            </div>
+            <span class="modal-zuanshi-span">钻石币</span>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">上架时间:</label>
+            <div class="col-sm-6">
+              <div class="radio">
+                <label>
+                  <input type="radio" name="published_at" id="published_at_radio"  checked>
+                  <input type="text"  id="published_at_picker">
+                </label>
+
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="published_at" id="published_at_radio2">
+                  立即上架
+                </label>
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <p class="bg-warning">参与人数×参与单价×钻石币汇率>商品价格，才能进行商品抽奖发布</p>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+

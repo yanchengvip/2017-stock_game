@@ -1,0 +1,27 @@
+<script type="text/javascript">
+  $(function(){
+    url ="<%=url%>"
+    getHistory();
+    // var flag=false;
+    // setTimeout(function(){
+    //     flag=true
+    // },1000)
+    // window.addEventListener('popstate',function(e){
+    // //监听到返回事件
+    //   if(flag){
+    //     console.log("history.state")
+    //     console.log(history.state)
+    //     if(history.state && history.state.url){
+    //       window.location.href=history.state.url
+    //     }
+    //   }
+    // },false);
+    function getHistory(){
+      var state={
+        title: '',
+        url: url
+        } ;
+      window.history.replaceState(state,'title', url);
+    }
+})
+</script>

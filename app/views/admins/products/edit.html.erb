@@ -1,0 +1,204 @@
+<h3>商品修改</h3>
+
+<div class="container">
+  <form action="/admins/products/update_product" method="post">
+
+    <input type="hidden" name="id" value="<%= @product.id %>">
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品名称</label>
+      <div class="col-sm-6">
+        <input type="input" name="name" id="upni" required="required" value="<%= @product.name %>" onkeyup="validate_words_length(30,3)" class="form-control" placeholder="商品名称">
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品描述</label>
+      <div class="col-sm-6">
+        <textarea class="form-control" name="desc" required="required" id="update_product_desc_input" rows="3" onkeyup="validate_words_length(60,4)" placeholder="商品描述"><%= @product.desc %></textarea>
+      </div>
+      <p class="bg-danger p_last_num" id="epd_last_num"></p>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="input" required="required" min="0" max="99999999" class="col-sm-2 col-form-label">商品价格</label>
+      <div class="col-sm-6">
+        <input type="number" name="price" value="<%= @product.price %>" min="0" max="99999999" step='0.01' class="form-control" required="required" placeholder="商品价格">
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品库存</label>
+      <div class="col-sm-6">
+        <% if (product_is_lottery @product) || @product.ranking_config_items.length > 0 %>
+            <!--1:该商品对应的夺宝进行中;2:该商品已参与竞赛排名-->
+            <input type="number" disabled="disabled" required="required" min="1" max="99999999" step='1' name="inventory_count" value="<%= @product.inventory_count %>" class="form-control" placeholder="商品库存">
+        <% else %>
+            <input type="number" required="required" min="1" max="99999999" step='1' name="inventory_count" value="<%= @product.inventory_count %>" class="form-control" placeholder="商品库存">
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">邮费</label>
+      <div class="col-sm-6">
+        <input type="number" min="0" max="99999999" step="0.01" value="<%=@product.postage %>" name="postage" class="form-control" required="required" placeholder="邮费">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <span class="col-sm-2 col-form-label">商品标签: </span>
+      <select class="col-sm-3 selectpicker" name="product_tag_id">
+        <option value=0 >无</option>
+        <% @product_tags.each do |tag| %>
+            <% if tag.id == @product.product_tag_id%>
+                <option value=<%= tag.id %> selected ><%= tag.name %></option>
+                <%else%>
+                <option value=<%= tag.id %>><%= tag.name %></option>
+            <%end%>
+
+        <% end %>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">上期中奖者限制天数间隔</label>
+      <div class="col-sm-6">
+        <input type="number" min="0" max="99999999" name="interval"  value="<%=@product.interval.to_i %>" class="form-control" required="required"  placeholder="上期中奖者限制天数间隔">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">抽奖百分比</label>
+      <div class="col-sm-6">
+        <input type="number" min="0.01" max="100" step="0.01"  name="lottery_percent" value="<%= (@product.lottery_percent * 100).to_f %>" class="form-control" required="required" placeholder="抽奖百分比">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">优众链接</label>
+      <div class="col-sm-6">
+        <input type="input" name="detail_url" value="<%= @product.detail_url %>" class="form-control" placeholder="优众链接">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2">是否启用</label>
+      <div class="col-sm-10">
+        <div class="form-check">
+
+          <label class="form-check-label">
+            <% if (product_is_lottery @product) || @product.ranking_config_items.length > 0 %>
+                <!--1:该商品对应的夺宝进行中;2:该商品已参与竞赛排名-->
+                <input class="form-check-input" disabled="disabled" checked type="checkbox" name="is_published"> 是否启用
+            <% else %>
+                <% if @product.is_published %>
+                    <input class="form-check-input" checked type="checkbox" name="is_published"> 是否启用
+                <% else %>
+                    <input class="form-check-input" type="checkbox" name="is_published"> 启用
+                <% end %>
+            <% end %>
+          </label>
+
+        </div>
+      </div>
+    </div>
+
+
+    <%= render partial: 'admins/products/send_diamond'%>
+
+
+    <div class="panel panel-default">
+      <div class="panel panel-info" style="background-color: #ddd">商品缩略图(仅一张;图片比例为1:1)</div>
+      <div class="panel-body">
+
+
+        <img src="<%= @product.head_image %>" alt="缩略图片">
+
+
+      </div>
+      <div class="panel-footer">
+        <a href="javascript:void(0)" onclick="showUpdateImgModal('<%= @product.id%>',1)" class="btn btn-default" role="button">修改</a>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel panel-info" style="background-color: #ddd">商品展示图(5张;图片比例为1:1)</div>
+      <div class="panel-body">
+
+
+        <div class="row">
+
+          <% @images.each do |img| %>
+              <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                  <img src="<%= img.url %>" alt="展示图片">
+                  <div class="caption">
+                    <p>
+                      <a href="javascript:void(0)" onclick="showUpdateImgModal('<%= img.id%>',2)" class="btn btn-default" role="button">修改</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+
+          <% if @images.length < 5 %>
+              <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                  <img src="">
+                  <div class="caption">
+
+                    <p>
+                      <a href="javascript:void(0)" onclick="showUpdateImgModal(<%= @product.id%>,3)" class="btn btn-default" role="button">添加</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+
+
+        </div>
+
+
+      </div>
+      <div class="panel-footer">
+        <!--<a href="javascript:void(0)" onclick="showUpdateImgModal('<%= @product.id%>',1)" class="btn btn-default" role="button">修改</a>-->
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+
+      <div class="col-sm-6">
+        <input type="hidden" name="head_image" id="head_image_url" class="form-control" placeholder="缩略图">
+      </div>
+    </div>
+
+    <div class="form-group row">
+
+      <div class="col-sm-6">
+        <input type="hidden" name="image_ids" id="image_ids" ,class="form-control" placeholder="展示图">
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+<%= render partial: 'pic_update_modal' %>
+
+
+
+

@@ -1,0 +1,226 @@
+<!-- <body class="bodygray"> -->
+<script>
+  $(function(){
+    //查看号码弹框
+    var a;
+    var this_id;
+    $('.BuyRecord-ul').on('click','.click-showNumber', function(event) {
+      unScrollheight()
+    });
+    //隐藏弹框
+    $('.hidden').on('click',function(){
+      unScrollheight()
+      $('.show-Number').hide();
+    })
+
+  })
+</script>
+<%=render "h5/lotteries/show_template/proceed"%>
+<script type="text/javascript">
+$(function(){
+    function total_count(lottery_orders,id){
+      res = 0
+      $.each(lottery_orders, function(index, data){
+        if (data.user_id == id){
+          res += data.total_count
+        }
+      })
+      return res
+    }
+    function lottery_total_count(lottery_orders,id){
+      res = 0
+      $.each(lottery_orders, function(index, data){
+        if (data.user_id == id){
+          res +=  data.total_count
+        }
+      })
+      return res
+    }
+    function sales_percent(sales_count, total_count){
+      return sales_count * 100 / total_count
+    }
+    function left_count(sales_count, total_count){
+      return total_count - sales_count
+    }
+    function product_price(total_count, price){
+      console.log(total_count,price)
+      return parseInt(total_count * price * (1 - parseFloat(<%=SYSTEMCONFIG["lottery_system_persent"]%>)))
+    }
+    function order_status(lottery_order,id,price,total_count){
+      res = ""
+      if(lottery_order.status == "3") {
+         res = '<span onClick="window.location.href=\'/h5/lotteries/' + id + '/reward_detail \'">待发货</span>'
+       }else if (lottery_order.status == "4") {
+         res = '<span onClick="window.location.href=\'/h5/lotteries/' + id + '/reward_detail \'">待付运费</span>'
+       }else if (lottery_order.status == "2") {
+         res = '<span onClick="window.location.href=\'/h5/lotteries/' + id + '/reward_detail \'">已换收益</span>'
+       }else if (lottery_order.status == "-1") {
+         res = '<span class="-gfc-cancel">已作废</span>'
+       }else if (lottery_order.status == "1") {
+         res = '<span onClick="window.location.href=\'/h5/lotteries/' + id + '/reward_detail \'">已发货</span>'
+       }else if (lottery_order.status == "0") {
+         res = '<span onClick="receive('+id+','+price+','+total_count+')">领取奖品</span>'
+       }
+      return res
+    }
+
+    $("body").on("click", ".href-detail", function(){
+      id = $(this).data("id")
+      back_url = "/h5/lotteries/buy_record?index=" + $(".BuyRecordNew-Title p[class=checkou]").index() + "&scrollTop=" + String($(document).scrollTop())
+      history.replaceState({url: back_url}, "<%=@title%>", back_url)
+      window.location.href="/h5/lotteries/"+id+"/detail"
+      console.log("id",id)
+    })
+    $("body").on("click", "#productName", function(){
+      id = $(this).data("id")
+      back_url = "/h5/lotteries/buy_record?index=" + $(".BuyRecordNew-Title p[class=checkou]").index() + "&scrollTop=" + String($(document).scrollTop())
+      history.replaceState({url: back_url}, "<%=@title%>", back_url)
+      window.location.href="/h5/lotteries/"+id
+    })
+    $("body").on("click", "#supplement", function(){
+      id = $(this).data("id")
+      back_url = "/h5/lotteries/buy_record?index=" + $(".BuyRecordNew-Title p[class=checkou]").index() + "&scrollTop=" + String($(document).scrollTop())
+      history.replaceState({url: back_url}, "<%=@title%>", back_url)
+      window.location.href="/h5/lotteries/"+id
+    })
+    $("body").on("click", "#orderStatus", function(){
+      id = $(this).data("id")
+      name = $(this).data("name")
+      index = $(".BuyRecordNew-Title p[class=checkou]").index()
+      scrollTop = String($(document).scrollTop())
+      back_url = "/h5/lotteries/buy_record?index=" + index + "&scrollTop=" + scrollTop
+      history.replaceState({url: back_url}, "<%=@title%>", back_url)
+      if(name != 0 && name != -1){
+        window.location.href="/h5/lotteries/"+id+"/reward_detail?index="+index+'&scrollTop='+scrollTop
+      }
+    })
+
+
+    $.views.helpers({total_count: total_count, product_price: product_price, order_status: order_status, sales_percent: sales_percent, left_count: left_count, lottery_total_count: lottery_total_count});
+    //tab切换
+    $(".BuyRecordNew-Title p").on("click",function(){
+      $(this).addClass("checkou").siblings().removeClass("checkou");
+      var _index = $(this).index()
+      $(".recordlist ul").hide()
+      $(".recordlist ul").eq(_index).show()
+      dropload.unlock();
+      dropload.noData(false);
+      dropload.resetload();
+    })
+   // 页数
+    var page0 = 0;
+    var page1 = 0;
+    var page2 = 0;
+    var loading = false
+    // dropload
+    var dropload = $('.recordlist ul').dropload({
+        scrollArea : window,
+        domDown: {domRefresh: ''},
+        loadDownFn : function(me){
+          var _index = $(".BuyRecordNew-Title p[class=checkou]").index()
+          if(_index == 0){
+            page = page0
+            page0++
+          }else if(_index == 1){
+            page = page1
+            page1++
+          }else{
+            page = page2
+            page2++
+          }
+          $.ajax({
+            type : "GET",  //提交方式
+            url: "/h5/lotteries/buy_record.json",//路径
+            data : {page: page+1, index: _index},//数据，这里使用的是Json格式进行传输
+            beforeSend: function(){
+              me.lock();
+            },
+            success : function(result) {//返回数据根据结果进行相应的处理
+              if(result.status == 200 && result.data.length > 0){
+                var tmpl = $.templates("#buyRcd");
+                var htmlOutput = tmpl.render(result.data);
+                $(".recordlist ul").eq(_index).append(htmlOutput);
+              }
+              me.unlock()
+              me.resetload();
+
+              if(result.data.length == 0){
+                me.lock();
+                me.noData();
+              }
+
+            },
+            error: function(){
+              me.resetload();
+              me.unlock();
+            }
+          });
+        },
+        threshold : 100
+    });
+    function scroll_to_back(){
+      window.scrollTo(0, <%=params[:scrollTop].to_i%>)
+      if($(document).scrollTop() >= (<%=params[:scrollTop].to_i%> - 20)){
+        window.clearInterval(set_interval)
+      }
+    }
+    var set_interval  = setInterval(scroll_to_back, 1000)
+
+
+})
+</script>
+<div class="BuyRecord-box BuyRecordNew-box">
+  <div class="BuyRecordNew-Title">
+    <p class="<%=params[:index].to_i == 0 ? 'checkou' : ''%>"><span >进行中</span></p>
+    <p class="<%=params[:index].to_i == 1 ? 'checkou' : ''%>"><span>已揭晓</span></p>
+    <p class="<%=params[:index].to_i == 2 ? 'checkou' : ''%>"><span>幸运记录</span></p>
+  </div>
+  <div class="BuyRecord-box recordlist">
+    <ul class="BuyRecord-ul <%=params[:index].to_i == 0 ? '' : 'dispaly'%>" >
+    </ul>
+    <ul class="BuyRecord-ul <%=params[:index].to_i == 1 ? '' : 'dispaly'%>">
+    </ul>
+    <ul class="BuyRecord-ul <%=params[:index].to_i == 2 ? '' : 'dispaly'%>">
+    </ul>
+  </div>
+  <div class="BuyRecord-absolute ZeroClick">
+    <!-- 0元夺宝选择领取 -->
+    <div class="BuyAbsolute-Box">
+      <%= image_tag 'h5/images/icon-close.png', class: 'BuyAbsolute-BoxClose', alt: '' %>
+      <div class="BuyAbsolute-exchange" style="clear:both;">
+        <!-- <img src="../images/icon-p.png" alt=""> -->
+        <%=image_tag "h5/images/icon-p.png" %>
+        <p>直接领取奖品</p>
+      </div>
+      <p class="BuyAbsolute-line"><%=image_tag "h5/images/icon-or.png" %></p>
+      <div class="BuyAbsolute-Receive">
+        <!-- <img src="../images/icon-diam.png" alt=""> -->
+        <%=image_tag "h5/images/icon-diam.png" %>
+        <p>兑换等值钻石币</p>
+      </div>
+    </div>
+  </div>
+  <div class="BuyRecord-absolute ZeroTx">
+    <!-- 0元夺宝兑换钻石提醒 -->
+    <div class="BuyAbsolute-Box Buyexchange-ClickBox">
+      <%=image_tag "h5/images/icon-close.png", class: 'BuyAbsolute-BoxClose' %>
+      <div style="clear:both;">
+        <p class="Buyexchange-nextText">该商品可兑换钻币数量：<span class="colorRed" id="result"></span> <br>是否继续兑换？</p>
+        <div class="Buyexchange-nextClick">
+          <p><span class="Buyexchange-nextYes">是</span></p>
+          <p><span class="Buyexchange-nextNo">否</span></p>
+        </div>
+      </div>
+      <p class="Bor-line"></p>
+      <div class="Buyexchange-nextTx">
+        <p class="icon-questuin">兑换收益</p>
+        <p>您的中奖商品会等值兑换为钻石币，兑换成功后您将无权领取中奖商品</p>
+      </div>
+    </div>
+  </div>
+  <div class="BuyRecord-fixed">
+    <a href="tel:400-400-400">400-400-400</a>
+  </div>
+</div>
+
+<!-- </body> -->

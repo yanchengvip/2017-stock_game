@@ -1,0 +1,86 @@
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-6">
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/share_configs/new" target="_self" class="btn btn-primary btn-lg" role="button">新增分享</a>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>标题</th>
+      <th>描述</th>
+      <th>类型</th>
+      <th>状态</th>
+      <th>图片地址</th>
+      <th>链接</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+
+    <tbody>
+    <% @share_configs.each do |share| %>
+        <tr>
+          <td><%= share.title %></td>
+          <td><%= share.desc %></td>
+          <td><%= admin_share_config_type share.share_type %></td>
+          <td><%= admin_share_config_status share.status %></td>
+          <td><%= share.img_url %></td>
+          <td><%= share.link_url %></td>
+
+          <td>
+            <a href="/admins/share_configs/<%= share.id %>/edit" class="admin_product_operate_a">修改</a>
+            <a href="javascript:void(0)" onclick="share_config_delete('<%= share.id%>')" class="admin_product_operate_a">删除</a>
+          </td>
+        </tr>
+    <% end %>
+
+
+    </tbody>
+
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @share_configs, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<!-- 删除modal -->
+<div class="modal fade" id="shareconfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">删除</h4>
+      </div>
+      <form action="/admins/share_configs/share_delete" method="post">
+        <div class="modal-body">
+          <h3>确定删除?</h3>
+
+          <input type="hidden" class="form-control" name='id' id="del_share_id">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

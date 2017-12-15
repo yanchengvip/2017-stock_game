@@ -1,0 +1,93 @@
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-6">
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/product_tags/new" target="_self" class="btn btn-primary btn-lg" role="button">新增分享</a>
+    </div>
+  </div>
+
+
+</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>类别名称</th>
+    <th>创建时间</th>
+    <th>当前排序</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @product_tags.each_with_index do |tag,index| %>
+      <tr>
+        <th scope="row"><%= index + 1%></th>
+        <td><%= tag.name%></td>
+        <td><%= time_format tag.created_at%></td>
+        <td><%= tag.sort.to_i%></td>
+        <td>
+          <a href="javascript:void(0)" onclick="deleteProductTag('<%= tag.id%>')" class="admin_product_operate_a">删除</a>
+          <a href="javascript:void(0)" onclick="updateProductTag('<%= tag.id%>','<%= tag.name%>','<%= tag.sort.to_i%>')" class="admin_product_operate_a">修改</a>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<div class="flickr_pagination">
+  <%= will_paginate @product_tags, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<!-- 删除modal -->
+<div class="modal fade" id="DeleteproductTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">删除</h4>
+      </div>
+      <form action="/admins/product_tags/tag_delete" method="post">
+        <div class="modal-body">
+          <h3>确定删除?</h3>
+
+          <input type="hidden"  class="form-control" name='id' id="del_product_tag_id">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- 修改modal -->
+<div class="modal fade" id="updateProductTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">修改</h4>
+      </div>
+      <form action="/admins/product_tags/tag_update" method="post">
+        <div class="modal-body">
+          <h3>确定修改?</h3>
+
+          <input type="hidden"  class="form-control" name='id' id="update_product_tag_id">
+          标签名称:<input type="text"  class="form-control" name='name' id="update_product_tag">
+          标签排序:<input type="text"  class="form-control" name='sort' id="update_product_tag_sort">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

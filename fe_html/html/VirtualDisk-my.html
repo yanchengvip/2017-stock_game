@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>我的</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/cropper.min.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/jquery.form.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="../js/cropper.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body class="VirMe-Box">
+<div class="BuyRecord-box" id="crop-avatar">
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-header ">
+    <a href="#2">
+      <div class="avatar-view " title="Change the avatar">
+        <div class="PetHeader" >
+          <img src="../images/header.jpg" alt="Avatar">
+        </div>
+        <p style="vertical-align:middle;">未登陆</p>
+      </div>
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="VirMe-padding VirMe-Money">
+    <p>现金奖励：<i>2344元</i></p> 
+    <span class="fr">提现</span>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="VirMe-padding VirMe-Money VirMe-Dima">
+    <p>钻石币：<i>200</i></p> 
+    <span class="fr VirMe-DimaClick">兑换</span>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-Invitation">
+    <a href="Modify-password.html">
+      <p>邀请记录</p> 
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <input type="file" accept="image/*">
+  <input type="file" accept="image/png,image/gif,image/jpg,image/jpeg">
+  <div class="icon-right VirMe-padding VirMe-Passeord">
+    <a href="Modify-password.html">
+      <p>修改密码</p> 
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-weixin">
+    <a href="#2">
+      <p>微信号</p> 
+      <span class="fr">未绑定</span>
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding VirMe-Phone">
+    <a href="Get-verification-code.html">
+      <p>手机号</p> 
+      <span class="fr">130*****124</span>
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+
+  <!-- Cropping modal -->
+  <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form class="avatar-form" id="data" action="../js/file.json" enctype="multipart/form-data" method="post">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+          </div>
+          <div class="modal-body">
+            <div class="avatar-body">
+              <!-- Crop and preview -->
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="avatar-wrapper"></div>
+                </div>
+              </div>
+              <!-- Upload image and data -->
+              <div class="avatar-upload">
+                <input type="hidden" class="avatar-src" name="avatar_src">
+                <input type="hidden" class="avatar-data" name="avatar_data">
+                <span class="fileStyle">选择图片<input type="file"  accept="image/*" class="avatar-input" onchange="fileSelected()" id="avatarInput" name="avatar_file"></span>
+              </div>
+              <div class="row avatar-btns">
+                <div class="col-md-3">
+                  <button type="submit" class="postClick" >确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- /.modal -->
+</div>
+<!--弹框兑换钻石币-->
+<div class="Pro-Mask" style="display:none;">
+  <div class="Pro-MaskPosition BuyRecord-MaskPosition">
+    <div class="Pro-close">
+      <img src="../images/icon-close.png">
+    </div>
+    <div class="Pro-Buy">
+      <p>兑换钻石币数量</p>
+      <div class="change">
+        <span class="minus"></span>
+        <input class="buy-cont" type="number" min="1" max="3000" data-base="2" value="2">
+        <span class="add"></span>
+      </div>
+      <p>需要消耗：<span class="colorRed"><span class="Change-Num">4</span>资金</span></p>
+    </div>
+    <div class="button-change">
+      <p>兑换</p>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('.VirMe-DimaClick').on('click', function() {
+      $('.Pro-Mask').show();
+    });
+    function PostHide(){
+      $('.Pro-Mask').hide();
+    }
+
+    window.fileSelected = function() { 
+      var oFile = document.getElementById('avatarInput').files[0]; //读取文件 
+      var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i; 
+      if (!rFilter.test(oFile.type)) { 
+        alertTx("文件格式错误，请选择相册文件"); 
+        return; 
+      }
+    }
+    addMuin();
+    $("form#data").submit(function() {
+        var formData = new FormData($(this)[0]);
+        $.post($(this).attr("action"), formData, function(data) {
+            alert(data);
+        });
+        return false;
+    });
+    // 准备好Options对象  
+     /*var options = {  
+         url:        '',  
+         success:    function() {  
+             alert('Thanks for your comment!');  
+         } };  
+      
+      // 将options传给ajaxForm  
+     $('#data').ajaxForm(options); */
+  })
+</script>
+</body>
+</html>

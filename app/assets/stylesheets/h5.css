@@ -1,0 +1,23 @@
+/*
+ *h5 css
+ *= require h5/common
+
+ *= require h5/style
+ *= require h5/media
+ *= require h5/swiper.min
+ *= require h5/reset
+ *= require h5/pullToRefresh
+ *= require sweetalert2
+ *= require dropload
+ *= require h5/lucy-bag
+ *= require h5/ui-component
+ *= require_self
+ */
+
+
+#cnzz_stat_icon_1261355832 {
+  display: none
+}
+.dispaly{
+  display: none
+}

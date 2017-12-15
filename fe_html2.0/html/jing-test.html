@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>修改昵称</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body> 
+<div class="BuyRecord-box VirChangeName-box">
+  <div class="change-nameBox">
+    <p>昵称</p>
+    <input type="text" id="VirChange-userName" maxlength="32" placeholder="一个很长很长的名字">
+    <span id="subjectchk">还可输入
+      <strong id="checklen" style="color: #FF0000">32</strong>
+      个字符
+    </span>
+  </div>
+  <button class="button-l -gfc-sell" id="saveName">保存</button>
+</div>
+<script type="text/javascript">
+  $(function(){ 
+  $("#VirChange-userName").val("一二三四五六七八九十一二三四五六")
+  var currentStr = $("#VirChange-userName").val();
+	document.getElementById('VirChange-userName').addEventListener('input', function(e){  
+			       		if (getByteLen($("#VirChange-userName").val()) > 32) {
+									$("#VirChange-userName").val(currentStr)	
+			       		};
+								currentStr = $("#VirChange-userName").val();
+	});
+
+function keyUp(e) {
+	// console.log("up")
+	$("#VirChange-userName").removeAttr("readonly") 
+  var valStr=$("#VirChange-userName").val()
+  var currKey=0,e=e||event;
+  currKey=e.keyCode||e.which||e.charCode;
+  var keyName = String.fromCharCode(currKey);
+  // alert("按键码: " + currKey + "字符"+ keyName);
+}
+
+    function keyDown(e) {
+    	console.log("down")
+    	var valStr=$("#VirChange-userName").val()
+			var valLength = getByteLen(valStr)
+      var currKey=0,e=e||event;
+      currKey=e.keyCode||e.which||e.charCode;
+      var keyName = String.fromCharCode(currKey);
+      if (currKey == 8) {
+       	$("#VirChange-userName").removeAttr("readonly") 
+      }else{
+					if (valLength>32) {
+       			$("#VirChange-userName").attr({
+		       		"readonly": ''
+		       	});
+					};
+       };
+   	}
+
+
+   document.onkeydown = keyDown;
+   document.onkeyup = keyUp;
+
+ function getByteLen(val) {
+            var len = 0;
+            for (var i = 0; i < val.length; i++) {
+                var a = val.charAt(i);
+                if (a.match(/[^\x00-\xff]/ig) != null) {
+                    len += 2;
+                }
+                else {
+                    len += 1;
+                }
+            }
+            return len;
+        }
+
+
+
+  });       
+</script>
+</body>
+</html>
+

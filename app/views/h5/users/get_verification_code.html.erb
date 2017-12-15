@@ -1,0 +1,130 @@
+
+  <div class="gfc-box get-verification">
+    <ul>
+      <li><span><%= phone_str(current_user.phone) %></span></li>
+      <li class="hide" id="code_input_tip"><span>验证码短信已发送!请输入收到的验证码。</span></li>
+      <li>
+        <input type="tel" maxlength='6' placeholder="请输入验证码" id="code" class="code" pattern="[0-9]" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'">
+        <span class=""></span>
+        <!-- <span class="button-code verification-code verify" id="codep"><%#= link_to '发送验证码', 'javascript:void(0)', id: 'send_code' %></span> -->
+        <span class="button-code verification-code verify" id="codep">发送验证码</span>
+         <span class="code-del"></span>
+      </li>
+      <!-- <li><span style="display: none;float: left;color: red" id="code_tip">验证码错误</span></li> -->
+      <!-- <a class="button-l" href="#1">下一步</a> -->
+      <a class="Voice-prompt" href="javascript:void(0)" id="voice_code">收不到验证码？请试试<span>语音验证码</span></a>
+      <%= link_to '下一步', modify_password_h5_users_path, class: 'button-l -gfc-buy', id: 'next' %>
+    </ul>
+  </div>
+
+<script type="text/javascript">
+  $(function(){
+    DataValidation();
+    $("input").focus(function(){
+      $(this).next("span").addClass("del-grey code-del");
+    })
+    $("input").blur(function(){
+      obj = $(this);
+      setTimeout('obj.next("span").removeClass("del-grey code-del")', 100);
+    })
+    $("body").on("click", ".del-grey", function(){
+      $(this).prev("input").val("");
+    })
+
+    $('#codep, #voice_code').on('click', function(){
+      var dom_id = $(this).attr('id');
+      var code_type = dom_id == 'voice_code' ? '1' : '0';
+      if (countdown == 60){
+        $.ajax({
+          type: 'POST',
+          url: "/session/send_verification_code",
+          data: {'phone': <%= current_user.phone %>, 'is_voice': code_type},
+          // async: false,
+          success: function(datas) {
+            if(datas['status'] == 200){
+              settime($("#codep"));
+              if(dom_id == 'voice_code'){
+                // alertTx("验证码将通过语音电话通知到您，请注意接听");
+                alertYzm("验证码将通过语音电话通知到您，请注意接听");
+              }else{
+                $('#code_input_tip').show();
+              }
+            }else{
+              // alertTx("错误, 请重试");
+              alertTx(datas['msg']);
+              $('#code_input_tip').hide();
+            }
+          },
+          error: function(XMLHttpResponse) {
+            alertTx("错误, 请重试");
+            $('#code_input_tip').hide();
+          }
+        })
+      }
+    })
+
+    var countdown=60;
+    function settime(obj) {
+      var btn_text = obj.attr('id') == 'voice_code' ? '收不到验证码？请试试语音验证码' : '发送验证码';
+      if (countdown == 0) {
+        obj.removeAttr("disabled");
+        obj.html(btn_text);
+        $('#codep').css("background-color","#2e273e ");
+        countdown = 60;
+        return;
+      } else {
+        obj.attr("disabled", true);
+        $('#codep').css("background-color","#2e273e ");
+        obj.html("重新发送(" + countdown + ")");
+        countdown--;
+        // console.log(countdown)
+      }
+      setTimeout(function(){settime(obj)},1000)
+    }
+
+    $('#next').on('click', function(){
+      // alertTx($cache.get(<%= current_user.phone %>));
+      var code = $("#code").val();
+      if(code==''){
+        alertTx("验证码不能为空");
+        return false;
+      }
+      var flag='false';
+      $.ajax({
+        type: 'get',
+        url: "/h5/users/verify_code",
+        async: false,
+        data: {'code': $('#code').val(), 'phone': <%= current_user.phone %>},
+        success: function(datas) {
+          if(datas['status'] == 200){
+            // window.location.href = "/h5/users/" + <%#= current_user.id %> + '/modify_password';
+            flag = 'true';
+            // $('#code_tip').hide();
+          }
+          else{
+            // $('#code_tip').show();
+            alertTx("验证码错误");
+            // initLockBox();
+          }
+        },
+        error: function(XMLHttpResponse) {
+          // $('#code_tip').show();
+          alertTx("验证码错误");
+          // initLockBox();
+        }
+      })
+      if(flag== 'true'){
+        // window.location.href = "/h5/users/" + <%#= current_user.id %> + '/modify_password';
+        window.location.href = '/h5/users/modify_password?from=change_pwd';
+      }else{
+        // $('#code_tip').show();
+        alertTx("验证码错误");
+        // initLockBox();
+        return false;
+      }
+
+    })
+
+
+  })
+</script>

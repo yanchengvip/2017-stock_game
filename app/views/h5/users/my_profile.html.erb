@@ -1,0 +1,153 @@
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   -->
+<%= stylesheet_link_tag 'h5/bootstrap.min', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'h5/cropper.min', media: 'all', 'data-turbolinks-track': 'reload' %>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>   -->
+<%= javascript_include_tag 'h5/bootstrap.min', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'h5/cropper.min', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'h5/main', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= javascript_include_tag 'h5/main', 'data-turbolinks-track': 'reload' %>
+<%#= javascript_include_tag 'h5/jquery.form.min', 'data-turbolinks-track': 'reload' %>
+<div class="BuyRecord-box Personaldata-box" id="crop-avatar">
+  <div class="icon-right VirMe-padding VirMe-header ">
+    <div class="avatar-view " title="Change the avatar">
+      <p class="VirMe-userApprove">
+        <span>头像</span>
+      </p>
+      <div class="PetHeader">
+        <%= image_tag current_user.headimgurl, style: "width:60px;height:60px;", id: "xmTanImg", alt: "Avatar" %>
+      </div>
+    </div>
+  </div>
+  <div class="icon-right VirMe-padding Span-rightFl">
+    <a href="/h5/users/nickname_new">
+      <p>昵称</p>
+      <span class="fr"><%= nickname_or_phone current_user %></span>
+    </a>
+  </div>
+  <!--<div class="icon-right VirMe-padding Span-rightFl">-->
+    <!--<a href="#2">-->
+      <!--<p>账户激活</p>-->
+      <!--<%# if current_user.status == 0 %>-->
+          <!--<span class="fr">未激活</span>-->
+      <!--<%# elsif current_user.status == 1 %>-->
+          <!--<span class="fr">已激活</span>-->
+      <!--<%# end %>-->
+
+    <!--</a>-->
+  <!--</div>-->
+  <% if current_user.phone.present? %>
+      <div class="icon-right VirMe-padding">
+        <a href="<%= get_verification_code_h5_user_path(current_user) %>">
+          <p>修改密码</p>
+        </a>
+      </div>
+  <% end %>
+  <div class="icon-right VirMe-padding">
+    <a href="/h5/addresses">
+      <p>地址管理</p>
+    </a>
+  </div>
+
+  <!-- Cropping modal -->
+  <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form class="avatar-form" id="data" enctype="multipart/form-data">
+          <!-- action="/h5/users/<%= current_user.id %>/change_avatar" -->
+          <!-- action="/h5/users/<%= current_user.id %>/change_avatar" -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+          </div>
+          <div class="modal-body">
+            <div class="avatar-body">
+              <div class="box-po">
+                <!-- Crop and preview -->
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="avatar-wrapper"></div>
+                  </div>
+                </div>
+                <!-- Upload image and data -->
+                <div class="avatar-upload">
+                  <input type="hidden" class="avatar-src" name="avatar_src">
+                  <input type="hidden" class="avatar-data" name="avatar_data">
+                  <span class="fileStyle"><input type="file" accept="image/*" class="avatar-input" id="avatarInput" onchange="fileSelected()" name="avatar_file"></span>
+                </div>
+              </div>
+              <div class="row avatar-btns">
+                <div class="col-md-3">
+                  <button type="button" class="postClick" onclick="doUpload()" value="0">确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- /.modal -->
+
+
+</div>
+
+
+<script type="text/javascript">
+    //判断浏览器是否支持FileReader接口
+    if (typeof FileReader == 'undefined') {
+        document.getElementById("xmTanDiv").InnerHTML = "<h1>当前浏览器不支持FileReader接口</h1>";
+        //使选择控件不可操作
+        document.getElementById("xdaTanFileImg").setAttribute("disabled", "disabled");
+    }
+
+    $(function () {
+        //    超出为"99+"
+        var overNum = $(".over-num").text();
+        var show_overNum = overflow_num(overNum)
+        $(".over-num").text(show_overNum);
+
+        window.fileSelected = function () {
+            var oFile = document.getElementById('avatarInput').files[0]; //读取文件
+            var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+            if (!rFilter.test(oFile.type)) {
+                alertTx("文件格式错误，请选择相册文件");
+                return;
+            }
+        }
+
+    })
+
+    function doUpload() {
+        var value=$('.postClick').attr('value');
+        if(value==0){
+            alertTx('请选择图片');
+            return false;
+        }else{
+          var formData = new FormData($("#data")[0]);
+          var path = "/h5/users/<%= current_user.id %>/change_avatar"
+          $.ajax({
+            url: path,
+            type: 'POST',
+            data: formData,
+            async: false,
+            // cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                if (returndata['status'] == 200) {
+                    alertTx(returndata['msg']);
+                    // window.location.reload();
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    alertTx(returndata['msg']);
+                }
+            },
+            error: function (returndata) {
+                // alertTx(returndata['msg']);
+                alertTx('修改头像失败')
+            }
+        });
+        }
+    }
+</script>

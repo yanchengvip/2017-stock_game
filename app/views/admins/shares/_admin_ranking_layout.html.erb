@@ -1,0 +1,24 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-2">
+
+      <div class="list-group">
+
+        <a href="/admins/ranking_config_wins/earning_record" target="_self" class="list-group-item <%= menu_active1 %>">收益领奖记录</a>
+        <a href="/admins/ranking_config_wins/rate_record" class="list-group-item <%= menu_active2 %>">收益率领奖记录</a>
+        <a href="/admins/ranking_configs/earning_manage" class="list-group-item <%= menu_active3 %> ">收益奖品设置</a>
+        <a href="/admins/ranking_configs/rate_manage" class="list-group-item <%= menu_active4 %> ">收益率奖品设置</a>
+        <!--<a href="#" class="list-group-item <%= menu_active5 %> ">竞赛分享设置</a>-->
+      </div>
+    </div>
+
+
+    <div class="col-md-10">
+      <%= yield %>
+    </div>
+
+
+  </div>
+</div>

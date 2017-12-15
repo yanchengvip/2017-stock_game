@@ -1,0 +1,110 @@
+<div class="gfc-box buy-box close-position">
+  <ul class="header">
+    <li><span>平仓</span></li>
+  </ul>
+  <div class="form">
+    <ul>
+      <li class="name">
+        <span>钻石名称</span><span><%=@sale_diamond.cn_name%></span>
+      </li>
+      <li><span>钻石品种</span><span><%=@sale_diamond.exchange_name%></span></li>
+      <li><span>数量</span><span><%=@diamond_trade.total_count%></span></li>
+      <% profit = -(@sale_diamond.current_price * @diamond_trade.total_count -  @diamond_trade.total_price)%>
+      <li><span>收益</span><span class="<%= profit >= 0 ? '-gfc-red' : 'gfc-green'%>"><%= profit >= 0 ? '+' : ''%><%=number_to_currency profit%></span></li>
+      <li>
+        <span>平仓价格</span>
+        <div class="change sellPrice">
+          <span class="minus sellPriceminus"></span>
+          <input id="booking_trade_booking_price" class="buy-cont sellPricebuy-cont" type="number" value="<%= @sale_diamond.current_price%>" data-base="1" min="<%=(@sale_diamond.yesterday_close_pirce * 0.9).round(2)%>" max="<%=(@sale_diamond.yesterday_close_pirce * 1.1).round(2) %>">
+          <span class="add sellPriceadd"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <p class="tips">钻石大富翁模拟盘开放交易时间为7:00-23:00，周一至周六 9：30-11:30；13:00-15：00 采用湖南文交所钻石交易中心真实盘数据进行模拟盘交易，非真实盘交易时间段按照昨日、今日收盘价交易，11:30-13:00按照上午真实盘最后交易数据进行交易。</p>
+  <div class="btn">
+  <%if @diamond_trade.close_shorting_status == 0%>
+    <%if @diamond_trade.can_close? %>
+      <span class="-gfc-buy " id = "booking_buy_btn">平仓</span>
+    <%else%>
+      <span class="-gfc-buy " onclick="cannot_close_alert()">平仓</span>
+    <%end%>
+  <%elsif @diamond_trade.close_shorting_status == 1%>
+    <span class="-gfc-buy -gfc-cancel" id = "">已挂单</span>
+  <%elsif @diamond_trade.close_shorting_status == 2%>
+    <span class="-gfc-buy -gfc-cancel" id = "">已平仓</span>
+  <%end%>
+  </div>
+</div>
+<script>
+  $(function(){
+    // history.pushState({}, "", "<%=SYSTEMCONFIG[:host]%>"+"home/index")
+    var sale_diamond = <%=raw @sale_diamond.to_json%>
+    Additions($('.sellPrice .sellPriceminus'),$('.sellPrice .sellPricebuy-cont'),$('.sellPrice .sellPriceadd'), 1)
+    Additions($('.sellNumber .sellNumberminus'),$('.sellNumber .sellNumberbuy-cont'),$('.sellNumber .sellNumberadd'))
+  })
+</script>
+<script>
+$(function(){
+  $("#sale_diamond_select").change(function(){
+    <%if params[:callback_url].blank?%>
+      window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'/home/index'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/home/index')
+      window.location.href = "/h5/sale_diamonds/"+$(this).val()+"/close"
+    <%else%>
+      window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'<%=params[:callback_url]%>'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/home/index')
+      window.location.href = "/h5/sale_diamonds/"+$(this).val()+"/close?callback_url=" + "<%=params[:callback_url]%>"
+    <%end%>
+  })
+  $("#booking_buy_btn").click(function(){
+    alert_text = '\
+    <ul class="trade-txt">\
+      <h3>平仓交易确认</h3>\
+      <li><span>钻石名称：</span><span><%=@sale_diamond.cn_name%></span></li>\
+      <li><span>钻石品种：</span><span><%=@sale_diamond.exchange_name%></span></li>\
+      <li><span>平仓价格：</span><span>'+$("#booking_trade_booking_price").val()+'</span></li>\
+      <li><span>平仓数量：</span><span><%=@diamond_trade.total_count%></span></li>\
+    </ul>'
+    swal({
+      // title: 'Are you sure?',
+      html: alert_text,
+      showCancelButton: true,
+      confirmButtonText: '确认平仓',
+      cancelButtonText: '取消',
+      reverseButtons: true,
+      showLoaderOnConfirm: true,
+    }).then(function (dismiss) {
+      if (dismiss === 'cancel') {
+      }else{
+        $.ajax({
+          type : "POST",  //提交方式
+          url : "/h5/booking_trades/",//路径
+          data : { booking_trade: {booking_price: $("#booking_trade_booking_price").val(), diamond_trade_id: "<%=params[:diamond_trade_id]%>" ,bussiness_type: 4} },//数据，这里使用的是Json格式进行传输
+          beforeSend: function(){
+            // initLockBox()
+            $("#booking_buy_btn").attr('disabled',true)
+          },
+          success : function(result) {//返回数据根据结果进行相应的处理
+            $("#booking_buy_btn").attr('disabled',false)
+            if(result.status == 200){
+              swal(
+                {
+                  text: '挂单成功，稍后查看交易结果!',
+                }).then(function () {
+                  history.back()
+                }
+              )
+            }else{
+              swal(
+                {
+                  text: result.msg,
+                })
+            }
+
+          }
+        });
+      }
+    }, function(promise){console.log(promise)})
+
+  })
+})
+</script>

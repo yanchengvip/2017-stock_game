@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="panel-heading">添加管理员</div>
+  <div class="panel-body">
+    <form action="/admins/users" method="post">
+      <div class="modal-body">
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">用户名:</label>
+          <div class="col-sm-6">
+            <input type="text" name="nickname" class="form-control" required="true" placeholder="用户名">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">手机号：</label>
+          <div class="col-sm-6">
+            <input type="text" name="phone" class="form-control" required="true" placeholder="手机号">
+          </div>
+        </div>
+
+
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">登录密码:</label>
+          <div class="col-sm-6">
+            <input type="password" name="encrypted_password" class="form-control" required="true" placeholder="登录密码">
+          </div>
+        </div>
+
+        <div class="form-group row">
+        <span class="col-sm-2 col-form-label">用户角色: </span>
+        <select class="col-sm-3 selectpicker" name="role">
+        <option value=2>管理员</option>
+        </select>
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <a type="button" href="/admins/users/admins_list" class="btn btn-default" data-dismiss="modal">取消</a>
+        <button type="submit" class="btn btn-primary">确定</button>
+      </div>
+    </form>
+  </div>
+</div>

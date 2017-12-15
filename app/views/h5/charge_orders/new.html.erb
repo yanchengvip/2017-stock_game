@@ -1,0 +1,144 @@
+<%= javascript_include_tag 'mustpay_wxpubsdk' %>
+<div class="gfc-box Recharge">
+  <div class="Recharge-con">
+    <p class="Rec-tips">充值金额用于购买优众网的电商优惠券（一元等于一张优惠券，并赠送100微钻），用户参与钻石大富翁的游戏，充值的钱款将无法退回</p>
+    <div class="Rec-box Rec-money">
+      <h4>充值金额</h4>
+      <ul class="Rec-money-list">
+        <!--<li value="1"><span>1元激活</span></li>-->
+        <!--<li value="10"><span>10</span></li>-->
+        <!--<li value="20"><span>20</span></li>-->
+        <!--<li value="50"><span>50</span></li>-->
+        <!--<li value="100"><span>100</span></li>-->
+        <li value="10"><span>1元激活</span></li>
+        <li value="10"><span>10</span></li>
+        <li value="20"><span>20</span></li>
+        <li value="50"><span>50</span></li>
+        <li value="100"><span>100</span></li>
+        <li class="other-amount">
+          <input type="tel" id="Num" maxlength='5' class="custom_price" placeholder="其他金额" onfocus="this.placeholder=''" onblur="this.placeholder='其他金额'">
+        </li>
+      </ul>
+    </div>
+    <div class="Rec-box Rec-mode">
+      <h4>选择支付方式</h4>
+      <ul class="Rec-mode-list">
+        <li class="mode-list-box Rec-wechat">
+          <div class="fl"></div>
+          <div class="fc">
+            <h4>微信支付</h4>
+            <p class="txt-yellow">最低1元</p>
+          </div>
+          <div class="fr"><span class="opt"></span></div>
+        </li>
+        <%if !wechat_browser?%>
+        <li class="mode-list-box Rec-alipay">
+          <div class="fl"></div>
+          <div class="fc">
+            <h4>支付宝</h4>
+            <p class="txt-gray-purple">最低1元</p>
+          </div>
+          <div class="fr"><span class="opt"></span></div>
+        </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+  <div class="Rec-btn-box">
+    <div class="Rec-btn">
+      <button class="-gfc-sell txt-white" onclick="charge_order_submit()">立即充值</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(function () {
+      /*金额输入框*/
+        var RexM =  /^([1-9][0-9]*)$/;
+        document.getElementById('Num').addEventListener('input', function(e){
+            if ($(this).attr("maxlength") != null) {
+                if ($(this).val().length > parseInt($(this).attr("maxlength"))) {
+                    $(this).val($(this).val().substr(0, parseInt($(this).attr("maxlength"))));
+                }
+            }
+            if(!(RexM.test($(this).val()))){
+                $("#Num").val($(this).val().slice(0,$(this).length-2));
+            }
+
+        });
+
+        $(".Rec-money-list>li").not(".other-amount").on("click",function(){
+            $("#Num").val("");
+        })
+
+        $(".Rec-mode-list li").attr("value", "0")
+      /*金额选择*/
+        $(".Rec-money-list li").on("click", function () {
+            if ($(this).hasClass("other-amount")) {
+                $(this).siblings().removeClass("active");
+            } else {
+                $(this).addClass("active").siblings().removeClass("active");
+            }
+        })
+      /*支付方式勾选*/
+        $(".Rec-mode-list li").on("click", function () {
+            var Opt = $(this).children().children(".opt");
+            Opt.toggleClass("selected");
+            $(".mode-list-box .opt[class='selected']").attr("value", "1");
+            if (Opt.hasClass("selected")) {
+                $(this).attr("value", "1").siblings().attr("value", "0");
+            } else {
+                $(this).attr("value", "0");
+            }
+            $(".Rec-mode-list li[value='0']").children().children(".opt").removeClass("selected");
+        })
+      /*点击叉号-关闭弹框*/
+        $('.BuyAbsolute-BoxClose').on('click', function () {
+            $('.BuyRecord-absolute').hide();
+        })
+
+
+    })
+
+    function charge_order_submit() {
+        var pay_type = 0
+        var charge_price = parseInt($(".Rec-money-list .active").val()) || 0;
+        var custom_price = parseInt($(".custom_price").val()) || 0;
+        var rec_wechat = $(".Rec-wechat").val();
+        var rec_alipay = $(".Rec-alipay").val();
+        var price = charge_price + custom_price;
+        if (rec_alipay == '1') pay_type = 1  //阿里支付
+        if (rec_wechat == '1') pay_type = 3 //微信支付
+        if (price <= 0 || pay_type == 0) {
+            alertTx('金额或支付方式有误!')
+            return false;
+        }
+        $.ajax({
+            method: 'post',
+            url: '/h5/charge_orders',
+            data: {pay_type: pay_type, price: price/1000},
+            success: function (data) {
+                if (data.pay_type == 1) {
+                    window.location.href = data.alipay_url
+                } else if (data.pay_type == 3) {
+                    //mustpay支付
+                    MUSTPAY.init({
+                        'apps_id': data.apps_id, 	//MustPay系统分配的应用ID号
+                        'prepay_id': data.prepay_id, //商户通过统一下单接口获取的预支付ID
+                        'pay_type': 'wx_pay_pub' //支付通道简称
+                    //  'open_status': 0
+                    });
+                }
+            }
+        })
+
+
+    }
+
+</script>
+
+<style>
+  p{
+    color: #333;
+  }
+</style>

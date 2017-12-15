@@ -1,0 +1,98 @@
+<div class="gfc-box ranking-rate ranking">
+  <div class="menu menu_tabs" id="001">
+    <ul class="header tab-box">
+      <!-- <li onclick="RankinglistRate()"><span>收益率排行</span></li> -->
+      <li class="active"><span>收益率排行</span></li>
+      <li><span>收益排行</span></li>
+      <li class="friend-cricle-tab tab-btn"><span>朋友圈排行</span></li>
+    </ul>
+  </div>
+  <div class="menudiv">
+
+    <div class="menubox" id="rank_rate_div">
+      <% if Time.now < "#{Date.today} 17:30:00".to_time %>
+        <%= render partial: 'h5/gold_gains_histories/rank_rate_form/day' %>
+      <% else %>
+        <%= render partial: 'h5/gold_gains_histories/rank_rate_form/today' %>
+      <% end %>
+      <%= render partial: 'h5/gold_gains_histories/rank_rate_form/week' %>
+      <%= render partial: 'h5/gold_gains_histories/rank_rate_form/month' %>
+      <%= render partial: 'h5/gold_gains_histories/rank_rate_form/total' %>
+    </div>
+
+    <div class="menubox hide" id="rank_div">
+      <% if Time.now < "#{Date.today} 17:30:00".to_time %>
+        <%= render partial: 'h5/gold_gains_histories/rank_form/day' %>
+      <% else %>
+        <%= render partial: 'h5/gold_gains_histories/rank_form/today' %>
+      <% end %>
+      <%= render partial: 'h5/gold_gains_histories/rank_form/week' %>
+      <%= render partial: 'h5/gold_gains_histories/rank_form/month' %>
+      <%= render partial: 'h5/gold_gains_histories/rank_form/total' %>
+    </div>
+
+    <div class="menubox hide">
+      <%= render partial: 'h5/gold_gains_histories/friend_circle' %>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function(){
+
+    count_down();
+
+    $(".menu_tabs").each(function(){
+      var floor = $(this);
+      var floor_box = floor.next();
+      
+      floor.find("li").click(function(){
+        floor.find("li").removeClass("active");
+        floor_box.find(".menubox").hide();
+        var nowindex = $(this).index();
+        $(this).addClass("active");
+        floor_box.find(".menubox").eq(nowindex).show();
+      });
+    });
+
+    $('.get_gain').on('click', function(){
+      ele = $(this);
+      var rc_id = $(this).attr('rc');
+      var prize_txt = $(this).attr('prize_txt');
+      var is_product = $(this).attr('is_product');
+      // window.location.href="/h5/lotteries/"+lottery_id+"/receive_prizes"
+      // if(prize_txt == '无奖励'){
+      //   alertTx("没有对应奖励");
+      //   return false;
+      // }
+      if(is_product == 1){
+        Rankingalert('领取奖励成功！<br>'+prize_txt+'<br>',"/h5/gold_gains_histories/receive_prizes?rc="+rc_id,'立即领奖');
+      }else{
+        $.ajax({
+          type: 'POST',
+          url: "/h5/gold_gains_histories/get_gain",
+          // async: false,
+          data: {'ranking_config_id': $(this).attr('rc')},
+          success: function(datas) {
+            if(datas['status'] == 200){
+              // alertTx("领取奖励成功");
+              ele.after("<a class='Get-prizes bg-light-purple txt-white' href='javascript:void(0)''>已领取</a>");
+              ele.hide();
+              Rankingalert('领取奖励成功！<br>'+prize_txt+'<br>分享得奖信息可得钻石币',"/h5/gold_gains_histories/share_prize?rc="+rc_id+"&rcw_id="+datas['data'],'立即分享');
+              //提示文字，地址，按钮文字
+            }
+            else{
+              alertTx("领取失败, 请重试");
+            }
+          },
+          error: function(XMLHttpResponse) {
+            alertTx("领取失败, 请重试");
+          }
+        })
+      }
+
+    })
+    
+  })
+</script>

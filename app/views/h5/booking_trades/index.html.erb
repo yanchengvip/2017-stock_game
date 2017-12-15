@@ -1,0 +1,140 @@
+<div class="gfc-box list-box">
+
+  <ul class="head-style tab-box">
+    <li class="list-tab tab-btn active" onclick="window.location.href='/h5/booking_trades'"><span>挂单</span></li>
+    <li class="trade-tab tab-btn" onclick="window.location.href='/h5/diamond_trades'"><span>交易</span></li>
+  </ul>
+
+  <%if @booking_trades.size  ==  0%>
+    <div class="no-data">暂无挂单</div>
+  <%else%>
+    <div  class="record">
+      <ul >
+        <div class="tab-content">
+          <!--我的挂单 start-->
+          <div class="tab-lister" id="booking_trades_list">
+          </div>
+        </div>
+      </ul>
+    </div>
+  <%end%>
+</div>
+
+<script id="record" type="text/x-jsrender">
+  <li>
+    <div class="business top clearfix">
+      <ul>
+        <li><span>钻石名称</span><span>{{:sale_diamond.cn_name}}</span></li>
+        <li><span>钻石品种</span><span>{{:sale_diamond.exchange_name}}</span></li>
+        <li><span>挂单状态</span><span>{{:~formatStatus(status)}}</span></li>
+        {^{if bussiness_type == 1 }}
+          <li><span>挂单方向</span><span class="gfc-sell gfc-buy">买入</span></li>
+        {{else bussiness_type == 2 }}
+          <li><span>挂单方向</span><span class="gfc-sell">卖出</span></li>
+        {{else bussiness_type == 3 }}
+          <li><span>挂单方向</span><span class="gfc-sell">做空</span></li>
+        {{else bussiness_type == 4 }}
+          <li><span>挂单方向</span><span class="gfc-sell gfc-buy">平仓</span></li>
+        {{/if}}
+        <li><span>挂单价格</span><span>{{:~outputmoney(booking_price)}}</span></li>
+        <li><span>挂单数量</span><span>{{:total_count}}</span></li>
+      </ul>
+      {^{if status == 0}}
+      <div class="line"></div>
+      <span class="cancel cancelTrade  -gfc-cancel txt-cancel -gfc-sell" data-id="{{:id}}">撤销</span>
+      {{/if}}
+    </div>
+  </li>
+</script>
+<script type="text/javascript">
+$(function(){
+  // history.replaceState({}, "", "<%=SYSTEMCONFIG[:host]%>"+"home/index")
+  function formatStatus(status) {
+    // return $.format.date(date, "yyyy-MM-dd HH:mm");
+    if(status == 0){
+      return  "已报"
+    }else if(status == 1){
+      return  "成交"
+    }else if(status == -1){
+      return  "已撤"
+    }else{
+      return status
+    }
+  }
+  $.views.helpers({formatStatus: formatStatus});
+
+  $("body").on("click", ".cancelTrade", function(){
+    obj = $(this)
+    swal({
+        title: '',
+        text: '您确定要撤单吗？',
+        showCancelButton: true,
+        confirmButtonText: '撤单',
+        cancelButtonText: '再考虑一下',
+        // cancelButtonColor: "#999",
+        reverseButtons: true,
+      }).then(function (e) {
+        $.ajax({
+          type: "post",
+          url: "/h5/booking_trades/cancle",
+          data: {id: obj.attr("data-id")},
+          success: function(res){
+            console.log(res)
+            if(res.status == 200){
+              swal({text: res.msg}).then(function(){window.location.href='/h5/booking_trades'})
+            }else{
+              swal({text: res.msg}).then(function(){window.location.href='/h5/booking_trades'})
+            }
+          },
+          error: function(){
+          }
+        })
+      }, function(e){
+      })
+
+  })
+
+  var booking_trades = <%= raw @booking_trades.to_json%>
+  var tmpl = $.templates("#record");
+  tmpl.link("#booking_trades_list", booking_trades);
+})
+</script>
+<script type="text/javascript">
+$(function(){
+    // 页数
+    var page = 1;
+    // dropload
+    $('.record').dropload({
+      scrollArea : window,
+      domDown: {domRefresh: ''},
+      loadDownFn : function(me){
+        $.ajax({
+          type : "GET",  //提交方式
+          url : "/h5/booking_trades.json",//路径
+          data : {page: page+1},//数据，这里使用的是Json格式进行传输
+          beforeSend: function(){
+            me.lock();
+          },
+          success : function(result) {//返回数据根据结果进行相应的处理
+            console.log(1)
+            var tmpl = $.templates("#record");
+            var htmlOutput = tmpl.render(result.data);
+            $("#booking_trades_list").append(htmlOutput);
+            page += 1
+            me.resetload();
+            me.unlock();
+            if(result.data.length == 0){
+              me.lock();
+              me.noData();
+            }
+          },
+          error: function(){
+            me.resetload();
+            me.unlock();
+          }
+        });
+      },
+      threshold : 50
+    });
+});
+</script>

@@ -1,0 +1,43 @@
+<!--夺宝列表-->
+<div class="warn-alertlayer warn2 display">
+  <div class="warn-alertBox">
+    <%=image_tag "h5/images/warm2.png"%>
+    <p>您拥有<span><%=current_user.total_diamond_coin.to_i%></span>钻币</p>
+    <p>挑选喜欢的宝贝，赶紧夺宝吧！</p>
+    <button class="warnButton">知道了</button>
+  </div>
+</div>
+
+<!--赚币页面-->
+<div class="warn-alertlayer warn3  display">
+  <div class="warn-alertBox">
+    <%=image_tag "h5/images/warm3.png"%>
+    <p>马上玩模拟盘赚取钻币</p>
+    <p>继续免费夺宝！</p>
+    <button class="warnButton" onclick="window.location.href='/home/index'">马上去</button>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(argument) {
+  <%if @lottery_index_alert%>
+    <%if current_user.total_diamond_coin >= 10 %>
+    $(".warn2").show()
+    $('.warnButton').on('click',function(){
+      <%if @lottery_orders_exists%>
+        unwarn_alertlayer();
+      <%else%>
+        <%lottery = Lottery.where(status: 0, product_type: 1).order("sort desc").limit(2).last%>
+        window.location.href= '<%="/h5/lotteries/#{lottery.id}?share_callback=1&share_user_id=#{params[:share_user_id]}"%>'
+      <%end%>
+    })
+    <%else%>
+    $(".warn3").show()
+    $('.warnButton').on('click',function(){
+      unwarn_alertlayer();
+      window.location.href="/home/get_diamonds"
+    })
+    <%end%>
+  <%end%>
+
+})
+</script>

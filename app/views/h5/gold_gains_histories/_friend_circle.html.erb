@@ -1,0 +1,67 @@
+<!--朋友圈排行 start-->
+<div class="tab-lister friend-cricle">
+  <div>
+    <% if @friend_circle[:other_circle]['share_user'].present? || @friend_circle[:my_circle].length > 1 %>
+
+        <p class="end-time prize_count_time">本期结束时间：
+          <span class='seconds hide'><%= ("#{Date.today.end_of_week - 1} 17:30:00".to_time - Time.now).to_i %></span>
+          <!--<span><%#= "#{Date.today.end_of_week(:sunday)} 17:30:00".to_time.strftime('%Y-%m-%d %H:%M:%S') %></span>-->
+          <span class='time_str'></span>
+          <a class="recordlist" href="/h5/gold_gains_histories/friend_circle_record">我的记录</a>
+        </p>
+    <% end %>
+    <% if @friend_circle[:other_circle]['share_user'].present? %>
+        <ul class="banner">
+          <li><img src="<%= current_user.headimgurl %>" alt=""></li>
+          <li>
+            <h4><%= nickname_or_phone current_user %></h4>
+            <div class="display-text">
+              <p>您在<span><%= @friend_circle[:other_circle]['share_user']['nickname'] %></span>的排行中排名第<span><%= @friend_circle[:other_circle]['ranking'] %></span>，争取第一，会获得所有进贡哦！
+              </p>
+            </div>
+
+          </li>
+        </ul>
+    <% end %>
+    <% if @friend_circle[:last_week_user].present? %>
+        <p class="income-tips">上周<span><%= @friend_circle[:last_week_user][0]['nickname'] %></span>获得第一名，获得进贡钻石币
+          <span><%= number_to_currency @friend_circle[:last_week_user][0]['sum_week_amount'].to_f %></span>。</p>
+    <% end %>
+
+    <% if @friend_circle[:my_circle].length > 1 %>
+        <ul class="win">
+          <% @friend_circle[:my_circle].each_with_index do |user, index| %>
+              <li>
+                <span><%= index > 2 ? index + 1 : '' %></span>
+                <span>
+                  <img src="<%= user['headimgurl'] %>" alt="">
+                </span>
+                <span><%= user['nickname'] %></span>
+                <p><span class="logo-money"></span><%= number_to_currency user['week_amount'].to_f %></p>
+              </li>
+
+          <% end %>
+        </ul>
+    <% else %>
+        <!--朋友圈无数据显示 start-->
+        <div class="no-list">
+          <div>
+            <span></span>
+            <p>暂无好友排行，<br/>快去邀请好友，获得进贡吧！</p>
+          </div>
+          <a value='jingong' class="common-btn bg-red txt-white <%= wechat_browser? ? 'wechat' : '' %>" id="share_btn">邀请好友</a>
+        </div>
+        <!--朋友圈无数据显示 end-->
+    <% end %>
+  </div>
+
+</div>
+<!--朋友圈排行 end-->
+
+
+<% if !wechat_browser? && @friend_circle[:my_circle].length <= 1 %>
+    <script>
+        UrlCopy("share_btn", "<%=@share_config[:link_url]%>")
+    </script>
+<% end %>
+

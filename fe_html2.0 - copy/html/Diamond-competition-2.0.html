@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>钻石投资竞赛</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <link rel="stylesheet" href="../css/lucy-bag.css">
+
+  <script src="../js/jquery-1.11.3.js"></script>
+</head>
+<body class="body-box">
+  <!--<div class="body-header-bg">
+    <h3 class="body-header"><a href="">返回</a>钻石竞赛</h3>
+  </div>-->
+  <div class="gfc-box competition">
+    <!--<div class="container-box">-->
+      <!--banner start-->
+      <div class="banner-bg">
+        <div class="index-banner">
+          <div class="head">
+            <div class="left">
+              <div class="Ind-Money">
+                <img src="../images/icon-logo.png" alt="">
+                <span>8,000,888,888钻币</span>
+                <img class="img-pop" src="../images/change-2.png" alt="">
+              </div>
+            </div>
+            <a class="right bg-white" href="#1">夺宝记录</a>
+          </div>
+        </div>
+      </div>
+      <!--banner end-->
+      <!--总资产 start-->
+      <div class="wallet">
+        <div class="total">
+          <span>23,569.63</span>
+          <p>账户总资产（元）</p>
+        </div>
+        <ul class="kind">
+          <li>
+            <span>可用资金</span>
+            <span>17,166.63</span>
+          </li>
+          <li>
+            <span>持仓</span>
+            <span>63</span>
+          </li>
+          <li>
+            <span>总收益</span>
+            <span>1,100.00</span>
+          </li>
+        </ul>
+        <!--<span></span>-->
+      </div>
+      <!--总资产 end-->
+
+      <!--钻价详情 start-->
+      <div class="carat-bg">
+        <div class="carat">
+          <ul>
+            <div class="diamonds"><span>3</span></div>
+
+            <li class="first-line">
+              <span>0.3JVS2V</span>
+              <!--<span>0.3克拉</span>
+              <span class="position">3</span>-->
+              <span class="add -gfc-red">9,368.43</span>
+            <li class="second-line">
+              <span>代码：100081</span>
+              <a class="gfc-bg-red" href="#1">+144.60</a>
+            </li>
+          </ul>
+        </div>
+        <div class="carat">
+          <ul>
+            <div class="diamonds"><span>3</span></div>
+
+            <li class="first-line">
+              <span>0.3JVS2V</span>
+              <!--<span>0.3克拉</span>-->
+              <span class="minus gfc-green">9,368.43</span>
+            </li>
+            <li class="second-line">
+              <span>代码：100081</span>
+              <a class="minus-bg" href="#1">-14.60</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--钻价详情 end-->
+
+      <!--分享 start-->
+      <ul class="share">
+        <li id="btn" data-img="index-box"></li>
+        <li class="wechat"></li>
+      </ul>
+      <!--分享 end-->
+      <!--宝箱 start-->
+      <div class="chest-bg">
+        <ul class="chest">
+          <li class="circle">
+            <canvas id="canvas_1" width="120" height="120"></canvas>
+            <canvas id="canvas_2" width="120" height="120"></canvas>
+            <span class="coin-open"></span>
+            <div><span>4</span>/10</div>
+          </li>
+          <li>
+            <p>今日再完成<span>6</span>次交易<br/>可开启资金宝箱</p>
+            <a class="gfc-coin-red" href="#1">打开宝箱</a>
+          </li>
+        </ul>
+      </div>
+      <!--宝箱 end-->
+    <!--</div>-->
+  </div>
+
+  <div class="footer-box">
+    <div class="footer">
+      <ul>
+        <li>
+          <span></span>
+          <span>夺宝</span>
+        </li>
+        <li>
+          <span></span>
+          <span>赚币</span>
+        </li>
+        <li>
+          <span></span>
+          <span>我的</span>
+        </li>
+        <!--<li>
+          <span></span>
+          <span>0元夺宝</span>
+        </li>-->
+      </ul>
+    </div>
+  </div>
+
+  <script src="../js/base.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/clipboard.min.js"></script>
+  <script>
+
+    $(function(){
+//      UrlCopy('btn',document.URL);
+     /* Bubble('../images/header2x.png','火炬大厦返',13000,3);//图片地址，用户名称，奖品价格，动画延迟3s标准,2s最小
+      Bubble('../images/header2x.png','火炬大厦返',13000,3);
+      Bubble('../images/header2x.png','火炬大厦返',13000,3);
+      Bubble('../images/header2x.png','火炬大厦返',13000,3);
+      Bubble('../images/header2x.png','火炬大厦返',13000,3);
+      Bubble('../images/header2x.png','火炬大厦返',13000,3);*/
+      canvasProgress(30);
+
+    })
+  </script>
+</body>
+</html>

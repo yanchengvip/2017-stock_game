@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>分享页面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+</head>
+<body>
+  <div class="gfc-box gift-page">
+    <!--<div class="container-box">-->
+      <div class="gift-wallet-bg">
+        <ul>
+          <li class="gift-text-bg">
+            <div class="gift-left"></div>
+            <div class="gift-right">
+              <h3>50033388钻币礼包</h3>
+              <p>有效期至：<span>2017-05-01</span></p>
+              <p>礼包数量：<span>20</span>个</p>
+            </div>
+          </li>
+        </ul>
+        <a class="PC btn wechat" href="#1" data-img="gift-box"  data-clipboard-text="aaaaa">分享礼包给好友</a>
+      </div>
+   <!-- </div>-->
+  </div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/clipboard.min.js"></script>
+<script src="../js/base.js"></script>
+<script>
+  /*is_weixin_share('share-success-box');*/
+  $(function(){
+    UrlCopy('btn',document.URL);
+  })
+</script>
+</body>
+</html>

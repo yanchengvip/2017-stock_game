@@ -1,0 +1,69 @@
+<!-- 福袋 记录 -->
+ <% status = lottery_status_str(lottery) %>
+<li class="<%= (status[:val] == 2 && status[:user_id] == current_user.id && lottery_order.is_win) ? 'Winning' : '' %>">
+  <div class="BuyRecordTop" onclick="window.location.href='/h5/lotteries/<%= lottery.id %>'">
+      <div class="BuyRecordLeft">
+          <%=image_tag lottery.product.head_image || "h5/images/pro.jpg" %>
+          <!-- icon-money.png -->
+      </div>
+      <div class=" BuyRecordRight">
+        <div class="BuyRecordNumber white-space">
+            <!-- 分享人 ：XXX-->分享人 ：<%= lottery.user.nickname || lottery.user.phone %>
+        </div>
+        <div class="BuyRecordOther">
+          <%# orders = lottery.lottery_orders_by(current_user) %>
+          <p class="BuyRecordTime white-space">抽奖时间：<%= time_str(lottery_order.created_at) %></p>
+          <p><span>抽奖号码：</span><span class="perwidth"><%= lottery_order.lottery_order_items.first.try(:lottery_code) %></span></p>
+        </div>
+      </div>
+  </div>
+
+  <div class="BuyRecordFoot">
+      <!--左侧状态汇总-->
+      <%# if status[:val] == 1 %>
+        <!-- <p class="BuyRecordState fl"> -->
+          <%# if status[:user_id] == current_user.id %>
+            <!-- <span class="BuyRecordState1"><%#= status[:str] %></span> -->
+          <%# else %>
+            <%#= status[:str] %>
+          <%# end %>
+        <!-- </p> -->
+      <%# elsif status[:val] == 2 && status[:user_id] == current_user.id %>
+      <!-- <% if status[:val] == 1 %>
+        <p class="BuyRecordState fl"><span class="BuyRecordState1"><%= status[:str] %></span></p>
+      <% elsif status[:val] == 2 %>
+        <p class="BuyRecordState fl BuyRecordStateP"><span class="BuyRecordState1 white-space"><%= status[:str] %></span></p>
+      <% end %> -->
+      <div class="fl BuyFoot-left">
+        <!-- 进度条 -->
+        <p class="Per-Progress">
+          <span style="width:60%"></span>
+        </p>
+        <p>揭晓进度<span class="txt-yellow">100%</span></p>
+      </div>
+      <button class="fr">追加购买</button>
+      <%# else %>
+        <!-- <p class="BuyRecordState fl Stateblack"> -->
+          <%#= status[:str] %>
+       <!-- </p> -->
+      <%# end %>
+
+      <!--右侧状态汇总-->
+      <% if status[:user_id] == current_user.id %>
+        <% if lottery_order.is_win && !lottery.take_award %>
+          <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive" value="1" id="lqjp_<%= lottery.id %>" product_id="<%=lottery.product.id%>" product_price="<%= (lottery.total_count * lottery.price.to_i * 0.8).to_i %>">领取奖品</span></p>
+        <% elsif lottery_order.is_win %>
+          <!-- 已领奖 -->
+          <%# order = lottery.win_order %>
+          <p class="BrPrizeState fr white-space"><span><%= order_status_str(lottery_order)[:str] %></span></p>
+        <% end %>
+      <% end %>
+  </div>
+  <!--中奖类别-->
+  <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+  <% if status[:val] == 2 && status[:user_id] == current_user.id && lottery_order.is_win %>
+    <%= image_tag "h5/images/seal.png", class: "BuyRecordSeal" %>
+  <% end %>
+</li>
+<!--获奖后li添加class  Winning 右侧图片-->
+<!-- <img class="BuyRecordSeal" src="../images/seal.png" alt="">

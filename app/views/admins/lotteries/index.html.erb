@@ -1,0 +1,65 @@
+<%= render partial: 'admins/lotteries/lottery_search' %>
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>发布日期</th>
+      <th>抽奖期号</th>
+      <th>商品名称</th>
+      <th>已参与/总需</th>
+      <th>单价</th>
+      <th>状态</th>
+      <th>置顶排行</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+
+    <% @lotteries.each do |lottery| %>
+        <tbody>
+
+        <tr>
+          <td><%= time_format lottery.published_at %></td>
+          <td><%= lottery.lottery_code %></td>
+          <td><%= lottery.product_name %></td>
+          <td><%= lottery.sales_count %>/<%= lottery.total_count %></td>
+          <td><%= lottery.price %></td>
+          <td><%= lottery_status lottery.status.to_i %></td>
+          <td><%= lottery.sort.to_i %></td>
+          <td>
+
+            <a href="javascript:void(0)" onclick="topLottery('<%= lottery.id%>','<%=lottery.lottery_code %>')" class="admin_product_operate_a">顶置该期</a>
+
+            <% if lottery.auto_extension_status == 3 %>
+                成功延期
+            <% elsif lottery.auto_extension_status == 2 %>
+                <a href="javascript:void(0)" onclick="autoPublishLottery('<%= lottery.to_json %>')" class="admin_product_operate_a">
+                  <font color="red">自动延期</font>
+                </a>
+            <% else %>
+                <a href="javascript:void(0)" onclick="autoPublishLottery('<%= lottery.to_json %>')" class="admin_product_operate_a">
+                  自动延期
+                </a>
+            <% end %>
+            <a href="/admins/lotteries/<%= lottery.id %>" class="admin_product_operate_a">查看购买记录</a>
+
+          </td>
+
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @lotteries, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+<%= render partial: 'admins/lotteries/lottery_modal' %>

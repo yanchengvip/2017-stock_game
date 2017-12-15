@@ -1,0 +1,102 @@
+<h3>新增福袋</h3>
+
+<div class="container">
+  <form action="/admins/lucky_bags"  method="post">
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">福袋名称</label>
+      <div class="col-sm-6">
+        <input type="input" required="required" name="name"  class="form-control" id="add_product_name_input" onkeyup="validate_words_length(30,1)" placeholder="福袋名称">
+
+      </div>
+      <p class="bg-danger p_last_num" id="apn_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">福袋描述</label>
+      <div class="col-sm-6">
+        <textarea class="form-control" required="required" name="desc" rows="3" id="add_product_desc_input" onkeyup="validate_words_length(60,2)" placeholder="福袋描述"></textarea>
+      </div>
+      <p class="bg-danger p_last_num" id="apd_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">价格</label>
+      <div class="col-sm-6">
+        <input type="number" required="required" min="0" max="99999999" step='0.01' name="price" class="form-control"  placeholder="价格0.00">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">库存</label>
+      <div class="col-sm-6">
+        <input type="number" required="required" min="1" max="99999999" name="inventory_count" class="form-control"  placeholder="库存">
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">中奖奖品</label>
+      <div class="col-sm-6">
+        <input type="text" required="required" name="award" class="form-control"  placeholder="中奖奖品">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">参与人数</label>
+      <div class="col-sm-6">
+        <input type="number" required="required" min="1" max="99999999" name="total_count" class="form-control"  placeholder="参与人数">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">有效期</label>
+      <div class="col-sm-6">
+        <input type="text" name="end_time" id="end_time_picker">
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+
+      <div class="col-sm-6">
+        <input type="hidden" name="head_image" id="head_image_url" class="form-control"  placeholder="缩略图">
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel panel-info" style="background-color: #ddd">商品缩略图(仅一张;图片比例为1:1)</div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-8 col-md-4" >
+            <img id="preview_product_thumb">
+
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"><input  type="file" id="add_product_thumb" name="file"></div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-sm-2">是否启用</label>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="is_published" checked="checked"> 启用
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" id="add_product_submit" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+
+  </form>
+</div>

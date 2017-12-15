@@ -1,0 +1,41 @@
+<div class="gfc-box gift-success">
+  <!--<div class="container-box">-->
+    <div class="gift-banner"></div>
+    <div class="gift-success-text">
+    <%if @coin_bag_lottery_item%>
+      <div class="gift-success-shop">
+        <ul>
+          <li>
+            <span></span>
+          </li>
+          <li>
+            <h3>钻石大富翁钻币礼包</h3>
+            <p><span><%=@coin_bag_lottery_item.coin_count%></span>个钻石币</p>
+          </li>
+        </ul>
+        <h3>钻石币已领取到账</h3>
+        <a class="share-btn" href="/h5/lotteries">去夺宝</a>
+      </div>
+    <%else%>
+      <!--无数据-->
+      <div class="nothing gift-success-shop">
+        <span></span>
+        <p>您下手晚了，钻币礼包已被抢空。<br/>可以去模拟盘赚取收益，兑换钻石币！</p>
+        <a class="share-btn" href="/home/index">去赚取收益</a>
+      </div>
+    <%end%>
+      <div class="gift-success-rank">
+        <h3><span>看看朋友们手气如何</span></h3>
+        <ul>
+          <%@coin_bag_lottery_items.each do |coin_bag_lottery_item|%>
+            <li>
+              <img src="<%=coin_bag_lottery_item&.user&.headimgurl%>" alt="">
+              <p><%=coin_bag_lottery_item&.user&.nickname%></p>
+              <span><span><%=coin_bag_lottery_item.coin_count%></span>钻石币</span>
+            </li>
+          <%end%>
+        </ul>
+      </div>
+    </div>
+  <!--</div>-->
+</div>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>买入</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script>
+    $(function(){
+      Additions($('.buyPrice .sellPriceminus'),$('.buyPrice .sellPricebuy-cont'),$('.buyPrice .sellPriceadd'),1)
+      Additions($('.buyNumber .sellNumberminus'),$('.buyNumber .sellNumberbuy-cont'),$('.buyNumber .sellNumberadd'))
+      Additions($('.sellPrice .sellPriceminus'),$('.sellPrice .sellPricebuy-cont'),$('.sellPrice .sellPriceadd'),1)
+      Additions($('.sellNumber .sellNumberminus'),$('.sellNumber .sellNumberbuy-cont'),$('.sellNumber .sellNumberadd'))
+    })
+  </script>
+</head>
+<body>
+<div class="gfc-box buy-box">
+  <!--<div class="go-back"><a href=""></a></div>-->
+  <!--<div class="container-box">-->
+  <ul class="head-style tab-box">
+    <li class="tab-btn"><span>买入</span></li>
+    <li class="tab-btn"><span>卖出</span></li>
+  </ul>
+    <div class="tab-content">
+      <!--买入模块 start-->
+      <div class="form tab-lister">
+        <ul>
+          <li class="name">
+            <span>商品名称</span>
+            <select name="" id="" class="list">
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+            </select>
+          </li>
+          <li><span>商品代码</span><span class="txt-white-gray">403011</span></li>
+          <li>
+            <span>买出价格</span>
+            <div class="change buyPrice">
+              <span class="minus sellPriceminus"></span>
+              <input class="buy-cont sellPricebuy-cont" type="number" value="1653.2" min="1301.25"  max="2000.54" data-base="1">
+              <span class="add sellPriceadd"></span>
+            </div>
+          </li>
+          <li><span>可买数量</span><span class="txt-white-gray">3</span></li>
+          <li>
+            <span>买出数量</span>
+            <div class="change buyNumber">
+              <span class="minus sellNumberminus"></span>
+              <input  class="buy-cont sellNumberbuy-cont" type="number"  value="5" min="1" max="20" data-base="1">
+              <span class="add sellNumberadd"></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--买入模块 end-->
+      <!--卖出模块 start-->
+      <div class="form tab-lister" >
+        <ul>
+          <li class="name">
+            <span>商品名称</span>
+            <select name="" id="" class="list">
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+              <option value="">0.3JVS2V</option>
+            </select>
+          </li>
+          <li><span>商品代码</span><span class="txt-white-gray">403011</span></li>
+          <li>
+            <span>卖出价格</span>
+            <div class="change sellPrice">
+              <span class="minus sellPriceminus"></span>
+              <input class="buy-cont sellPricebuy-cont" type="number" value="102.2" min="100.3"  max="123.02" data-base="1">
+              <span class="add sellPriceadd"></span>
+            </div>
+          </li>
+          <li><span>可卖数量</span><span class="txt-white-gray">3</span></li>
+          <li>
+            <span>卖出数量</span>
+            <div class="change sellNumber">
+              <span class="minus sellNumberminus"></span>
+              <input  class="buy-cont sellNumberbuy-cont" type="number"  value="2" min="1" max="5" data-base="1">
+              <span class="add sellNumberadd"></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--卖出模块 end-->
+    </div>
+  <p class="tips">提示：可交易时间为7:00-23:00，其他时间用于系统维护。非正常交易时间段按照昨日和今日收盘价交易，中午休息时间段按照上午最后时间段。</p>
+  <div class="tab-content">
+    <div class="btn tab-btner">
+      <span class="-gfc-buy">直接买入</span>
+    </div>
+    <div class="btn tab-btner">
+      <span class="-gfc-sell">直接卖出</span>
+    </div>
+  </div>
+
+  <ul class="trade-txt">
+    <h3>买入交易确认</h3>
+    <li><span>商品代码：</span><span>0.3克拉钻石</span></li>
+    <li><span>商品品种：</span><span>0.3JVS2V</span></li>
+    <li><span>买入价格：</span><span>3521.21</span></li>
+    <li><span>买入数量：</span><span>3</span></li>
+    <p>*卖出时会根据成交价收取0.05%服务费</p>
+  </ul>
+
+</div>
+<script>
+
+</script>
+</body>
+</html>

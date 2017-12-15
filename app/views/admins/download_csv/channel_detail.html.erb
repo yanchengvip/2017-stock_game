@@ -1,0 +1,80 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">渠道明细</div>
+  <div class="panel-body">
+    <form action="/admins/download_csv/channel_detail" method="get">
+      <div class="input-group">
+        <div class="col-xs-12">
+          <%#= render partial: 'admins/download_csv/search'%>
+          <div class="col-xs-12">
+            <span class="lottery-search-span">
+              <span style="color: blue">“<%= @qrcode.user_name %>”</span>  渠道用户注册明细
+            </span>
+          </div>
+          <div class="col-xs-12">
+            <span class="lottery-search-span">日期</span>
+            <div class="input-group input-daterange">
+              <input type="text" name="occur_date" value="<%= params[:occur_date] %>" class="form-control q10 csv_occur_date_datetimepicker">
+              <%= hidden_field_tag "user_name", @qrcode.user_name %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6" style="margin: 10px;">
+        <a class="btn btn-primary btn-success back_index" type="submit" style="margin-right: 30px;" href="/admins/download_csv/show_channel">返回</a>
+        <button class="btn btn-primary" type="submit">确定查询</button>
+      </div>
+    </form>
+<hr>
+
+    <!-- 资金月报统计下载: <a href="javascript:void(0);" onclick="dowload_csv(4)">点击下载（可选中上方的选则条件统计下载)</a> -->
+
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th>日期</th>
+      <th>日注册人数</th>
+      <th>二级分裂人数</th>
+      <th>三级分裂人数</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @res && @res.each_with_index do |res, index| %>
+      <tr>
+        <td><%= params[:occur_date]&.to_time&.strftime('%Y.%m.%d') || res.values[0][:occur_data] %></td>
+        <td><%= res.values[0][:reg_count] %></td>
+        <td><%= res.values[0][:second_count] %></td>
+        <td><%= res.values[0][:third_count] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="flickr_pagination">
+  <%#= will_paginate @users, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+
+    //页面切换 重新加载此js,取消turbolinks
+    $(document).on('turbolinks:load', function () {
+
+        //查询注册开始时间
+        $('.csv_occur_date_datetimepicker').datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: 2,
+            todayBtn: true,
+            language: 'cn'
+        }).on('changeDate', function (ev) {
+
+        });
+
+    });
+
+  })
+</script>
+
+

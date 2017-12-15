@@ -1,0 +1,25 @@
+<%if @self_lottery_order_items.size == 0 && @lottery.status.to_i == 0 %>
+  <%if @product.product_type == 1%>
+  <p class="Pro-UserState">来呀来呀！快来夺宝，人满就开奖！</p>
+  <%else%>
+  <p class="Pro-UserState">您还没有参加本期福袋哦！</p>
+  <%end%>
+<%elsif @self_lottery_order_items.size > 0%>
+  <div class="Proann-Userparticipation ProMargin-top">
+    <p>您参与了：<span class="colorRed"><%=@self_lottery_order_items.size%></span>人次</p>
+    <div class="Proann-BuyNumBox">
+      <p class="Proann-BuyNum">
+      夺宝号码：
+        <%@self_lottery_order_items.each_with_index do |lottery_order_item, index|%>
+        <span><i class="<%=lottery_order_item.lottery_code == @lottery.win_lottery_code ? 'colorRed' : ''%>"><%=lottery_order_item.lottery_code%></i><%=index != (@self_lottery_order_items.size - 1) ? "、" : ""%></span>
+        <%end%>
+      </p>
+      <% if @self_lottery_order_items.size > 5 %>
+        <span class="Proann-More">展开全部</span>
+      <% end %>
+    </div>
+  </div>
+  <script type="text/javascript">
+    ShowHide();
+  </script>
+<%end%>

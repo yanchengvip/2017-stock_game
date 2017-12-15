@@ -1,0 +1,81 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">修改红包</div>
+  <div class="panel-body">
+
+
+    <div class="container">
+      <form action="/admins/micro_diamond_bags/update_micro" method="post">
+        <input type="hidden" name="id" value="<%= @micro_bag.id %>"/>
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">微钻数量</label>
+          <div class="col-sm-6">
+            <input type="number" required="required" value="<%= @micro_bag.micro_diamond_amount.to_i %>" min="1" max="99999999" step="0.01" name="micro_diamond_amount" class="form-control" placeholder="微钻数量">
+          </div>
+          <p class="bg-danger p_last_num" id="apd_last_num"></p>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">红包个数</label>
+          <div class="col-sm-6">
+            <input type="number" value="<%= @micro_bag.person_count.to_i %>" required="required" min="1" max="99999999" step="1" name="person_count" class="form-control" placeholder="红包个数">
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">参与需钻币数</label>
+          <div class="col-sm-6">
+            <input type="number" value="<%= @micro_bag.person_count.to_i %>" required="required" min="0" max="99999999" step="0.01" name="buy_diamond_amount" class="form-control" placeholder="参与需钻币数">
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">上架时间</label>
+          <div class='col-sm-6'>
+            <input type='text' value="<%= time_format @micro_bag.published_at %>" name="published_at" class="form-control" id='micro_published_picker'/>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">开抢时间</label>
+          <div class='col-sm-6'>
+            <input type='text' value="<%= time_format @micro_bag.buy_at %>" name="buy_at" class="form-control" id='micro_buy_date_picker'/>
+          </div>
+        </div>
+
+
+
+        <div class="form-group row">
+          <label class="col-sm-2">是否启用</label>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <label class="form-check-label">
+                <% if @micro_bag.is_active %>
+                    <input type="radio" class="form-check-input" value="true" name="is_active" checked> 是
+                    <input type="radio" class="form-check-input" value="false" name="is_active"> 否
+                <% else %>
+                    <input type="radio" class="form-check-input" value="true" name="is_active"> 是
+                    <input type="radio" class="form-check-input" value="false" name="is_active" checked> 否
+                <% end %>
+
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">确定</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+

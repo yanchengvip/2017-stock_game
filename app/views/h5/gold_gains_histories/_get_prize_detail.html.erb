@@ -1,0 +1,15 @@
+ <% time_left = get_left_time_by(type) %>
+
+ <% if time_left <= 0 || type == 'D' %>
+  <!-- 后台没有配置奖项数据会报错 -->
+  <% if ranking_config.present? %>
+    <% if !current_user.gained?(ranking_config) %>
+      <% prize_type = prize_type(ranking_config) %>
+      <p>您在竞赛排名中获得奖励，快去领取吧！</p>
+      <%= link_to '领取奖励', 'javascript:void(0)', class: 'bg-red txt-white get_gain', rc: ranking_config.id, prize_txt: prize_type[:txt], is_product: prize_type[:is_product] %>
+    <% end %>
+  <% else %>
+    <%#= link_to '无对应奖励', 'javascript:void(0)', class: 'already-receive' %>
+    <!-- <p><span class="logo-money"></span><%#= number_to_currency amount if amount.present? %></p> -->
+  <% end %>
+<% end %>

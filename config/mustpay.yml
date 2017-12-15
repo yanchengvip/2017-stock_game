@@ -1,0 +1,19 @@
+#开发环境mustpay
+development:
+  mustpay:
+    apps_id: 123 #应用编号
+    mer_id: 123 #商户ID
+    private_key: ''
+    mustpay_public_key: ''
+    host: ""
+    gateway_url: ''
+
+
+production:
+  mustpay:
+    apps_id: '' #应用编号
+    mer_id: '' #商户ID
+    private_key: 1
+    mustpay_public_key:
+    host: ""
+    gateway_url: ''

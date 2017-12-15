@@ -1,0 +1,245 @@
+<style type="text/css">
+.container {
+  height: 300px;padding-top:25px;width:100%; min-width: 310px;max-width:572px;margin: 0 auto;
+}
+
+.container .highcharts-reset-zoom {
+display: none;
+}
+.container .highcharts-container {
+  overflow: inherit !important;
+}
+.container.active {
+  display: none;
+}
+</style>
+<script type="text/javascript">
+$(function() {
+  var ohlc = []
+  var volume =[]
+  var groupingUnits = [['week', // unit name
+    [1] // allowed multiples
+    ], ['month', [1, 2, 3, 4, 6]]]
+  function draw_chat(){
+    var mychartK = $('#container_trends').highcharts('StockChart', {
+      chart: {
+        spline: {
+          lineWidth: 0,
+        },
+        type: 'spline',
+        // 让线条变得圆滑
+        events: {
+          load: function() {
+            setInterval(function() {},
+            0);
+          }
+        }
+      },
+      rangeSelector: {
+        selected: 0,
+        inputDateFormat: '%Y-%m-%d'
+      },
+      title: {
+        // text: '钻石历史股价'
+      },
+      // rangeSelector: {
+      //   enabled: false  //隐藏左上角范围选择器
+      // },
+      scrollbar: {
+        enabled: false //隐藏滚动条
+      },
+      navigation: {
+        buttonOptions: {
+          enabled: false //隐藏顶部导航条
+        }
+      },
+      navigator: {
+        enabled: false //隐藏底部范围选择
+      },
+      credits: {
+        enabled: false //隐藏highchart.com字样
+      },
+      xAxis: {
+        dateTimeLabelFormats: {
+          millisecond: '%H:%M:%S.%L',
+          second: '%H:%M:%S',
+          minute: '%H:%M',
+          hour: '%H:%M',
+          day: '%m/%d',
+          week: '%m-%d',
+          month: '%y-%m',
+          year: '%Y'
+        },
+        crosshair: { //鼠标经过出现十字线
+          dashStyle: 'dash',
+          //十字线样式
+          color: '#999',
+          //十字线颜色
+          label: {
+            enabled: true,
+            padding: 8,
+            formatter: function(e) {
+              return Highcharts.dateFormat("%H:%M", e);;
+            },
+            borderWidth: 1,
+            backgroundColor: "#999",
+            style: {
+              "color": "#fff"
+            }
+          }
+        },
+        // tickInterval:60 * 1000 * 60 *2.5,
+        ordinal: false,
+        startOnTick: true,
+        endOntick: true,
+      },
+      plotOptions: {
+        series: {
+          turboThreshold: 100000
+        },
+        candlestick: {
+          color: '#00A800',
+          //下降颜色
+          upColor: '#F11200',
+          //上涨颜色
+          lineColor: '#00A800',
+          //下降蜡烛边框颜色
+          upLineColor: '#F11200' //下降蜡烛边框颜色
+        },
+        states: {
+          hover: {
+            marker: {
+              enabled: false,
+              radius: 0,
+            },
+            lineWidthPlus: 0
+          }
+        }
+      },
+      yAxis: [{
+        labels: {
+          align: 'right',
+          x: -3
+        },
+        title: {
+          // text: '股价'
+        },
+        height: '60%',
+        lineWidth: 2,
+        crosshair: {
+          dashStyle: 'dash',
+          //十字线样式
+          color: '#999',
+          //十字线颜色
+        }
+      },
+      {
+        labels: {
+          align: 'right',
+          x: -3
+        },
+        title: {
+          // text: '成交量'
+        },
+        top: '65%',
+        height: '35%',
+        offset: 0,
+        lineWidth: 2,
+        crosshair: {
+          dashStyle: 'dash',
+          //十字线样式
+          color: '#999',
+          //十字线颜色
+        }
+      }],
+      series: [{
+        type: 'candlestick',
+        name: 'AAPL',
+        data: ohlc,
+        dataGrouping: {
+          units: groupingUnits
+        }
+      },
+      {
+        type: 'column',
+        name: 'Volume',
+        data: volume,
+        yAxis: 1,
+        dataGrouping: {
+          units: groupingUnits
+        }
+      }],
+      tooltip: {
+        formatter: function() {
+          var s = Highcharts.dateFormat('<span> %Y-%m-%d %H:%M:%S</span>', this.x);
+          // s += '<br />开盘:<b>'
+          //   +this.points[0].point.open
+          //   + '</b><br />最高:<b>'
+          //   + this.points[0].point.high
+          //   + '</b><br />最低:<b>'
+          //   + this.points[0].point.low
+          //   + '</b><br />收盘:<b>'
+          //   + this.points[0].point.close
+          //   + '</b><br />成交量:<b>'
+          //   + this.points[1].y
+          //   + '</b>';
+          s += '<br />开盘:<b>' + ' <span style="color:red;">' + this.points[0].point.open + '</span>' + '</b><br />最高:<b>' + this.points[0].point.high + '</b><br />最低:<b>' + this.points[0].point.low + '</b><br />收盘:<b>' + this.points[0].point.close + '</b><br />成交量:<b>' + this.points[1].y + '</b>';
+
+          return s;
+        },
+        shared: true,
+        useHTML: true,
+        valueDecimals: 2,
+        //有多少位数显示在每个系列的y值
+        crosshairs: [{
+          // color : '#b9b9b0'
+        },
+        {
+          // color : '#b9b9b0'
+        }]
+      }
+
+    });
+  }
+
+
+  $.getJSON('/h5/sale_diamonds/kline?stock_code=<%=@sale_diamond.exchange_code%>',
+  function(res) {
+    console.log(res)
+    data = res.data
+    // split the data set into ohlc and volume
+    var  dataLength = data.length,
+    // set the allowed units for data grouping
+    groupingUnits = [['week', // unit name
+    [1] // allowed multiples
+    ], ['month', [1, 2, 3, 4, 6]]],
+    i = 0;
+    for (i; i < dataLength; i += 1) {
+      ohlc.push([data[i][0], // the date
+      data[i][1], // open
+      data[i][2], // high
+      data[i][3], // low
+      data[i][4] // close
+      ]);
+      volume.push({
+        x: data[i][0],
+        // the date
+        y: data[i][5],
+        // the volume
+        color: data[i][1] - data[i][4] < 0 ? 'red': 'green'
+      });
+    }
+    draw_chat()
+    // create the chart
+  });
+  $(".chart li").on("click",function(){
+    $(".chart li").toggleClass('active')
+    $('.chart-box .container').toggleClass('hide')
+    $("#limit_up_down").toggleClass('hide')
+    draw_chat()
+  })
+})
+$(function(){
+
+})
+</script>

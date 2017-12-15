@@ -1,0 +1,18 @@
+<%= simple_form_for @message, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :psz_sub_port %>
+  <%= error_span(@message[:psz_sub_port]) %>
+  <%= f.input :psz_msg %>
+  <%= error_span(@message[:psz_msg]) %>
+  <%= f.input :psz_mobis %>
+  <%= error_span(@message[:psz_mobis]) %>
+  <%= f.input :request_ip %>
+  <%= error_span(@message[:request_ip]) %>
+  <%= f.input :channel_name %>
+  <%= error_span(@message[:channel_name]) %>
+  <%= f.input :response_code %>
+  <%= error_span(@message[:response_code]) %>
+
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                messages_path, :class => 'btn btn-default' %>
+<% end %>

@@ -1,0 +1,232 @@
+<style type="text/css">
+
+</style>
+<div class="gfc-box market-box">
+  <!--title-->
+  <div class="header">
+    <div class="header-c">
+      <a class="left" href="/h5/sale_diamonds/pre?id=<%=@sale_diamond.id%>"></a>
+      <div>
+        <p><%=@sale_diamond.cn_name%><span><br><%=@sale_diamond.exchange_name%></span></p>
+      </div>
+      <a class="right" href="/h5/sale_diamonds/next?id=<%=@sale_diamond.id%>"></a>
+    </div>
+    <!-- <a class="mark" href=""></a> -->
+  </div>
+  <!--content-->
+  <div class="market-text">
+    <div class="price">
+      <ul>
+        <%color = @sale_diamond.current_price - @sale_diamond.yesterday_close_pirce >= 0 ? "-gfc-red" : "gfc-green"%>
+        <li class="<%=color%>"><span><%=number_to_currency @sale_diamond.current_price%></span></li>
+        <li class="<%=color%>">
+          <span><%=@sale_diamond.current_price - @sale_diamond.yesterday_close_pirce > 0 ? "+" : "" %><%=number_to_currency(@sale_diamond.current_price - @sale_diamond.yesterday_close_pirce)%></span>
+          <span class="span1 <%=color%>"><%=@sale_diamond.current_price - @sale_diamond.yesterday_close_pirce > 0 ? "+" : "" %><%=number_to_currency ((@sale_diamond.current_price - @sale_diamond.yesterday_close_pirce) / @sale_diamond.yesterday_close_pirce).round(4)*100 %>%</span>
+        </li>
+      </ul>
+      <ul>
+        <li>昨收<span><%=number_to_currency @sale_diamond.yesterday_close_pirce%></span></li>
+        <li>最高<span class="-gfc-red"><%=number_to_currency @sale_diamond.max_price%></span></li>
+        <li>今开<span><%=number_to_currency @sale_diamond.opening_price%></span></li>
+        <li>最低<span class="gfc-green"><%=number_to_currency @sale_diamond.min_price%></span></li>
+      </ul>
+    </div>
+    <div class="chart" id="chart">
+      <ul class="tab-box">
+        <li class="containerM tab-btn active">分时图</li>
+        <li class="containerK tab-btn">K线图</li>
+      </ul>
+      <!--content-->
+
+      <div class="chart-box tab-content">
+       <!--  <div id="report" style="height:50px;padding-top:25px;padding-left:15px;font-size: 12px;"></div> -->
+        <div class="m-k">
+          <div id="containerM" class="container tab-lister active"></div>
+          <div id="containerK" class="container tab-lister"></div>
+        </div>
+        <ul class="top-btm chart-UpDown">
+          <li>涨停<span class=-gfc-red><%=number_to_currency (@sale_diamond.yesterday_close_pirce*1.1).round(2)%></span></li>
+          <li>跌停<span class=gfc-green><%=number_to_currency (@sale_diamond.yesterday_close_pirce*0.9).round(2)%></span></li>
+        </ul>
+        <p class="note-HuNan">*以上数据来自湖南文交所钻石交易中心<br>*交易规则为T+1,当天买入/做空,第二个交易日才能卖出/平仓</p>
+        <ul class="k-zoom zoom-ctr">
+          <li class="zoom-ctrllor"></li>
+          <li class="ctr-tab to-large"></li>
+          <li class="ctr-tab to-small"></li>
+          <li class="ctr-tab to-left"></li>
+          <li class="ctr-tab to-right"></li>
+          <li class="ctr-tab to-restore"></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <p>持仓</p>
+        <%if @hold_diamonds_info%>
+          <div class="house">
+          <%profit = @hold_diamonds_info[:market_price] * @hold_diamonds_info[:total_count] - @hold_diamonds_info[:avg_price] * @hold_diamonds_info[:total_count]%>
+          <ul>
+            <li><span>钻石名称</span><span><%=@hold_diamonds_info[:cn_name]%></span></li>
+            <li><span>钻石品种</span><span><%=@hold_diamonds_info[:exchange_name]%></span></li>
+            <li><span>商品数量</span><span><%=@hold_diamonds_info[:total_count]%></span></li>
+            <li><span>可卖数量</span><span><%=@hold_diamonds_info[:available_count]%></span></li>
+            <li><span>成本价格</span><span><%=number_to_currency @hold_diamonds_info[:avg_price]%></span></li>
+            <li><span>市场价格</span><span><%=number_to_currency @hold_diamonds_info[:market_price]%></span></li>
+            <li><span>当前市值</span><span><%=number_to_currency @hold_diamonds_info[:market_price] * @hold_diamonds_info[:total_count]%></span></li>
+            <li><span>浮动盈亏</span><span class="<%=profit >= 0 ? '-gfc-red' : 'gfc-green'%>"><%=profit >= 0 ? '+' : ''%><%=number_to_currency profit %></span></li>
+          </ul>
+          <div class="line"></div>
+          <%if @hold_diamonds_info[:available_count] > 0%>
+          <span class="cancel -gfc-sell txt-white" onclick="window.location.href = '/h5/sale_diamonds/<%=@sale_diamond.id%>/sell'">卖出</span>
+          <%else%>
+          <span class="cancel  no-position">卖出</span>
+          <%end%>
+        </div>
+      <%else%>
+        <div class="no-data">暂无持仓</div>
+      <%end%>
+    </div>
+    <div>
+      <p>做空</p>
+      <%if @shorting_diamond_trades.size > 0%>
+        <%@shorting_diamond_trades.each do |shorting_diamond_trade| %>
+          <%color =  shorting_diamond_trade.total_price / shorting_diamond_trade.total_count - @sale_diamond.current_price >= 0 ? "-gfc-red" : "gfc-green"  %>
+          <div class="house">
+            <ul>
+              <li><span>钻石名称</span><span><%=shorting_diamond_trade.sale_diamond.cn_name%></span></li>
+              <li><span>钻石品种</span><span><%=shorting_diamond_trade.sale_diamond.exchange_name%></span></li>
+              <li><span>做空价格</span><span><%=number_to_currency shorting_diamond_trade.total_price / shorting_diamond_trade.total_count%></span></li>
+              <li><span>现价</span><span><%=number_to_currency @sale_diamond.current_price%></span></li>
+              <li><span>做空数量</span><span><%=shorting_diamond_trade.total_count%></span></li>
+              <li><span>浮动盈亏</span><span class="<%=color%>"><%=color == '-gfc-red' ? "+" : ""%><%=number_to_currency shorting_diamond_trade.total_price - shorting_diamond_trade.total_count * @sale_diamond.current_price %></span></li>
+            </ul>
+            <%if shorting_diamond_trade.close_shorting_status == 0%>
+              <%if shorting_diamond_trade.can_close?  %>
+                <div class="line"></div>
+                <span class="cancel -gfc-buy txt-white" onclick="window.location.href='/h5/sale_diamonds/<%=shorting_diamond_trade.sale_diamond_id%>/close?diamond_trade_id=<%=shorting_diamond_trade.id%>'">平仓</span>
+              <%else%>
+                <div class="line"></div>
+                <span class="cancel -gfc-buy txt-white" onclick="cannot_close_alert()">平仓</span>
+              <%end%>
+            <%else%>
+              <div class="line"></div>
+              <span class="cancel no-position">平仓</span>
+            <%end%>
+          </div>
+        <%end%>
+      <%else%>
+        <div class="no-data">暂无做空</div>
+      <%end%>
+    </div>
+
+    <div>
+    <p>挂单</p>
+      <%if @booking_trades.size  == 0%>
+        <div class="no-data">暂无挂单</div>
+      <%end%>
+      <%@booking_trades.each do |booking_trade| %>
+      <div class="bill bill-sell">
+        <ul>
+          <li><span>钻石名称</span><span><%=@sale_diamond.cn_name%></span></li>
+          <li><span>钻石品种</span><span><%=@sale_diamond.exchange_name%></span></li>
+          <li><span>挂单状态</span><span><%=booking_trade_status booking_trade.status %></span></li>
+          <li><span>挂单方向</span><span class="<%=booking_trade.bussiness_type == 1 ||booking_trade.bussiness_type == 4 ? 'gfc-sell gfc-buy' : 'gfc-sell'%>"><%=booking_trade_bussiness_type(booking_trade.bussiness_type) %></span></li>
+          <li><span>挂单价格</span><span><%=number_to_currency booking_trade.booking_price%></span></li>
+          <li><span>挂单数量</span><span><%=booking_trade.total_count%></span></li>
+        </ul>
+
+        <%if booking_trade.status == 0%>
+          <div class="line"></div>
+          <span class="cancel txt-cancel cancelTrade -gfc-sell" data-id="<%=booking_trade.id%>">撤销</span>
+        <%end%>
+      </div>
+      <%end%>
+    </div>
+  </div>
+  <div class='btn-box'>
+    <div class="btn">
+      <a href="/h5/sale_diamonds/<%=@sale_diamond.id%>/buy" ><span class="-gfc-buy">买入</span></a>
+      <a href="/h5/sale_diamonds/<%=@sale_diamond.id%>/shorting"><span class="-gfc-sell">做空</span></a>
+    </div>
+  </div>
+
+</div>
+
+<%=render partial: "k"%>
+<%=render partial: "m"%>
+<script type="text/javascript">
+  $(function(){
+    // history.replaceState({}, "", "<%=SYSTEMCONFIG[:host]%>"+"home/index")
+    $(".cancelTrade").click(function(){
+      obj = $(this)
+      swal({
+          title: '',
+          text: '您确定要撤单吗？',
+          showCancelButton: true,
+          confirmButtonText: '撤单',
+          cancelButtonText: '再考虑一下',
+          // cancelButtonColor: "#999",
+          reverseButtons: true,
+          // confirmButtonColor: "#3f64ed"
+        }).then(function (e) {
+          $.ajax({
+            type: "post",
+            url: "/h5/booking_trades/cancle",
+            data: {id: obj.attr("data-id")},
+            success: function(res){
+              console.log(res)
+              if(res.status == 200){
+                swal({text: res.msg}).then(function(){location.reload()})
+                obj.parent().remove()
+              }else{
+                swal({text: res.msg}).then(function(){location.reload()})
+              }
+            },
+            error: function(){
+            }
+          })
+        }, function(e){})
+    })
+    var opening_price = <%=@sale_diamond.opening_price%>
+
+
+    function kLine() {
+      var crrentData = [];
+      var gameData = <%=raw @kline_data.to_json %>
+      new k('containerK', gameData, crrentData);
+    }
+
+    // $("#chart li").on("click", function () {
+    //   $("#chart li").toggleClass('active')
+    //   $('.chart-box .container').toggleClass('active')
+    //   //mLine("");
+    //   kLine(gameData);
+    // })
+
+    //缩放伸缩控制按钮
+    $(".zoom-ctrllor").on('click', function(event) {
+      $(this).hasClass('zoom-sign')==false?$(this).addClass('zoom-sign').siblings().stop().fadeIn():$(this).removeClass('zoom-sign').siblings().stop().fadeOut()
+    });
+
+    $('.tab-box .tab-btn').on('click',function(){
+      $(this).addClass('active').siblings(".tab-box .tab-btn").removeClass('active');
+      var idx = $(this).index()
+    $($(".tab-content .tab-lister")[idx]).addClass('active').siblings(".tab-content .tab-lister").removeClass('active');
+      if (idx==1) {
+      $(".top-btm").hide();
+        // $(".m-zoom").hide();
+        $(".k-zoom").show();
+      }else{
+      $(".top-btm").show();
+        $(".k-zoom").hide();
+        // $(".m-zoom").show();
+      };
+      // kLine();
+    })
+
+
+    kLine();
+    mLine("containerM")
+
+})
+</script>
+

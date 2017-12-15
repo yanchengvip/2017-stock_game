@@ -1,0 +1,58 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">渠道统计</div>
+  <div class="panel-body">
+    <form action="/admins/download_csv/show_channel" method="get">
+      <div class="input-group">
+        <div class="col-xs-12">
+          <%#= render partial: 'admins/download_csv/search'%>
+          <div class="col-xs-12">
+            <span class="lottery-search-span">渠道名称</span>
+            <div class="input-group input-daterange">
+              <input type="text" name="user_name" class="form-control q10">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-primary" type="submit">确定查询</button>
+      </div>
+    </form>
+<hr>
+
+    <!-- 资金月报统计下载: <a href="javascript:void(0);" onclick="dowload_csv(4)">点击下载（可选中上方的选则条件统计下载)</a> -->
+
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>渠道名称</th>
+      <th>渠道注册人数</th>
+      <th>二级分裂人数</th>
+      <th>三级分裂人数</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @res && @res.each_with_index do |res, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= res.keys[0] %></td>
+        <td><%= res.values[0][:reg_count] %></td>
+        <td><%= res.values[0][:second_count] %></td>
+        <td><%= res.values[0][:third_count] %></td>
+        <td><%= link_to '查看明细', channel_detail_admins_download_csv_index_path(user_name: res.keys[0]) %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="flickr_pagination">
+  <%#= will_paginate @users, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+</div>
+
+

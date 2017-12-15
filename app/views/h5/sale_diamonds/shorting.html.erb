@@ -1,0 +1,144 @@
+<div class="gfc-box buy-box going-Short">
+</div>
+<script id="data" type="text/x-jsrender">
+  <ul class="header">
+    <li><span>做空</span></li>
+  </ul>
+  <div class="form">
+    <ul>
+      <li class="name">
+        <span>钻石名称</span>
+        <select name="" id="sale_diamond_select" class="list">
+          {^{for sale_diamonds }}
+            {^{if id == ~root.sale_diamond.id}}
+            <option value="{{:id}}" selected>{{:cn_name}}</option>
+            {{else}}
+            <option value="{{:id}}">{{:cn_name}}</option>
+            {{/if}}
+          {{/for}}
+        </select>
+      </li>
+      <li><span>钻石品种</span><span id="exchange_name">{{:sale_diamond.exchange_name}}</span></li>
+      <li>
+        <span>做空价格</span>
+        <div class="change sellPrice">
+          <span class="minus sellPriceminus"></span>
+          <input id="booking_trade_booking_price"  class="buy-cont sellPricebuy-cont" value="{{:sale_diamond.current_price}}" type="number" data-base="1" min="{{:~min_price(sale_diamond)}}" max="{{:~max_price(sale_diamond)}}">
+          <span class="add sellPriceadd"></span>
+        </div>
+      </li>
+      <li><span>可做空数量</span><span>{{:shorting_count}}</span></li>
+      <li>
+        <span>做空数量</span>
+        <div class="change sellNumber">
+          <span class="minus sellNumberminus"></span>
+          <input type="number" id="booking_trade_total_count"  class="buy-cont sellNumberbuy-cont"  value="1" min="1" max="{{:shorting_count}}" data-base="1">
+          <span class="add sellNumberadd"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <p class="tips">高价时借货卖出——做空；低价时买入归还——平仓，轻松操作，下跌也能赚钱。 （例：3000元时做空一颗0.3克拉钻石，2000元时平仓，即赚1000元）</p>
+  <div class="btn">
+    {^{if shorting_count > 0}}
+    <span class="-gfc-sell" id="booking_buy_btn">做空</span>
+    {{else}}
+    <span class="-gfc-cancel" id="">做空</span>
+    {{/if}}
+  </div>
+</script>
+  <script>
+    $(function(){
+    Additions($('.sellPrice .sellPriceminus'),$('.sellPrice .sellPricebuy-cont'),$('.sellPrice .sellPriceadd'), 1)
+    Additions($('.sellNumber .sellNumberminus'),$('.sellNumber .sellNumberbuy-cont'),$('.sellNumber .sellNumberadd'))
+  })
+  </script>
+<script>
+$(function(){
+  function min_price(sale_diamond){
+    return (sale_diamond.yesterday_close_pirce * 0.9).toFixed(2)
+  }
+  function max_price(sale_diamond){
+    return (sale_diamond.yesterday_close_pirce * 1.1).toFixed(2)
+  }
+  $.views.helpers({min_price: min_price, max_price: max_price})
+
+  $.templates("#data").link(".buy-box", <%=raw @data.to_json%>);
+  Additions($('.sellPrice .sellPriceminus'),$('.sellPrice .sellPricebuy-cont'),$('.sellPrice .sellPriceadd'), 1)
+  Additions($('.sellNumber .sellNumberminus'),$('.sellNumber .sellNumberbuy-cont'),$('.sellNumber .sellNumberadd'))
+      $("#booking_trade_total_count").val(1)
+  function reload_data(){
+    $.ajax({
+      type : "get",  //提交方式
+      url : "/h5/sale_diamonds/"+$("#sale_diamond_select").val()+"/shorting.json",//路径
+      success : function(result) {
+        $.templates("#data").link(".buy-box", result.data);
+        Additions($('.sellPrice .sellPriceminus'),$('.sellPrice .sellPricebuy-cont'),$('.sellPrice .sellPriceadd'), 1)
+        Additions($('.sellNumber .sellNumberminus'),$('.sellNumber .sellNumberbuy-cont'),$('.sellNumber .sellNumberadd'))
+        $("#booking_trade_total_count").val(1)
+      }
+    })
+  }
+  $("body").on("change", "#sale_diamond_select", function(){
+    reload_data()
+  })
+
+  $("body").on("click", "#booking_buy_btn", function(){
+    if($("#booking_trade_total_count").val() <= 0){
+      return false
+    }
+  alert_text = '\
+    <ul class="trade-txt">\
+      <h3>做空交易确认</h3>\
+      <li><span>钻石名称：</span><span>'+$("#sale_diamond_select").find("option:selected").text()+'</span></li>\
+      <li><span>钻石品种：</span><span>'+$("#exchange_name").text()+'</span></li>\
+      <li><span>做空价格：</span><span>'+$("#booking_trade_booking_price").val()+'</span></li>\
+      <li><span>做空数量：</span><span>'+$("#booking_trade_total_count").val()+'</span></li>\
+      <p>*做空时会根据成交价收取<%=(SYSTEMCONFIG[:admin_config][:diamond_trade_fee] * 100).round(2) %>%服务费 </p>\
+    </ul>'
+    swal({
+      // title: 'Are you sure?',
+      html: alert_text,
+      showCancelButton: true,
+      confirmButtonText: '确认做空',
+      cancelButtonText: '取消',
+      reverseButtons: true,
+      showLoaderOnConfirm: true,
+    }).then(function (dismiss) {
+      if (dismiss === 'cancel') {
+      }else{
+        $.ajax({
+          type : "POST",  //提交方式
+          url : "/h5/booking_trades/",//路径
+          data : { booking_trade: {sale_diamond_id: $("#sale_diamond_select").val(), booking_price: $("#booking_trade_booking_price").val(), total_count: $("#booking_trade_total_count").val(), bussiness_type: 3} },//数据，这里使用的是Json格式进行传输
+          beforeSend: function(){
+            // initLockBox()
+            $("#booking_buy_btn").attr('disabled',true)
+          },
+          success : function(result) {//返回数据根据结果进行相应的处理
+            $("#booking_buy_btn").attr('disabled',false)
+            if(result.status == 200){
+              swal(
+                {
+                  text: '挂单成功，稍后查看交易结果!',
+                }).then(function () {
+                  history.back()
+                }
+              )
+            }else{
+              swal(
+                {
+                  text: result.msg,
+                }).then(function(){
+                  reload_data()
+                })
+            }
+
+          }
+        });
+      }
+    }, function(dismiss){console.log(dismiss)})
+
+  })
+})
+</script>

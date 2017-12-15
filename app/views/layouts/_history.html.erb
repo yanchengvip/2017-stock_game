@@ -1,0 +1,8 @@
+<script type="text/javascript">
+  history.replaceState({controller: "<%=params[:controller]%>", action: "<%=params[:action]%>", id: "<%=params[:id]%>"}, '<%=@title || "钻石大富翁"%>', window.location.href);
+  window.onpopstate = function (event) {
+    console.log("***************")
+        console.log(event.state);
+        console.log(event);
+    };//url改变触发onpopstate事件
+</script>

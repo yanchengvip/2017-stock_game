@@ -1,0 +1,70 @@
+<div class="gfc-box receive-prize">
+  <form id="address_form">
+    <ul class="mail">
+      <li>
+        <span>收货人</span>
+        <input id="name" name="user_name" type="text"  maxlength=10 placeholder="收货人姓名">
+      </li>
+      <li>
+        <span>手机号</span>
+        <input id="phone" name="phone" type="tel"  maxlength='11' placeholder="请输入手机号">
+      </li>
+      <li>
+        <span>地址</span>
+        <input id="address" name="address"  type="text" maxlength=255  placeholder="收货人地址">
+      </li>
+      <li>
+        <span>邮编</span>
+        <input class="zipCode" name="postcode" type="number"   maxlength='6' placeholder="输入邮编号">
+      </li>
+    </ul>
+  </form>
+  <div class="receive-Add-box">
+    <p class="Add-txt txt-gray-purple">设为默认地址</p>
+        <span class="select"></span>
+  </div>
+  <a class="get-button button-l -gfc-sell" href="javascript:void(0)" onclick="address_create()">保存</a>
+</div>
+
+<script>
+    $(function () {
+        $(".receive-Add-box").on("click", function () {
+
+            $(this).find(".select").toggleClass("selected-gray");
+        })
+    })
+
+    function address_create(){
+        var is_empty = NoEmpty();
+        if(is_empty){
+            return false
+        }
+        var is_default = $('.select').hasClass('selected-gray');
+        var form_data = $("#address_form").serialize()
+        if (is_default) {
+            form_data += '&is_default=true'
+        } else {
+            form_data += '&is_default=false'
+        }
+        $.ajax({
+            type: 'post',
+            url: '/h5/addresses',
+            data: form_data,
+            success: function (response) {
+                if (response['status'] == 200) {
+                    alertTx('地址添加成功')
+                    //window.location.href='/h5/addresses'
+                    window.history.go(-1);
+                }
+                if (response['status'] == 500) {
+                    alertTx('地址信息填写有误')
+                }
+            },
+            error: function (response) {
+                alertTx('地址添加失败')
+            }
+
+        })
+    }
+
+</script>

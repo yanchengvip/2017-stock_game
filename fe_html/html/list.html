@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>我的挂单</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/pullToRefresh.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script src="../js/iscroll.js"></script>
+  <script src="../js/pullToRefresh.js"></script>
+</head>
+<body class="body-box">
+<div class="gfc-box list-box">
+  <!--<div class="container-box">-->
+    <ul class="header">
+      <li class="active"><span>我的挂单</span></li>
+      <li><span>交易记录</span></li>
+    </ul>
+    <div id="wrapper" class="record">
+      <ul id="ul">
+        <li>
+          <div class="business top clearfix">
+            <ul>
+              <li><span>商品品名</span><span>0.3JVS2V</span></li>
+              <li><span>商品代码</span><span>403011</span></li>
+              <li><span>挂单状态</span><span>已报</span></li>
+              <li><span>挂单方向</span><span class="gfc-sell">卖出</span></li>
+              <li><span>挂单价格</span><span>3,270.00</span></li>
+              <li><span>挂单数量</span><span>1</span></li>
+            </ul>
+            <div class="line"></div>
+            <span class="cancel">撤销</span>
+          </div>
+        </li>
+        <li>
+          <div class="business top clearfix">
+            <ul>
+              <li><span>商品品名</span><span>0.3JVS2V</span></li>
+              <li><span>商品代码</span><span>403011</span></li>
+              <li><span>挂单状态</span><span>已报</span></li>
+              <li><span>挂单方向</span><span class="gfc-sell gfc-buy">买入</span></li>
+              <li><span>挂单价格</span><span>3,270.00</span></li>
+              <li><span>挂单数量</span><span>1</span></li>
+            </ul>
+            <div class="line"></div>
+            <span class="cancel">撤销</span>
+          </div>
+        </li>
+        <li>
+          <div class="business top clearfix">
+            <ul>
+              <li><span>商品品名</span><span>0.3JVS2V</span></li>
+              <li><span>商品代码</span><span>403011</span></li>
+              <li><span>挂单状态</span><span>已报</span></li>
+              <li><span>挂单方向</span><span class="gfc-sell gfc-buy">平仓</span></li>
+              <li><span>挂单价格</span><span>3,270.00</span></li>
+              <li><span>挂单数量</span><span>1</span></li>
+            </ul>
+            <div class="line"></div>
+            <span class="cancel">撤销</span>
+          </div>
+        </li>
+        <li>
+          <div class="business top clearfix">
+            <ul>
+              <li><span>商品品名</span><span>0.3JVS2V</span></li>
+              <li><span>商品代码</span><span>403011</span></li>
+              <li><span>挂单状态</span><span>已报</span></li>
+              <li><span>挂单方向</span><span class="gfc-sell">做空</span></li>
+              <li><span>挂单价格</span><span>3,270.00</span></li>
+              <li><span>挂单数量</span><span>1</span></li>
+            </ul>
+            <div class="line"></div>
+            <span class="cancel">撤销</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  <!--</div>-->
+</div>
+
+  <!-- <div class="record">
+    <p>2017-02-09 10:23</p>
+    <div class="business top">
+      <ul>
+        <li><span>商品品名</span><span>0.3JVS2V</span></li>
+        <li><span>商品代码</span><span>403011</span></li>
+        <li><span>挂单状态</span><span>已报</span></li>
+        <li><span>挂单方向</span><span class="gfc-sell">卖</span></li>
+        <li><span>挂单价格</span><span>3,270.00</span></li>
+        <li><span>挂单数量</span><span>1</span></li>
+      </ul>
+    </div>
+    <p>2017-02-09 10:23</p>
+    <div class="business top">
+      <ul>
+        <li><span>商品品名</span><span>0.3JVS2V</span></li>
+        <li><span>商品代码</span><span>403011</span></li>
+        <li><span>挂单状态</span><span>已报</span></li>
+        <li><span>挂单方向</span><span class="gfc-sell gfc-buy">买</span></li>
+        <li><span>挂单价格</span><span>3,270.00</span></li>
+        <li><span>挂单数量</span><span>2</span></li>
+      </ul>
+    </div>
+  </div> -->
+  <div class="footer-box">
+    <div class="footer">
+      <ul>
+        <li>
+          <span></span>
+          <span>首页</span>
+        </li>
+        <li>
+          <span></span>
+          <span>交易记录</span>
+        </li>
+        <li>
+          <span></span>
+          <span>竞赛</span>
+        </li>
+        <li>
+          <span></span>
+          <span>0元夺宝</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+<script>
+$(function(){
+  var TotalLength=10;//总条数
+  var eachLength=4;//每次加载条数
+  refresher.init({
+  id:"wrapper",//<------------------------------------------------------------------------------------┐
+  pullDownAction:Refresh,
+  pullUpAction:Load
+  });
+function Refresh() {
+  setTimeout(function () {  // <-- Simulate network congestion, remove setTimeout from production!
+    var el, li, i;
+    el =document.querySelector("#wrapper ul");
+    // ----------这里写你的刷新代码-------------------------------------------
+    document.getElementById("wrapper").querySelector(".pullDownIcon").style.display="none";
+    document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="刷新成功";
+    setTimeout(function () {
+      wrapper.refresh();
+      document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="";
+      },1000);//模拟qq下拉刷新显示成功效果
+    /****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****/
+  }, 1000);
+}
+function Load() {
+  setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+    var el, li,liLength, i;
+    el =document.querySelector("#wrapper ul");
+    liLength=$(el).children('li').length;
+    console.log(liLength)
+    if(liLength>=TotalLength){
+      wrapper.refresh();
+      $('.pullUp').children('.pullUpLabel').text('已加载全部')
+      $('.pullUp').children('.pullUpIcon').hide();
+    }else{
+      for (i=0; i<eachLength; i++) {
+        li = document.createElement('li');
+        li.getAttribute('class','li');
+        li.innerHTML='<div class="business top"> <ul><li><span>商品品名</span><span>0.3JVS2V</span></li><li><span>商品代码</span><span>403011</span></li><li><span>挂单状态</span><span>已报</span></li><li><span>挂单方向</span><span class="gfc-sell">卖</span></li><li><span>挂单价格</span><span>3,270.00</span></li><li><span>挂单数量</span><span>1</span></li></ul></div>';
+        el.appendChild(li, el.childNodes[0]);
+      }
+      liLength=$(el).children('li').length;
+      console.log(liLength);
+      if(liLength>=TotalLength){
+        wrapper.refresh();
+        $('.pullUp').children('.pullUpLabel').text('已加载全部');
+        $('.pullUp').children('.pullUpIcon').hide();
+      }
+    }
+    wrapper.refresh();/****remember to refresh after action completed！！！   ---id.refresh(); --- ****/
+  },2000);
+}
+  var a=$('#ul').children('li').length;
+  if(a>=TotalLength){
+    $('.pullUp').hide();
+  }
+})
+</script>
+</html>

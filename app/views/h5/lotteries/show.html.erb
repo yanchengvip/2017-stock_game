@@ -1,0 +1,376 @@
+<div class="BuyRecord-box Product-box">
+  <%= render partial: "h5/lotteries/show_template/pic_slide" %>
+  <%= render partial: "h5/lotteries/show_template/product_detail" %>
+
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <!--公式-->
+  <div class="Pro-LuckyNumber" onclick="window.location.href='/h5/lotteries/formula_detail?id=<%=@lottery.id%>'">
+    <p class="Pro-LuckyTitle"><span>幸运号码计算公式</span><%= image_tag "h5/images/h1_03.png" %></p>
+    <% if @lottery.status == 2 %>
+        <p class="Pro-formula">(<%= @lottery.num_a.to_i %>+<%= @lottery.num_b %>)%<%= @lottery.total_count %>
+          +10000001</p>
+    <% else %>
+        <p class="Pro-formula">[(数值A+数值B)÷商品总需人次]取余数+10000001</p>
+    <% end %>
+  </div>
+
+  <%if @lottery.product_type == 1 && @lottery.product.product_second_type != 1%>
+  <!--机器抽奖-->
+  <div class="Pro-gray"></div>
+  <div class="Pro-machine" onclick="window.location.href='/h5/lotteries/<%=@lottery.id%>/machine'">公平管家</div>
+  <%end%>
+  <!--分割线-->
+  <% unless @product.detail_url.blank? %>
+      <div class="Pro-gray"></div>
+      <div class="Pro-Detail" onclick="window.location.href='<%=@product.detail_url%>'">商品图文详情</div>
+  <% end %>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+
+  <%= render partial: "lottery_orders", locals: {lottery: @lottery} %>
+  <!--分割线-->
+
+  <!--分割线-->
+  <div class="BuyRecord-absolute ZeroClick">
+    <!--0元夺宝选择领取-->
+    <div class="BuyAbsolute-Box">
+      <%= image_tag "h5/images/icon-close.png", class: "BuyAbsolute-BoxClose" %>
+      <div class="BuyAbsolute-exchange" style="clear:both;">
+        <%= image_tag "h5/images/icon-p.png" %>
+        <p>直接领取奖品</p>
+      </div>
+      <p class="BuyAbsolute-line">
+        <%= image_tag "h5/images/icon-or.png" %>
+      </p>
+      <div class="BuyAbsolute-Receive">
+        <%= image_tag "h5/images/icon-diam.png" %>
+        <p>兑换等值钻石币</p>
+      </div>
+    </div>
+  </div>
+  <div class="BuyRecord-absolute ZeroTx">
+    <!--    0元夺宝兑换钻石提醒    -->
+    <div class="BuyAbsolute-Box Buyexchange-ClickBox">
+      <%= image_tag "h5/images/icon-close.png", class: "BuyAbsolute-BoxClose" %>
+      <div style="clear:both;">
+        <p class="Buyexchange-nextText">该商品可兑换钻币数量：<span class="colorRed"><%= ((@lottery.total_count * @lottery.price) * (1 - SYSTEMCONFIG[:lottery_system_persent].to_f)).to_i %></span> <br>是否继续兑换？</p>
+        <div class="Buyexchange-nextClick">
+          <p><span class="Buyexchange-nextYes" id="Buyexchange-nextYes">是</span></p>
+          <p><span class="Buyexchange-nextNo">否</span></p>
+        </div>
+      </div>
+      <p class="Bor-line"></p>
+      <div class="Buyexchange-nextTx">
+        <p class="icon-questuin">兑换收益</p>
+        <p>您的中奖商品会等值兑换为钻石币，兑换成功后您将无权领取中奖商品</p>
+      </div>
+    </div>
+  </div>
+  <div class="BuyRecord-absolute ZreoSuccess">
+    <!--0元夺宝钻石领取成功-->
+    <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+      <%= image_tag "h5/images/icon-close.png", class: "BuyAbsolute-BoxClose" %>
+      <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+        <%= image_tag "h5/images/icon-success.png" %>
+        <p>兑换成功</p>
+        <p>您成功兑换<span class="colorRed" id="diamond_coin">钻石币</span></p>
+      </div>
+      <div class="Buyexchange-share">
+        <p class="">分享中奖信息，可领取钻石币</p>
+        <!-- <p class="<%#=wechat_browser? ? 'wechat' : ''%>" id="wechat_share" data-img="<%#=@product.product_type == 1 ? 'share-success-box' : 'bless-box-black'%>">立即分享</p> -->
+      </div>
+    </div>
+  </div>
+  <div class="Pro-postion">
+    <% if @lottery.status == 0 %>
+        <%# uleft_count = @lottery.max_total_count - $redis.get("lottery_count:#{@lottery.id}:#{current_user.id}").to_i %>
+        <% user_left_count = @user_left_count >= 0 ? @user_left_count : 0 %>
+        <div class="Pro-Mask hide" value=0>
+          <div class="Pro-MaskPosition">
+            <div class="Pro-close Pro-addp">
+              <p>本期可参与<span><%= @lottery.max_total_count %></span>人次，已参与<span><%= $redis.get("lottery_count:#{@lottery.id}:#{current_user.id}").to_i %></span>人次</p>
+              <%= image_tag "h5/images/icon-close.png" %>
+            </div>
+
+            <div class="Pro-Buy">
+              <p>参与人次</p>
+              <div class="chouse">
+                <div class="change">
+                  <span class="minus"></span>
+                  <input class="buy-cont" type="number" min="1" max="<%=@max_count == 0 ? 1 : @max_count%>" value="1" data-base="<%= @lottery.price %>">
+                  <span class="add"></span>
+                </div>
+                <button class="allNumber" number="<%=@max_count%>">全投</button>
+              </div>
+              <p class="Pro-explain"><%=@lottery.price.to_i%>钻币/人次</p>
+              <p class="ini_max_once Text-visibity txt-yellow">单次参与上限200人次</p>
+              <p class="Pro-lastd">共需&nbsp;<span class="colorRed"><span class="Change-Num"><%= @lottery.price.to_i %></span></span>&nbsp;钻石币</p>
+            </div>
+          </div>
+        </div>
+        <%if @lottery.product_type == 1 && @can_lottery %>
+          <div  class="Pro-buttomBUtton" id="buy_lottery_order"><p>立即夺宝</p></div>
+        <%else%>
+          <a href="/h5/lotteries"><div class="Pro-buttomBUtton"><p >已中过该奖品给他人留点</p></div></a>
+        <%end%>
+    <% elsif @lottery.status == 2 %>
+        <% if @lottery.win_user_id == current_user.id %>
+            <% if @lottery.take_award == true %>
+                <!--<a href="#"><p class="Inf-Footbg">已领取</p></a>-->
+                <% if @lottery.win_share == true %>
+                    <a href="javascript:void(0)"><div class="Pro-buttomBUtton"><p class="Inf-Footbg">已领取</p></div></a>
+                    <%else%>
+                    <a href="/h5/lotteries/<%=@lottery.id%>/share_prize"><div class="Pro-buttomBUtton"><p class="share2">点击分享</p></div></a>
+                <% end %>
+            <% elsif [0,4].include? @lottery.lottery_order.status.to_i%>
+                <div class="Pro-buttomBUtton"><p class="Award">领取奖品</p></div>
+            <% elsif @lottery.lottery_order.status == -1 %>
+                <div class="Pro-buttomBUtton"><p class="-gfc-cancel">已作废</p></div>
+            <% end %>
+        <% else %>
+            <a href="/h5/lotteries"><div class="Pro-buttomBUtton"><p >查看其它夺宝机会</p></div></a>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="BuyRecord-absolute BuyAttention">
+    <!--引导注册-->
+    <div class="BuyAbsolute-Box BuyAttention-Box">
+      <!-- <img class="BuyAbsolute-BoxClose" src="h5/images/icon-close.png" alt=""> -->
+      <%= image_tag "h5/images/icon-close.png", class: "BuyAbsolute-BoxClose", alt: '', id: 'close_qrcode', data_msg: '' %>
+      <div class="BuyAttention-text" style="clear:both;">
+        <%= image_tag "h5/images/gw.png", alt: '' %>
+        <%#= image_tag "h5/images/gwtest.png", alt: '' %>
+        <p>关注钻石大富翁公众号</p>
+        <p>再得<span>3次</span>夺宝机会(<span><%= SYSTEMCONFIG["admin_config"]["subscribe"]["diamond_account"] %>钻币</span>)</p>
+        <p>并获取最新夺宝信息</p>
+        <p>长按关注钻石大富翁</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<%=render 'share_template/share_callback_alert'%>
+<script>
+    $(function () {
+      <%if @lottery.product_type == 1%>
+      callback_url = "<%=SYSTEMCONFIG[:host]%>"+"/h5/lotteries?" + "<%=request.query_parameters.to_query%>"
+      <%else%>
+      callback_url = "<%=SYSTEMCONFIG[:host]%>"+"/h5/lotteries/luck_package"
+      <%end%>
+        fetchBanner();
+        function fetchBanner() { //轮播
+            var jqSlideWrapper = $('.swiper-wrapper');
+            var mySwiper = new Swiper('.swiper-container', {
+                loop: true,
+                pagination: '.swiper-pagination',
+                autoplay: 3000
+            });
+            bannerReady = true;
+        }
+
+      /*关闭选择购买*/
+        $('.Pro-close img').click(function () {
+            // $('.ini_max_once').removeClass('visiby-show');
+            $('.Pro-Mask .buy-cont').val(1);
+            ex_change(200);
+            $('.Pro-Mask').hide();
+            $('.Pro-Mask').attr('value', '0');
+            unScrollheight()
+        })
+
+        function bug_success(){
+          alertTx("夺宝成功", function () {
+            window.history.replaceState({url: callback_url},'title', callback_url);
+            <%if params[:share_callback] == '1' %>
+              window.location.href='/'
+            <%else%>
+              window.location.href='/h5/lotteries/<%=params[:id]%>?'+"<%=request.query_parameters.to_query%>"
+            <%end%>
+          })
+        }
+
+      /*立即购买*/
+        $('#buy_lottery_order').click(function () {
+          if(!$(this).hasClass('already')){
+            ele = $(this);
+            ele.addClass('already');
+            var value = $('.Pro-Mask').attr('value');
+            if (value == 1) {
+              /*1的时候购买*/
+                $.ajax({
+                    type: "POST",  //提交方式
+                    url: "/h5/lottery_orders.json",//路径
+                    data: {lottery_id: <%=@lottery.id%>, total_count: $(".buy-cont").val()},//数据，这里使用的是Json格式进行传输
+                    success: function (result) {//返回数据根据结果进行相应的处理
+                        if (result.status == 200) {
+                            $('.Pro-Mask .buy-cont').val(1);
+                            ex_change(200);
+                            $('.Pro-Mask').hide();
+                            $('.layerPostion').remove();
+                            ele.removeClass('already');
+                            $('.Pro-Mask').attr('value', '0');
+                            unScrollheight()
+                            <% if wechat_browser? %>
+                            if ((result.data == 0) || (result.data == -1)) {
+                              alertTx("夺宝成功", function () {
+                                Attention();
+                                // location.reload()
+                              })
+                            } else {
+                              bug_success()
+                            }
+                            <% else %>
+                              bug_success()
+                            <% end %>
+                        } else {
+                            ele.removeClass('already');
+                            if ((result.data == 0) || (result.data == -1)) {
+                              <% if wechat_browser? %>
+                                  var msg = result.msg;
+                                  alertTx("钻石币不足", function () {
+                                    Attention();
+                                  })
+                                <% else %>
+                                  alertTx(result.msg)
+                                <% end %>
+                            } else {
+                                alertTx(result.msg)
+                            }
+                        }
+
+                    },
+                    error: function () {
+                      ele.removeClass('already');
+                    }
+                });
+            } else {
+              if(<%=current_user.phone.blank? && $cache.get("user_binding_phone_#{current_user.id}") == nil %>){
+                $.ajax({
+                  type : "POST",  //提交方式
+                  url : "/h5/users/alert_binding_phone",//路径
+                  success : function(result) {
+                  }
+                })
+                alertTx("中奖了怎么联系您呢？<br>绑定手机不骚扰！", function(){
+                  window.location.href = "/h5/users/<%=current_user.id%>/binding_phone?callback_url=<%=CGI.escape('/h5/lotteries/'+@lottery.id.to_s)%>"
+                })
+              }
+              $('body').append('<div class="layerPostion"></div>');
+              $('.Pro-Mask').show();
+              $('.Pro-Mask').attr('value', '1');
+              ele.removeClass('already');
+              Scrollheight()
+            }
+          }
+        })
+
+      /*购买份数选择*/
+        addMuin(200);
+
+        //0元夺宝选择领取弹框
+        function ZeroClick() {
+            $('.ZeroClick').show();
+            Scrollheight()
+        }
+
+        //兑换钻石提醒
+        function ZeroTx() {
+            $('.ZeroTx').show();
+            Scrollheight()
+        }
+
+        //隐藏弹框
+        function BoxClose() {
+            $('.BuyRecord-absolute').hide();
+            unScrollheight()
+        }
+
+        //点击X号隐藏弹框
+        $('.BuyAbsolute-BoxClose').on('click', function () {
+            ele = $(this);
+            BoxClose();
+            if (ele.attr('id') == 'close_qrcode') {
+                // alertTx("夺宝成功", function () {
+                    location.reload()
+                // })
+            }
+            // if (ele.attr('id') == 'inidia_fail') {
+            //     alertTx(ele.attr('data_msg'));
+            // }
+        })
+        //引导关注弹框
+        function Attention() {
+            $('.BuyAttention').show();
+            Scrollheight()
+        }
+
+        <%if @lottery.product.product_type == 2%>
+        $('body').on('click', '.Award', function (event) {
+            window.location.href = "/h5/lotteries/<%=params[:id]%>/receive_prizes"
+        })
+        <%else%>
+        $('body').on('click', '.Award', function () {
+
+            ZeroClick();
+            //直接领取奖品
+            $('.BuyAbsolute-exchange img').on('click', function () {
+                window.location.href = "/h5/lotteries/<%=params[:id]%>/choose_address"
+            });
+            //兑换钻石提醒
+            $('.BuyAbsolute-Receive img').on('click', function () {
+                BoxClose();
+                ZeroTx();
+            });
+            //是
+            $('#Buyexchange-nextYes').on('click', function () {
+                obj = $(this)
+                obj.attr("id", "Buyexchange-nextYesing")
+                $.ajax({
+                    type: "POST",  //提交方式
+                    url: "/h5/lotteries/<%=params[:id]%>/take_award",//路径
+                    data: {type: 2},//数据，这里使用的是Json格式进行传输
+                    beforeSend: function () {
+                    },
+                    success: function (result) {//返回数据根据结果进行相应的处理
+                        console.log(result)
+                        if (result.status == 200) {
+                            BoxClose();
+                            //兑换成功提醒
+                            $("#diamond_coin").html(result.data + "钻石币"
+                            )
+                            $('.ZreoSuccess').show();
+                            Scrollheight()
+                            setTimeout(function () {
+                                window.location.href = "/h5/lotteries/<%=params[:id]%>/share_prize";
+                            }, 1000);
+                        } else {
+                            BoxClose();
+                            alertTx(result.msg)
+                        }
+                        obj.attr("id", "Buyexchange-nextYes")
+                    },
+                    error: function () {
+                        obj.attr("id", "Buyexchange-nextYes")
+                    }
+                });
+
+            });
+            //否
+            $('.Buyexchange-nextNo').on('click', function () {
+                BoxClose();
+            });
+        })
+        <%end%>
+    })
+
+  $(function(){
+    $('.allNumber').on('click', function(){
+      var number=parseInt($('.allNumber').attr('number'))||1;
+      if(number >= 200){
+        $('.ini_max_once').addClass('visiby-show');
+      }
+    })
+  })
+</script>

@@ -1,0 +1,169 @@
+<script>
+  function ZeroClick(lottery_id){
+    $('.ZeroClick').attr('id', lottery_id);
+    $('.ZeroClick').show();
+    // 不直接兑换的时候赋值id
+    $('.BuyAbsolute-Receive img').attr('lot', lottery_id);
+  }
+  //兑换钻石提醒
+  function ZeroTx(total_count,price){
+    $('.ZeroTx').show();
+    var num =  parseInt((total_count * price) * (1 - parseFloat(<%=SYSTEMCONFIG["lottery_system_persent"]%>)))
+    $('#result').html(num)
+    $('.colorRed').html(num)
+    console.log(total_count,price)
+  }
+  //隐藏弹框
+  function BoxClose(){
+    $('.BuyRecord-absolute').hide();
+  }
+  //点击X号隐藏弹框
+  $('.BuyAbsolute-BoxClose').on('click',function(){
+    BoxClose()
+  })
+  function receive(lottery_id,price,total_count){
+    var value=$("#BrPrizeState-Receive"+lottery_id).attr('value');
+    if(value==1){
+      window.location.href="/h5/lotteries/"+lottery_id+"/choose_address"
+    }else{
+      ZeroClick(lottery_id);
+    }
+    $('.BuyAbsolute-exchange img').on('click',  function() {
+      window.location.href="/h5/lotteries/"+lottery_id+"/choose_address"
+    });
+    //兑换钻石提醒
+    $('.BuyAbsolute-Receive img').on('click',  function() {
+      BoxClose();
+      ZeroTx(total_count,price);
+    });
+    //是，直接兑换
+    $('.Buyexchange-nextYes').on('click', function() {
+      $.ajax({
+        type : "POST",  //提交方式
+        url : "/h5/lotteries/"+lottery_id+"/take_award",//路径
+        data : {type: 2},//数据，这里使用的是Json格式进行传输
+        beforeSend: function(){
+        },
+        success : function(result) {//返回数据根据结果进行相应的处理
+          if(result.status == 200){
+            BoxClose();
+            //兑换成功提醒
+            // $("#diamond_coin").html(result.data + "钻石币");
+            $('.ZreoSuccess').show();
+            setTimeout(function(){
+              window.location.href = "/h5/lotteries/"+lottery_id+"/share_prize";
+            },1000);
+          }else{
+            BoxClose();
+            alertTx(result.msg)
+          }
+        }
+      });
+    });
+    //否
+    $('.Buyexchange-nextNo').on('click', function() {
+      BoxClose();
+    });
+  }
+</script>
+<script id="buyRcd" type="text/x-jsrender">
+{^{if win_user_id == <%= current_user.id%>}}
+  <li class="Winning">
+    <div class="BuyRecordTop">
+      <div class="BuyRecordLeft">
+        <img src="{{:product.head_image}}" alt="">
+      </div>
+      <div class=" BuyRecordRight">
+        <div class="BuyRecordNumber BuyRecordProduct-Name" data-id= "{{:id}}" id="productName">{{:product_name}}</div>
+        <div class="BuyRecordOther">
+          <p class="BuyRecordTime white-space" onclick="window.location.href='/h5/lotteries/{{:id}}'">期号：{{:lottery_code}}</p>
+          <p><span>本期参与：</span><span>{{:~lottery_total_count(lottery_orders,<%= current_user.id%>)}}</span><span>人次</span>
+          <a href="javascript:void(0)" class="href-detail" data-id= "{{:id}}">查看详情</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    {^{if status == 0 || status == 1}}
+    <div class="BuyRecordFoot">
+      <div class="fl BuyFoot-left">
+        <!-- 进度条 -->
+        <p class="Per-Progress">
+          <span style="width:{{:~sales_percent(sales_count, total_count) }}%"></span>
+        </p>
+        <p>揭晓进度<span class="txt-yellow">{{:~to_persent(progress,  total_count, sales_count)}}</span></p>
+      </div>
+      <button class="fr" id="supplement" data-id= "{{:id}}">追加购买</button>
+    </div>
+    {{else}}
+    <div class="BuyRecordFoot">
+      <p class="luckyUser-Name txt-yellow white-space">获奖者：<span>{{:~filter_string(win_user.nickname)}}</span>　参与<span>{{:participant_time}}</span>人次</p>
+
+      {^{if win_user_id && win_user_id == <%= current_user.id%>}}
+        <button class="fr" id="orderStatus" data-id= "{{:id}}" data-name= "{{:lottery_order.status}}" >{{:~order_status(lottery_order,id,price,total_count)}}</button>
+      {{/if}}
+
+    </div>
+      {^{if win_user_id == <%= current_user.id%>}}
+        <%= image_tag 'h5/images/seal.png', class: 'BuyRecordSeal', alt: '' %>
+      {{/if}}
+    {{/if}}
+    <p class="BuyRecord-postionLeft postionLeft-blue">钻币夺宝</p>
+  </li>
+{{else}}
+  <li>
+    <div class="BuyRecordTop">
+      <div class="BuyRecordLeft">
+        <img src="{{:product.head_image}}" alt="">
+      </div>
+      <div class=" BuyRecordRight">
+        <div class="BuyRecordNumber BuyRecordProduct-Name" data-id= "{{:id}}" id="productName">{{:product_name}}</div>
+        <div class="BuyRecordOther">
+          <p class="BuyRecordTime white-space" onclick="window.location.href='/h5/lotteries/{{:id}}'">期号：{{:lottery_code}}</p>
+          <p><span>本期参与：</span><span>{{:~lottery_total_count(lottery_orders,<%= current_user.id%>)}}</span><span>人次</span>
+          <a href="javascript:void(0)" class="href-detail" data-id= "{{:id}}">查看详情</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    {^{if status == 0 || status == 1}}
+    <div class="BuyRecordFoot">
+      <div class="fl BuyFoot-left">
+        <!-- 进度条 -->
+        <p class="Per-Progress">
+          <span style="width:{{:~sales_percent(sales_count, total_count) }}%"></span>
+        </p>
+        <p>揭晓进度<span class="txt-yellow">{{:~to_persent(progress,  total_count, sales_count)}}</span></p>
+      </div>
+      <button class="fr" id="supplement" data-id= "{{:id}}">追加购买</button>
+    </div>
+    {{else}}
+    <div class="BuyRecordFoot">
+      <p class="luckyUser-Name txt-yellow white-space">获奖者：<span>{{:~filter_string(win_user.nickname)}}</span>　参与<span>{{:participant_time}}</span>人次</p>
+
+      {^{if win_user_id && win_user_id == <%= current_user.id%>}}
+        <button class="fr" id="orderStatus" data-id= "{{:id}}" data-name="{{:lottery_order.status}}">{{:~order_status(lottery_order,id,price,total_count)}}</button>
+      {{/if}}
+
+    </div>
+      {^{if win_user_id == <%= current_user.id%>}}
+        <%= image_tag 'h5/images/seal.png', class: 'BuyRecordSeal', alt: '' %>
+      {{/if}}
+    {{/if}}
+    <p class="BuyRecord-postionLeft postionLeft-blue">钻币夺宝</p>
+  </li>
+{{/if}}
+<div class="BuyRecord-absolute ZreoSuccess">
+  <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+    <%=image_tag "h5/images/icon-close.png", class: 'BuyAbsolute-BoxClose'%>
+    <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+      <%=image_tag "h5/images/icon-success.png"%>
+      <p>兑换成功</p>
+      <p>您成功兑换<span class="colorRed"></span><span>钻石币</span></p>
+    </div>
+    <div class="Buyexchange-share">
+      <p class="">分享中奖信息，可领取钻石币</p>
+      <p>立即分享</p>
+    </div>
+  </div>
+</div>
+</script>

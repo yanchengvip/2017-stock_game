@@ -1,0 +1,187 @@
+
+  <script>
+    $(function(){
+      fetchBanner();
+      $('.Pro-Mask').hide();
+      function fetchBanner() { //轮播
+        var jqSlideWrapper = $('.swiper-wrapper');
+        var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            pagination: '.swiper-pagination',
+            autoplay: 3000
+        });
+        bannerReady = true;
+      }
+      /*立即购买*/
+      $('.Pro-postion p').click(function(){
+        var value=$('.Pro-Mask').attr('value');
+        if(value==1){
+          /*1的时候购买*/
+          alert(1);
+        }else{
+          $('.Pro-Mask').show();
+          $('.Pro-Mask').attr('value','1');
+          $('body').addClass('PostionFixed');
+        }
+
+      })
+      /*关闭选择购买*/
+      $('.Pro-close img').click(function(){
+        $('.Pro-Mask').hide();
+        $('.Pro-Mask').attr('value','0');
+        $('body').removeClass('PostionFixed');
+      })
+      /*查看公式详情*/
+      $('.Pro-LuckyTitle img').click(function(){
+        window.location.href="Formula-detail.html";
+      })
+      /*购买份数选择*/
+      addMuin();
+      marquee('marquee',30);//横向滚动父级id
+    })
+  </script>
+
+<div class="BuyRecord-box Product-box">
+  <div class="pro-Tital">
+   <!--轮播-->
+    <div class="slide swiper-container">
+      <div class="swiper-wrapper">
+        <%@product.images.each do |image|%>
+          <div class="swiper-slide"><%=image_tag image.url%></div>
+        <%end%>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <!--左上-->
+    <div class="pro-absolute">
+      <div id='marquee'>
+        <div>
+          <p class="Small-header"><img src="../images/pro.jpg" alt=""></p>
+          <p class="Small-user"><span>不就1元嘛</span>　参加了<span>5</span>人次，<span>16</span>秒前</p>
+        </div>
+        <div>
+          <p class="Small-header"><img src="../images/pro.jpg" alt=""></p>
+          <p class="Small-user"><span>不就1元嘛</span>　参加了<span>5</span>人次，<span>16</span>秒前</p>
+        </div>
+        <div>
+          <p class="Small-header"><img src="../images/pro.jpg" alt=""></p>
+          <p class="Small-user"><span>不就1元嘛</span>　参加了<span>5</span>人次，<span>16</span>秒前</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--商品详情-->
+  <div class="Pro-DetailBox">
+    <p class="Ind-GoodsName Pro-GoodsName"><%=@product.name%></p>
+    <div class="Goods-Money Pro-Money">
+      <p class="fl">￥<%=@product.price%></p>
+      <p class="fr"><%=@lottery.price%>钻石币/人次</p>
+    </div>
+    <!--人次-->
+    <div class="Pro-AttendanceBox clearfix">
+      <div class="Ind-Number white-space Pro-Number">期号：<%=@lottery.lottery_code%></div>
+      <!--进度条-->
+      <p class="Per-Progress">
+        <span style="width:60%"></span>
+      </p>
+      <div class="clearfix">
+        <p class="fl">总需人次<span><%=@lottery.total_count%></span></p>
+        <p class="fr">剩余<span><%=@lottery.left_count%></span></p>
+      </div>
+      <p class="Pro-UserState">您还没有参加本期夺宝哦！</p>
+      <div class="Proann-Userparticipation ProMargin-top">
+        <p>您参与了：<span class="colorRed">2</span>人次</p>
+        <div class="Proann-BuyNumBox">
+          <span>夺宝号码：</span>
+          <p class="Proann-BuyNum"><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span></p>
+          <span class="Proann-More">展开全部</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <!--公式-->
+  <div class="Pro-LuckyNumber">
+    <p class="Pro-LuckyTitle"><span>幸运号码计算公式</span><img src="../images/h1_03.png"></p>
+    <p class="Pro-formula">[(数值A+数值B)÷商品总需人次]取余数+10000001</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="Pro-Detail">商品图文详情</div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="Pro-recordBox">
+    <div class="Pro-recordTiele">
+      <p class="fl">所有参与记录</p>
+      <p class="fr"><span>2017-02-13 09:27:14</span>开始</p>
+    </div>
+    <!--参与记录-->
+    <ul class="Pro-record">
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray" style="height:80px;"></div>
+  <div class="Pro-Mask" value=0>
+    <div class="Pro-MaskPosition">
+      <div class="Pro-close">
+        <%=image_tag "h5/images/icon-close.png"%>
+      </div>
+      <div class="Pro-Buy">
+        <p>参与人次</p>
+        <div class="change">
+          <span class="minus"></span>
+          <input class="buy-cont" type="number" min="1" max="3" value="2" data-base="20">
+          <span class="add"></span>
+        </div>
+        <p>共计使用　<span class="colorRed"><span class="Change-Num">250</span>钻石币</span></p>
+        <p class="colorGray">夺宝有风险，参与需谨慎</p>
+      </div>
+    </div>
+  </div>
+  <div class="Pro-postion">
+    <p>立即夺宝</p>
+  </div>
+</div>
+

@@ -1,0 +1,14 @@
+<% unless @lottery_orders.blank? %>
+  <% @lottery_orders.each do |lottery_order| %>
+    <% lottery = lottery_order.lottery %>
+    <% if lottery.product.is_Indiana? %>
+      <%= render partial: 'indiana_record', locals: {lottery: lottery, lottery_order: lottery_order} %>
+    <%elsif lottery.product.is_bag? %>
+      <%= render partial: 'bag_record', locals: {lottery: lottery, lottery_order: lottery_order} %>
+    <% end %>
+  <% end %>
+
+  <script>
+
+  </script>
+<% end %>

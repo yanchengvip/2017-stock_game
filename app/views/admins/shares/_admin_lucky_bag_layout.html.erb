@@ -1,0 +1,23 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-2">
+
+      <div class="list-group">
+
+        <a href="/admins/lucky_bags" target="_self" class="list-group-item <%= menu_active1 %>">福袋列表</a>
+        <a href="/admins/lucky_bags/lottery_list" class="list-group-item <%= menu_active2 %>">福袋抽奖列表</a>
+        <a href="/admins/lucky_bags/win_items" class="list-group-item <%= menu_active3 %> ">福袋中奖记录</a>
+        <a href="/admins/lucky_bags/setting" class="list-group-item <%= menu_active4 %> ">福袋设置</a>
+      </div>
+    </div>
+
+
+    <div class="col-md-10">
+      <%= yield %>
+    </div>
+
+
+  </div>
+</div>

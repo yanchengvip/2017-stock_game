@@ -1,0 +1,123 @@
+<div class="gfc-box Add-product">
+  <ul class="Add-pro-box">
+    <% @address.each do |addr| %>
+        <li value="<%=addr.is_default == true ? 1 : 0%>">
+          <div class="fl">
+            <% if @lottery_order.try(:address_id)%>
+              <% if addr.id == @lottery_order.try(:address_id)%>
+                <span class="opt select selected-gray"></span>
+              <% else %>
+                <span class="opt select"></span>
+              <% end %>
+            <% else %>
+              <% if addr.is_default %>
+                <span class="opt select selected-gray"></span>
+              <% else %>
+                <span class="opt select"></span>
+              <% end %>
+            <% end %>
+          </div>
+          <ul class="fr">
+            <li class="fr-line1">
+              <p id="user_name"><%= addr.user_name%></p>
+              <p id="postcode" style="display: none;"><%= addr.postcode%></p>
+              <p class="teltxt" id="phone" value="<%= addr.phone %>"><%= addr.phone %></p>
+            </li>
+            <li class="fr-line2">
+              <% if addr.is_default %>
+                <p id="address"><span value="<%= addr.id %>" class="default" style="display: inline;">默认</span><%= addr.address %></p>
+              <% else %>
+                <p><span value="<%= addr.id %>" class="default"></span><%= addr.address %></p>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+    <% end %>
+  </ul>
+  <button class="Add-pro-btn get-button button-l -gfc-sell txt-white" onclick="window.location.href='/h5/addresses/new'">添加地址</button>
+  <div class="Rec-btn-box">
+    <div class="Rec-btn">
+      <button class="get-button button-l -gfc-buy txt-white" id="next" >下一步</button>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    console.log(<%= params[:index]%>)
+    $("#next").on("click",function(){
+      // phone = $(".Add-pro-box>li[value='1']").find('#phone').attr('value')
+      // username = $(".Add-pro-box>li[value='1']").find('#user_name').text()
+      // postcode = $(".Add-pro-box>li[value='1']").find('#postcode').text()
+      // adredd = $(".Add-pro-box>li[value='1']").find('#address').text().substring(2);
+      id = $(".Add-pro-box>li[value='1']").find('.default').attr('value')
+      if (!id) {
+          alertTx("收货地址不能为空")
+          return false
+      }
+      $.ajax({
+          type: "GET",  //提交方式
+          url: "/h5/lotteries/<%=params[:id]%>/next_step",//路径
+          data: {type: 1, address: id },//数据，这里使用的是Json格式进行传输
+          beforeSend: function () {
+          },
+          success: function (result) {
+              if (result.status == 600) {
+                  setTimeout(function () {
+                      window.location.href = "/h5/lotteries/<%=params[:id]%>/reward_detail?index=<%= params[:index]%>&scrollTop=<%= params[:scrollTop]%>";
+                  }, 1000);
+              }
+              else {
+                  alertTx(result.msg)
+              }
+          },
+          error: function () {
+          }
+      });
+    });
+    $(".Add-pro-box>li").on("click",function(){
+      var Opt = $(this).find(".opt");
+      $(this).find(".select").toggleClass("selected-gray");
+
+      var address_id = ''
+      var set_status = 0 // 1:设置默认地址操作,2:取消默认地址操作
+
+      if(Opt.hasClass("selected-gray")){
+        set_status = 1
+        $(this).attr("value","1").siblings().attr("value","0");
+        $(this).find(".default").css("display","inline");
+        address_id = $(".Add-pro-box>li[value='1']").find(".default").attr("value");
+      }else{
+        set_status = 2
+        address_id = $(".Add-pro-box>li[value='1']").find(".default").attr("value");
+        $(this).attr("value","0");
+        $(this).find(".default").css("display","none");
+      }
+      $(".Add-pro-box>li[value='0']").find(".opt").removeClass("selected-gray");
+      $(".Add-pro-box>li[value='0']").find(".default").css("display","inline");
+      $.ajax({
+          type: 'post',
+          url: "/h5/lotteries/<%=params[:id]%>/set_consign_add",
+          data: {address_id: address_id,set_status: set_status},
+          success: function (data) {
+              if (data.status == 600) {
+                setTimeout(function () {
+                    back_url = "/h5/lotteries/buy_record?index=<%= params[:index]%>&scrollTop=<%= params[:scrollTop]%>"
+                    history.replaceState({url: back_url}, "<%=@title%>", back_url)
+                    // window.location.href = "/h5/lotteries/<%=params[:id]%>/reward_detail?index=<%= params[:index]%>&scrollTop=<%= params[:scrollTop]%>";
+                }, 1000);
+              } else {
+                  alertTx(data.msg)
+              }
+          }
+      })
+    })
+
+    /*手机号截取*/
+    $('.teltxt').each(function (index) {
+      var teltxt = $(this)
+      var phone = teltxt.html()
+      var changeTel = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+      $(this).html(changeTel)
+    })
+  })
+</script>

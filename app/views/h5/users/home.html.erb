@@ -1,0 +1,70 @@
+<div class="BuyRecord-box">
+  <div class="icon-right VirMe-padding VirMe-header ">
+    <a href="/h5/users/my_profile">
+      <div>
+        <div class="PetHeader">
+          <%= image_tag current_user.headimgurl, style: "width:60px;height:60px;", id: "xmTanImg", alt: "Avatar" %>
+        </div>
+        <p class="VirMe-userApprove">
+          <span><%= nickname_or_phone current_user %></span>
+          <!--<%# if current_user.status == 0 %>-->
+              <!--<span class="userApprove-spanMark">未激活</span>-->
+          <!--<%# elsif current_user.status == 1 %>-->
+              <!--<span>已激活</span>-->
+          <!--<%# end %>-->
+        </p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="VirMe-allMoney">
+    <!--<div>-->
+      <!--<%#= image_tag 'h5/images/icon-minuteMoney.png' %>-->
+      <!--<p>微钻</p>-->
+      <!--<p class="VirMe-Nowprice txt-light-purple"><%#= current_user.micro_diamond_amount.to_i %></p>-->
+      <!--<div>-->
+        <!--<button><a href="/h5/charge_orders/new">充值</a></button>-->
+        <!--<button>换礼物</button>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div>
+      <%= image_tag 'h5/images/money.png' %>
+      <p>钻币</p>
+      <p class="VirMe-Nowprice txt-yellow"><%= current_user.total_diamond_coin.to_i %></p>
+      <div>
+        <button><a href="/home/get_diamonds">赚币</a></button>
+        <button><a href="/h5/lotteries">夺宝</a></button>
+      </div>
+    </div>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-Search">
+    <a href="/h5/users/my_all_record">
+      <p>记录查询</p>
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-weixin">
+    <a href="#2">
+      <p>微信号</p>
+      <span class="fr"><%= current_user.openid.present? ? "已绑定" : '未绑定' %></span>
+    </a>
+  </div>
+  <div class="icon-right VirMe-padding VirMe-Phone">
+    <a href="<%= binding_phone_h5_user_path(current_user) %>">
+      <p>手机号</p>
+      <span class="fr"><%= phone_str(current_user.phone) %></span>
+    </a>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="icon-right VirMe-padding VirMe-legal">
+    <a href="/h5/users/law_illustration">
+      <p>法律声明</p>
+    </a>
+  </div>
+
+</div>

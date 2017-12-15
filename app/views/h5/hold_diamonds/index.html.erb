@@ -1,0 +1,228 @@
+<div class="gfc-box list-box market-box">
+  <ul class="head-style tab-box">
+    <li class="trade-tab tab-btn <%=params[:controller] == 'h5/hold_diamonds' ? 'active' : '' %>" ><span>持仓</span></li>
+    <li class="list-tab tab-btn <%=params[:controller] == 'h5/booking_trades' ? 'active' : ''%>"><span>挂单</span></li>
+  </ul>
+  <div  class="record">
+    <ul id="hold_diamonds_list" class="record_list"></ul>
+    <ul id="booking_trades_list" class="record_list"></ul>
+  </div>
+  <div class='btn-box'>
+    <div class="btn">
+      <a href="/h5/sale_diamonds/<%=@sale_diamond.id%>/buy?callback_url=%2Fh5%2Fhold_diamonds"><span class="-gfc-buy">买入</span></a>
+      <a href="/h5/sale_diamonds/<%=@sale_diamond.id%>/shorting?callback_url=%2Fh5%2Fhold_diamonds"><span class="-gfc-sell">做空</span></a>
+    </div>
+  </div>
+</div>
+<script id="booking_trades_record_nodata" type="text/x-jsrender">
+<div class="no-data">暂无挂单</div>
+</script>
+<script id="booking_trades_record" type="text/x-jsrender">
+  <li>
+    <div class="business top clearfix">
+      <ul>
+        <li><span>钻石名称</span><span>{{:sale_diamond.cn_name}}</span></li>
+        <li><span>钻石品种</span><span>{{:sale_diamond.exchange_name}}</span></li>
+        <li><span>挂单状态</span><span>{{:~formatStatus(status)}}</span></li>
+        {^{if bussiness_type == 1 }}
+          <li><span>挂单方向</span><span class="gfc-sell gfc-buy">买入</span></li>
+        {{else bussiness_type == 2 }}
+          <li><span>挂单方向</span><span class="gfc-sell">卖出</span></li>
+        {{else bussiness_type == 3 }}
+          <li><span>挂单方向</span><span class="gfc-sell">做空</span></li>
+        {{else bussiness_type == 4 }}
+          <li><span>挂单方向</span><span class="gfc-sell gfc-buy">平仓</span></li>
+        {{/if}}
+        <li><span>挂单价格</span><span>{{:~outputmoney(booking_price)}}</span></li>
+        <li><span>挂单数量</span><span>{{:total_count}}</span></li>
+      </ul>
+      {^{if status == 0}}
+      <div class="line"></div>
+      <span class="cancel cancelTrade  txt-cancel -gfc-sell" data-id="{{:id}}">撤销</span>
+      {{/if}}
+    </div>
+  </li>
+</script>
+<script id="diamond_trades_record_nodata" type="text/x-jsrender">
+<div class="no-data">暂无记录</div>
+</script>
+<%=render "h5/hold_diamonds/position"%>
+<script type="text/javascript">
+
+
+$(function(){
+  var sale_diamonds_price = <%=raw @sale_diamonds_price.to_json%>
+  function diamond_current_price(sale_diamond_id){
+    return parseFloat(sale_diamonds_price[sale_diamond_id])
+  }
+
+  function diamond_trade_total_profit(sale_diamond_id, total_count, total_price, tag){
+    return (diamond_current_price(sale_diamond_id) * parseFloat(total_count) - parseFloat(total_price)).toFixed(2) * tag
+  }
+
+  $.views.helpers({diamond_current_price: diamond_current_price, diamond_trade_total_profit: diamond_trade_total_profit})
+
+  function can_close(created_at){
+    if(created_at < "<%=(Date.today - SYSTEMCONFIG[:trade_time_interval_days]).to_time.at_end_of_day.strftime('%Y-%m-%dT%H:%M:%S')%>"){
+      return true
+    }else{
+      return false
+    }
+  }
+  function formatStatus(status) {
+    // return $.format.date(date, "yyyy-MM-dd HH:mm");
+    if(status == 0){
+      return  "已报"
+    }else if(status == 1){
+      return  "成交"
+    }else if(status == -1){
+      return  "已撤"
+    }else{
+      return status
+    }
+  }
+  $.views.helpers({formatStatus: formatStatus, can_close: can_close});
+  function is_show_sell(sale_diamond_id){
+    var hold_diamonds = <%= raw @hold_diamonds.to_json %>
+    if(hold_diamonds[sale_diamond_id] && hold_diamonds[sale_diamond_id] > 0){
+        return true
+      }else{
+        return false
+      }
+    }
+    $.views.helpers({is_show_sell: is_show_sell});
+
+    var itemIndex = <%=params[:controller] == 'h5/booking_trades' ? 1 :  0%>;
+    var page1 = 0;
+    var page2 = 0;
+    var tab1LoadEnd = false;
+    var tab2LoadEnd = false;
+    // tab
+    $('.tab-box li').on('click',function(){
+
+
+        var $this = $(this);
+        itemIndex = $this.index();
+        $this.addClass('active').siblings().removeClass('active');
+        $('.record_list').eq(itemIndex).show().siblings('.record_list').hide();
+        // 如果选中挂单
+        if(itemIndex == '1'){
+          window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'/h5/booking_trades'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/h5/booking_trades')
+            // 如果数据没有加载完
+            if(!tab1LoadEnd){
+                // 解锁
+                dropload.unlock();
+                dropload.noData(false);
+            }else{
+                // 锁定
+                dropload.lock('down');
+                dropload.noData();
+            }
+        // 如果选中持仓
+        }else if(itemIndex == '0'){
+          window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'/h5/hold_diamonds'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/h5/hold_diamonds')
+            if(!tab2LoadEnd){
+                // 解锁
+                dropload.unlock();
+                dropload.noData(false);
+            }else{
+                // 锁定
+                dropload.lock('down');
+                dropload.noData();
+            }
+        }
+        dropload.resetload();
+    });
+    // dropload
+    var dropload = $('.record').dropload({
+        scrollArea : window,
+        loadDownFn : function(me){
+            if(itemIndex == '1'){
+              $.ajax({
+                type : "GET",  //提交方式
+                url : "/h5/booking_trades.json",//路径
+                data : {page: page1+1},//数据，这里使用的是Json格式进行传输
+                beforeSend: function(){
+                  me.lock();
+                },
+                success : function(result) {//返回数据根据结果进行相应的处理
+                  console.log(1)
+                  var tmpl = $.templates("#booking_trades_record");
+                  var htmlOutput = tmpl.render(result.data);
+                  $("#booking_trades_list").append(htmlOutput);
+                  page1 += 1
+                  me.resetload();
+                  me.unlock();
+                  if(result.data.length == 0){
+                    tab1LoadEnd = true
+                    if(page1 == 1){
+                      $("#booking_trades_list").append($.templates("#booking_trades_record_nodata").render());
+                    }
+                    me.lock();
+                    me.noData();
+                  }
+                },
+                error: function(){
+                  me.resetload();
+                  me.unlock();
+                }
+              });
+            }else if(itemIndex == '0'){
+              $.ajax({
+                type : "GET",  //提交方式
+                url : "/h5/hold_diamonds.json",//路径
+                // data : {page: page2+1},//数据，这里使用的是Json格式进行传输
+                beforeSend: function(){
+                  me.lock();
+                },
+                success : function(result) {//返回数据根据结果进行相应的处理
+                  var tmpl = $.templates("#hold_diamonds_position");
+                  var htmlOutput = tmpl.render(result.data);
+                  $("#hold_diamonds_list").html(htmlOutput);
+                  me.resetload();
+                  me.lock();
+                  me.noData();
+                },
+                error: function(){
+                  me.resetload();
+                  me.unlock();
+                }
+              });
+            }
+        },
+        threshold : 100
+    });
+    $("body").on("click", ".cancelTrade", function(){
+      obj = $(this)
+      swal({
+          title: '',
+          text: '您确定要撤单吗？',
+          showCancelButton: true,
+          confirmButtonText: '撤单',
+          cancelButtonText: '再考虑一下',
+          // cancelButtonColor: "#999",
+          reverseButtons: true,
+        }).then(function (e) {
+          $.ajax({
+            type: "post",
+            url: "/h5/booking_trades/cancle",
+            data: {id: obj.attr("data-id")},
+            success: function(res){
+              console.log(res)
+              window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'/home/index'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/home/index')
+              if(res.status == 200){
+                swal({text: res.msg}).then(function(){
+                  window.location.href='/h5/booking_trades'})
+              }else{
+                swal({text: res.msg}).then(function(){
+                  window.location.href='/h5/booking_trades'})
+              }
+            },
+            error: function(){
+            }
+          })
+        }, function(e){
+      })
+    })
+});
+</script>

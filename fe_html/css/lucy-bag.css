@@ -1,0 +1,163 @@
+.lucky-bag {
+	background-color: #ED3F45;
+}
+.lucky-bag h6 {
+	color: #fff;
+	font-size: 16px;
+	padding-bottom: 10px;
+}
+.lucky-bag p {
+	/* color: #fff; */
+}
+
+.lucky-bag .content {
+position: relative;
+    height: 400px;
+}
+.lucky-bag .content .top {
+	height: 270px;
+    position: relative;
+    background-color: #F7F6EE;
+}
+.lucky-bag .content .top .img {
+    height: 330px;
+    width: 100%;
+    position: absolute;
+    bottom: -17px;
+    background: url(../images/bag-banner.png) no-repeat center / contain;
+    margin-bottom: -50px;
+}
+.lucky-bag .content .desk {
+	height: 73px;
+	background-image: url(../images/desk.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.lucky-bag .content .bottom {
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  line-height: 56px;
+}
+.lucky-bag .content .bottom-side {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: url(../images/lucky-bag-bottom-side.png) no-repeat center / contain;
+}
+.lucky-bag .content .bag-pic {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    height: 400px;
+    background: url(../images/bit-luky-bag.png) no-repeat center / contain;
+    background-color: #fff;
+}
+.baglist ul li {
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	margin-bottom: 26px;
+}
+.baglist ul li:last-child{
+  margin-bottom: 15px;
+}
+
+.baglist ul li h5 {
+    color: #2e2b51;
+    font-size: 16px;
+    line-height: 22px;
+    padding-bottom: 5px;
+}
+.baglist ul li p {
+	/* color: #636a7b; */
+}
+.baglist ul li:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0px;
+    background-image: url(../images/lucky-bag-top-side.png);
+    background-color: #ED3F45;
+    background-size: contain;
+}
+.baglist ul li:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    top: 0px;
+    background-image: url(../images/lucky-bag-bottom-side.png);
+    background-size: contain;
+    background-color: #ED3F45;
+}
+.baglist ul li .top {
+    overflow: hidden;
+    padding: 18px 18px 18px 0;
+}
+.baglist ul li .top .top-pub {
+height: 150px;
+    float: left;
+    width: 50%;
+}
+.baglist ul li .top .top-l {
+	position: relative;
+}
+.baglist ul li .top .top-l img {
+    height: 87%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+.baglist ul li .top .top-r {
+	position: relative;
+}
+.baglist ul li .top .bot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+.lucky-bag .text {
+	overflow: hidden;
+  padding: 0 14px 14px 14px;
+	padding-bottom: 30px;
+}
+.lucky-bag .text p {
+	color: #fff;
+}
+.baglist ul li .top .bot {
+    line-height: 36px;
+    background-repeat: no-repeat;
+    background-size: 21px 33px;
+    background-position: 0px -7px;
+}
+.baglist ul li .top .bot span:nth-child(1) {
+	color: #ED3F45;
+    font-size: 21px;
+    line-height: 29px;
+}
+.baglist ul li .top .bot span:nth-child(2) {
+	/* display: inline-block; */
+	float: right;
+}
+.baglist ul li .bottom {
+	height: 73px;
+    border-top: 1px solid #e5e4ea;
+}
+
+/* 数字序号列表  公共样式已添加*/
+/* .numb-list {
+    padding-left: 14px;
+}
+.numb-list li {
+    list-style: decimal;
+} */
+.lucky-bag .numb-list li {
+    color: #fff;
+}

@@ -1,0 +1,89 @@
+<div class="row">
+  <div style="margin-top: 20px">
+
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/resources/new?resource_type=h5" target="_self" class="btn btn-primary btn-lg" role="button">新增h5权限资源</a>
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/resources/new?resource_type=admin" target="_self" class="btn btn-primary btn-lg" role="button">新增后台权限资源</a>
+
+    </div>
+  </div>
+
+
+</div>
+
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>名称</th>
+      <th>类型</th>
+      <th>状态</th>
+      <th>Model</th>
+      <th>Controller</th>
+      <th>Action</th>
+      <th>描述</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+
+    <tbody>
+    <% @resources.each do |r| %>
+        <tr>
+          <td><%= r.name %></td>
+          <td><%= show_resource_type r.resource_type %></td>
+          <td><%= admin_resource_status(r.status) %></td>
+          <td><%= r.model_n %></td>
+          <td><%= r.controller_n %></td>
+          <td><%= r.action_n %></td>
+          <td><%= r.desc %></td>
+          <td>
+            <a href="/admins/resources/<%= r.id %>/edit" class="admin_product_operate_a">修改</a>
+            <a href="javascript:void(0)" onclick="resource_delete('<%= r.id%>')" class="admin_product_operate_a">删除</a>
+          </td>
+        </tr>
+    <% end %>
+
+
+    </tbody>
+
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @resources, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<!-- 删除modal -->
+<div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">删除</h4>
+      </div>
+      <form action="/admins/resources/resource_delete" method="post">
+        <div class="modal-body">
+          <h3>确定删除?</h3>
+
+          <input type="hidden" class="form-control" name='id' id="del_resource_id">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

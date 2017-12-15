@@ -1,0 +1,112 @@
+<div class="BuyRecord-box VirMicroBill-box">
+  <% if @diamond_accounts.length == 0 %>
+      <div class="no-data">暂无记录</div>
+  <% end %>
+  <% @diamond_accounts.each do |dias| %>
+      <ul id="<%= dias[0][:created_year2] %>">
+        <div>
+          <%= dias[0][:created_year] %>
+        </div>
+
+        <% dias.each do |dia| %>
+            <li>
+              <div>
+                <p class="fl white-space"><%= dia[:diamond_type] %></p>
+                <p class="fr">
+                    <% if dia[:amount].to_i > 0 %>
+                     <span><i>+<%= dia[:amount] %></i>钻币</span>
+                     <%else%>
+                     <span><i><%= dia[:amount] %></i>钻币</span>
+                    <% end %>
+                  <span><%= dia[:created_day] %></span>
+                </p>
+              </div>
+            </li>
+        <% end %>
+      </ul>
+  <% end %>
+
+</div>
+
+
+<script id="record-ul" type="text/x-jsrender">
+
+			<ul id={{:created_year2}}>
+          <div>
+            {{:created_year}}
+          </div>
+			    {{:lis}}
+			</ul>
+
+
+</script>
+
+<script id="record-li" type="text/x-jsrender">
+        <li>
+              <div>
+                <p class="fl white-space">{{:diamond_type}}</p>
+                <p class="fr">
+                  {{if amount > 0}}
+                    <span><i>+{{:amount}}</i>钻币</span>
+                  {{else}}
+                    <span><i>{{:amount}}</i>钻币</span>
+                  {{/if}}
+                  <span>{{:created_day}}</span>
+                </p>
+              </div>
+        </li>
+</script>
+
+<script>
+    var page = 1;
+    $('.VirMicroBill-box').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh">↑上拉加载更多-自定义内容</div>',
+            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>',
+            domNoData: '<div class="dropload-noData">暂无数据...</div>'
+        },
+        loadDownFn: function (me) {
+            $.ajax({
+                type: 'GET',
+                url: "/h5/diamond_accounts/my_diamond_account_record_page",
+                dataType: 'json',
+                data: {page: page += 1, is_json: true},
+                beforeSend: function () {
+                    me.lock();
+                },
+                success: function (result) {
+                    var ul = '';
+                    var diamond_accounts = result['data']['diamond_accounts']
+                    if (diamond_accounts.length == 0) {
+                        me.lock();
+                        me.noData();
+                    }
+                    for (var i = 0; i < diamond_accounts.length; i++) {
+                        var month_orders = diamond_accounts[i]
+                        y_m2 = month_orders[0]['created_year2']
+                        if ($('#' + y_m2).length > 0) {
+                            var li = $('#record-li').render(month_orders);
+                            $('#' + y_m2).append(li)
+                        } else {
+                            var li = $('#record-li').render(month_orders);
+                            var lis = {lis: li, created_year: month_orders[0]['created_year'], created_year2: y_m2}
+                            ul = $('#record-ul').render(lis)
+                        }
+                        $('.VirMicroBill-box').append(ul)
+
+                    }
+                    me.resetload();
+                    me.unlock();
+
+                },
+                error: function () {
+                    me.resetload();
+                    me.unlock();
+                }
+            });
+        },
+        threshold: 50
+    })
+</script>

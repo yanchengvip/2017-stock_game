@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  micro_diamond_amount: 
+  person_count: 1
+  buy_diamond_amount: 9.99
+  published_at: 2017-05-17 11:37:00
+  buy_at: 2017-05-17 11:37:00
+  status: 1
+  duration_time: 1
+
+two:
+  micro_diamond_amount: 
+  person_count: 1
+  buy_diamond_amount: 9.99
+  published_at: 2017-05-17 11:37:00
+  buy_at: 2017-05-17 11:37:00
+  status: 1
+  duration_time: 1

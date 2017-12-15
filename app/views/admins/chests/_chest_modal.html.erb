@@ -1,0 +1,60 @@
+<div class="modal fade" id="addChestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">填写赔付信息</h4>
+      </div>
+      <form action="/admins/chests"  method="post">
+        <div class="modal-body">
+          <!-- <input type="hidden"  class="form-control" name='product_id' id="product_id_l">
+          <input type="hidden"  class="form-control" name='product_name' id="product_name_l"> -->
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">赔付率:</label>
+            <div class="col-sm-6">
+             <input type="number" name="chest[odds]" id="odds_input" class="form-control"  placeholder="赔付率" step="0.01">
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label for="input" class="col-sm-2 col-form-label">数量:</label>
+            <div class="col-sm-6">
+              <input type="number" name="chest[total_count]" id="total_count_input" class="form-control"  placeholder="数量">
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary submit_data">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.submit_data').on('click', function(){
+      var odd = $('#odds_input').val();
+      console.log(odd);
+      var total_count = $('#total_count').val();
+      if(odd == ''){
+        alert('赔付率不能为空');
+        return false;
+      }
+      if(total_count == ''){
+        alert('数量不能为空');
+        return false;
+      }
+
+      // $.ajax({
+      //   type: 'POST',
+      //   url: '/admin/chests',
+      //   data: {}
+      // })
+    })
+  })
+</script>

@@ -1,0 +1,37 @@
+<!--管理福袋订单页面-->
+
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>订单商品详情</strong></div>
+  <ul class="list-group">
+
+    <li class="list-group-item">福袋ID：<%= @lottery_order.lottery.id%></li>
+    <li class="list-group-item">福袋名称：<%= @lottery_order.product.name%></li>
+    <li class="list-group-item">价格：<%= @lottery_order.product.price%></li>
+    <li class="list-group-item">总需人次：<%= @lottery_order.lottery.total_count%>人&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li class="list-group-item">开奖状态：<%= lottery_status @lottery_order.lottery.status%></li>
+    <li class="list-group-item">中奖用户：<%= nickname_or_phone  @lottery_order_item.user%></li>
+    <li class="list-group-item">中奖号码：<%= @lottery_order_item.lottery_code%></li>
+
+  </ul>
+
+</div>
+
+
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>订单用户信息</strong></div>
+  <ul class="list-group">
+
+    <li class="list-group-item">抽奖用户：<%= user_nickname @lottery_order_item.user%></li>
+    <li class="list-group-item">用户手机：<%= user_phone  @lottery_order_item.user%></li>
+    <li class="list-group-item">抽奖时间：<%= time_format @lottery_order_item.created_at%></li>
+    <li class="list-group-item">抽奖号码：<%= @lottery_order_item.lottery_code%>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+  </ul>
+
+</div>
+
+
+<%= render partial: 'admins/lottery_orders/order_address'%>

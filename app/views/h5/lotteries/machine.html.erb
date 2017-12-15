@@ -1,0 +1,14 @@
+
+  <div class="BuyRecord-box overflow">
+    <div class="machine-text">
+    为保证夺宝的公平、公正，保护广大用户的利益，“<span class="colorPink">公平管家</span>”会在每期夺宝商品的抽奖号码中随机抽取<span class="colorYellow">20%</span>的抽奖号码作为公平筹码，防止恶意刷奖。夺宝结束后，若“<span class="colorPink">公平管家</span>”中奖，系统会再取下一期老时时彩的开奖号，重新计算幸运号码，直到计算出真实的中奖用户。
+    <div class="machine-main">
+      <p>本期公平管家抽奖号码</p>
+      <ul class="clearfix">
+        <%@lottery_order_items.each do |x|%>
+          <li><%=x%></li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+  </div>

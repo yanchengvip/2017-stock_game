@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<span class="show-txt"></span>
+
+<script src="../js/jquery-1.11.3.js"></script>
+<script>
+  Conutdown('2017/4/20 20:00:00','.show-txt')
+
+  function Conutdown(endtime,selector){
+    var ConutdownTImer = setInterval(function () {
+      var date = new Date();
+      var end = new Date(endtime);
+      var _time = end - date;
+      if(_time<0){
+        $(selector).html("00:00:00");
+        return false;
+      }
+      else{
+        var d = Math.floor(_time/1000/60/60/24);
+        var h = Math.floor(_time/1000/60/60%24);
+        var m = Math.floor(_time/1000/60%60);
+        var s = Math.floor(_time/1000%60);
+        var ms = Math.floor(_time%1000);
+
+        if(h<10){
+          h ='0'+h;
+        }
+        if(m<10){
+          m ='0'+m;
+        }
+        if(s<10){
+          s ='0'+s;
+        }
+        $(selector).html(h + ":" + m + ":" + s);
+      }
+      if ($(selector) == undefined) {
+        clearInterval(ConutdownTImer)
+      };
+    },10);
+
+      // setTimeout(function(){
+      //   $(selector).removeClass("show-txt")
+      // }, 5000)
+  }
+</script>
+</body>
+</html>

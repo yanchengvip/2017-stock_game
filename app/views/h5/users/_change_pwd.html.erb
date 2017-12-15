@@ -1,0 +1,114 @@
+<% if @title == '密码找回' %>
+  <div class="gfc-box login-bg finish-password">
+<% else %>
+  <div class="gfc-box modify-password">
+<% end %>
+  <%#= simple_form_for [:h5, @user], html: {remote: true, id: 'change_pwd'}  do |f| %>
+  <div class="form">
+    <!-- <input type="number" placeholder="请输入新密码"> -->
+    <input type="password" maxlength='16' placeholder="请输入新密码"  id="user_password" name="user[password]" onfocus="this.placeholder=''" onblur="this.placeholder='请输入新密码'">
+    <%#= f.password_field :password, placeholder: "请输入新密码" %>
+    <!-- <span class="del-grey point-one"></span> -->
+    <span class="point-one"></span>
+    <input type="password" maxlength='16' placeholder="请确认新密码" id="user_password_confirmation" name="user[password_confirmation]" onfocus="this.placeholder=''" onblur="this.placeholder='请确认新密码'">
+    <%#= f.password_field :password_confirmation, placeholder: "请确认新密码" %>
+    <!-- <span class="del-grey point-two"></span> -->
+    <span class="point-two"></span>
+    <!-- <a><%#= f.submit '提交', class: "button-l phone-button", id: 'submit_pwd' %></a> -->
+    <%= link_to '完成', 'javascript:void(0)', class: "button-l phone-button -gfc-buy", id: 'submit_pwd' %>
+  </div>
+  <%# end %>
+</div>
+
+<script type="text/javascript">
+  //   initLockBox();
+
+  $(function(){
+    // $("input").focus(function(){
+    //   $(this).next("span").addClass("del-grey")
+    // })
+    // $("input").blur(function(){
+    //   obj = $(this)
+    //   setTimeout('obj.next("span").removeClass("del-grey")', 100)
+    // })
+    // $("body").on("click", ".del-grey", function(){
+    //   $(this).prev("input").val("")
+    // })
+    if("<%= @title %>" == '密码找回'){
+      class_str = 'del';
+    }
+    else{
+      class_str = 'del-grey';
+    }
+    $("input").focus(function(){
+      $(this).next("span").addClass(class_str);
+    })
+    $("input").blur(function(){
+      obj = $(this);
+      if(class_str == 'del')
+      {setTimeout('obj.next("span").removeClass("del")', 100);}
+    else
+      {setTimeout('obj.next("span").removeClass("del-grey")', 100);}
+    })
+    $("body").on("click", "."+class_str, function(){
+      $(this).prev("input").val("");
+    })
+
+    $('#submit_pwd').on('click', function(){
+      value1 = $("#user_password").val();
+      value2 = $("#user_password_confirmation").val();
+
+      if (value1 == ''){
+        alertTx('请输入密码');
+        return false;
+      }
+      if(value1.length >16 || value1.length < 6){
+        alertTx("密码长度应在6-16位");
+        return false;
+      }
+      if (value2 == ''){
+        alertTx('请输入确认密码');
+        return false;
+      }
+      if(value2.length > 16 || value2.length < 6){
+        alertTx("密码长度应在6-16位");
+        return false;
+      }
+      if($('#user_password').val() != $('#user_password_confirmation').val()){
+        alertTx('密码不一致，请重新输入');
+        return false;
+      }
+
+      if("<%= @title %>" == '密码找回'){
+        url = "/";
+      }else{
+        url = "/h5/users/my_profile";
+      }
+
+      $.ajax({
+        type: 'put',
+        url: "/h5/users/<%= current_user.id %>",
+        data: {"password": $('#user_password').val(), "password_confirmation": $('#user_password_confirmation').val(), 'action_type': 'modify_password'},
+        success: function(datas) {
+          if(datas['status'] == 200){
+            alertTx('密码修改成功，请牢记');
+            window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'h5/users/home'},'title', '<%=SYSTEMCONFIG[:host]%>'+'h5/users/home');
+            setTimeout(function(){
+              // window.location.href = "/h5/users/home";
+              window.location.href = url;
+            },1500);
+          }else{
+            // alertTx(datas);
+            alertTx(datas['msg']);
+          }
+        },
+        error: function(XMLHttpResponse) {
+          alertTx("密码修改失败, 请重试");
+        }
+      })
+
+    })
+
+
+  })
+</script>

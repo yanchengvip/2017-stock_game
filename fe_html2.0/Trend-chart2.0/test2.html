@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>微钻首页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/lucy-bag.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <link rel="stylesheet" href="../css/ui-component.css">
+  <link rel="stylesheet" href="../css/shake.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body class="bodygray">
+
+	<input class="input" type="text">
+
+<script>
+	$(function(){
+
+    function keyUp(e) {
+       var currKey=0,e=e||event;
+       currKey=e.keyCode||e.which||e.charCode;
+       var keyName = String.fromCharCode(currKey);
+       // alert("按键码: " + currKey + "字符"+ keyName);
+       if (currKey == 8) {
+       	$(".input").attr({
+       		"inputreadonly": 'readonly'
+       	});
+       	alert("8")
+       }else{
+       	alert("9")
+       	return true;
+       };
+   }
+   //  function onkeyUp(e) {
+   //     var currKey=0,e=e||event;
+   //     currKey=e.keyCode||e.which||e.charCode;
+   //     var keyName = String.fromCharCode(currKey);
+   //     // alert("按键码: " + currKey + "字符"+ keyName);
+   //     $(".input")
+   //     if ($(".input").val().length == 5) {
+   //     	if (currKey == 8) {
+   //     	// alert("8")
+   //     	return ture;
+   //     }else{
+   //     	return false;
+   //     };
+   // }
+   // document.onkeyup = keyUp;
+
+   //  function keyUp(e) {
+   //     var currKey=0,e=e||event;
+   //     currKey=e.keyCode||e.which||e.charCode;
+   //     var keyName = String.fromCharCode(currKey);
+   //     alert("按键码: " + currKey + "字符"+ keyName);
+   // }
+   document.onkeyup = keyUp;
+
+   //  function onkeyDown(e) {
+   //     var currKey=0,e=e||event;
+   //     currKey=e.keyCode||e.which||e.charCode;
+   //     var keyName = String.fromCharCode(currKey);
+   //     // alert("按键码: " + currKey + "字符"+ keyName);
+   //     console.log($(".input").val())
+   // }
+   // document.onkeydown = onkeyDown;
+
+	})
+</script>
+</body>
+</html>

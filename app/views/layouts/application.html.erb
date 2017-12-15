@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%=@title || '钻石大富翁'%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compitable" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <title>StockGame</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'h5', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'h5', 'data-turbolinks-track': 'reload' %>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <%= wechat_config_js(debug: false, api: %w(
+      onMenuShareTimeline
+      onMenuShareAppMessage
+      onMenuShareQQ
+      onMenuShareWeibo
+      onMenuShareQZone
+      startRecord
+      stopRecord
+      onVoiceRecordEnd
+      playVoice
+      pauseVoice
+      stopVoice
+      onVoicePlayEnd
+      uploadVoice
+      downloadVoice
+      chooseImage
+      previewImage
+      uploadImage
+      downloadImage
+      translateVoice
+      getNetworkType
+      openLocation
+      getLocation
+      hideOptionMenu
+      showOptionMenu
+      hideMenuItems
+      showMenuItems
+      hideAllNonBaseMenuItem
+      showAllNonBaseMenuItem
+      closeWindow
+      scanQRCode
+      chooseWXPay
+      openProductSpecificView
+      addCard
+      chooseCard
+      openCard)) if wechat_browser? -%>
+  </head>
+  <body class="<%= params[:controller] == 'h5/users' ? 'VirMe-Box' : '' %> body-box" id="body">
+    <script type="text/javascript">
+      var flag=false;
+      setTimeout(function(){
+          flag=true
+      },1000)
+      window.history.replaceState({url: '<%=request.url%>'},'<%=@title%>', '<%=request.url%>');
+      window.addEventListener('popstate',function(e){
+      //监听到返回事件
+        if(flag){
+          console.log("history.state")
+          console.log(history.state)
+          if(history.state && history.state.url){
+            window.location.href=history.state.url
+          }
+        }
+      },false);
+    </script>
+    <%= yield %>
+    <div class="footer-box">
+      <div class="footer">
+        <ul>
+          <li onclick="window.location.href='/h5/lotteries'" class='<%=params[:controller] == "h5/lotteries" && params[:action] == "index" ? "active" : "" %>'>
+            <span></span>
+            <span>夺宝</span>
+          </li>
+          <li onclick="window.location.href='/home/get_diamonds'" class='<%=params[:controller] == "home" && params[:action] == "get_diamonds" ? "active" : "" %>'>
+            <span></span>
+            <span>赚币</span>
+          </li>
+          <li onclick="window.location.href='/h5/users/home'" class='<%=params[:controller] == "h5/users" && params[:action] == "home" ? "active" : "" %>'>
+            <span></span>
+            <span>我的</span>
+          </li>
+          <!--<li>
+            <span></span>
+            <span>0元夺宝</span>
+          </li>-->
+        </ul>
+      </div>
+    </div>
+    <%if wechat_browser? && @share_config%>
+      <%=render "share_template/wx_share"%>
+    <%end%>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?f3aa58e0ef8de2469126c31968346c05";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+
+  </body>
+</html>

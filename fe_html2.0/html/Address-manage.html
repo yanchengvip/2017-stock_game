@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>地址管理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+</head>
+<body>
+  <div class="gfc-box address">
+    <div class="address-box">
+      <div class="Rec-box">
+        <ul class="address-txt">
+          <li class="txt1">
+            <p class="fl name">欧阳</p>
+            <p class="fl tel">18322329023</p>
+          </li>
+          <li class="txt2">
+            <p>北京市海淀区林萃桥宝盛南路奥北科技园17号楼优众集团</p>
+          </li>
+        </ul>
+        <div class="address-btn">
+          <div class="mode">
+            <span class="opt select"></span>
+            <span class="opt-txt txt-white-gray">设为默认</span>
+          </div>
+          <div class="add-btn-box">
+            <button><a href="">编辑</a></button>
+            <button class="delete" onclick="show_alert(1)">删除</button>
+          </div>
+        </div>
+      </div>
+      <!--多个地址-->
+      <div class="Rec-box">
+        <ul class="address-txt">
+          <li class="txt1">
+            <p class="fl name">欧阳</p>
+            <p class="fl tel">18322329023</p>
+          </li>
+          <li class="txt2">
+            <p>北京市海淀区林萃桥宝盛南路奥北科技园17号楼优众集团优众集团优众集团优众集团优众集团优众集团优众集团</p>
+          </li>
+        </ul>
+        <div class="address-btn">
+          <div class="mode">
+            <span class="opt select"></span>
+            <span class="opt-txt txt-white-gray">设为默认</span>
+          </div>
+          <div class="add-btn-box">
+            <button><a href="">编辑</a></button>
+            <button class="delete" onclick="show_alert(2)">删除</button>
+          </div>
+        </div>
+      </div>
+      <div class="Rec-box">
+        <ul class="address-txt">
+          <li class="txt1">
+            <p class="fl name">欧阳</p>
+            <p class="fl tel">18322329023</p>
+          </li>
+          <li class="txt2">
+            <p>北京市海淀区林萃桥宝盛南路奥北科技园17号楼优众集团</p>
+          </li>
+        </ul>
+        <div class="address-btn">
+          <div class="mode">
+            <span class="opt select"></span>
+            <span class="opt-txt txt-white-gray">设为默认</span>
+          </div>
+          <div class="add-btn-box">
+            <button><a href="">编辑</a></button>
+            <button class="delete" onclick="show_alert(2)">删除</button>
+          </div>
+        </div>
+      </div>
+      <div class="Rec-box">
+        <ul class="address-txt">
+          <li class="txt1">
+            <p class="fl name">欧阳</p>
+            <p class="fl tel">18322329023</p>
+          </li>
+          <li class="txt2">
+            <p>北京市海淀区林萃桥宝盛南路奥北科技园17号楼优众集团</p>
+          </li>
+        </ul>
+        <div class="address-btn">
+          <div class="mode">
+            <span class="opt select"></span>
+            <span class="opt-txt txt-white-gray">设为默认</span>
+          </div>
+          <div class="add-btn-box">
+            <button><a href="">编辑</a></button>
+            <button class="delete" onclick="show_alert(2)">删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Rec-btn-box">
+      <div class="Rec-btn">
+        <a class="-gfc-sell txt-white" href="">添加新地址</a>
+      </div>
+    </div>
+  </div>
+
+<!--弹框-->
+  <div class="prompt-double-box display">
+    <div>
+      <input type="hidden" id="test">
+      <div class="Close-Right">
+      </div>
+      <p>是否删除</p>
+      <div class="prompt-double-btn">
+        <button class="hidden">否</button>
+        <button class="show" onclick="delete_address()">是</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/base.js"></script>
+<script>
+  function show_alert(id){
+    $('#test').val(id);
+    $('.prompt-double-box').show();
+    Scrollheight()
+  }
+
+  function delete_address(){
+    var id = $("#test").val()
+    console.log(id)
+//    $.ajax({
+//      type: 'post',
+//      url: "",
+//      data:{id: id},
+//      success: function(){
+//
+//      }
+//    })
+  }
+  $(function(){
+    /*弹框*/
+    $(".hidden").on('click',function(){
+      $('.prompt-double-box').hide();
+      unScrollheight();
+    })
+    $(".Close-Right").on('click',function(){
+      $('.prompt-double-box').hide();
+      unScrollheight();
+    })
+
+    /*地址选择*/
+    $(".Rec-box").attr("value","0")
+
+    $(".address-btn .mode").on("click",function(){
+      var Opt = $(this).find(".opt");
+      var OptTxt = $(this).find(".opt-txt");
+      Opt.toggleClass("selected");
+      OptTxt.toggleClass("gfc-green");
+
+      if(Opt.hasClass("selected")){
+        OptTxt.text("默认地址");
+        $(this).parents(".Rec-box").attr("value","1").siblings().attr("value","0");
+      }else{
+        OptTxt.text("设为默认");
+        $(this).parents(".Rec-box").attr("value","0");
+      }
+      $(".Rec-box[value='0']").find(".opt").removeClass("selected");
+      $(".Rec-box[value='0']").find(".opt-txt").removeClass("gfc-green").text("设为默认");
+    })
+})
+</script>
+</body>
+</html>

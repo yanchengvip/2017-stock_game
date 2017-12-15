@@ -1,0 +1,59 @@
+<% if wechat_browser? %>
+    <div class="gfc-box pay-extra">
+      <div class="pay-content">
+        <img src="<%= @lottery_order.product.head_image %>" alt="">
+        <p class="txt-white">根据当前商品以及所在地区，需支付<%= @lottery_order.product.postage.to_f %>元运费</p>
+
+        <div class="pay-method">
+          <span>方法:</span>
+          <p>点击下方的按钮，复制链接，前往浏览器中打开支付。</p>
+        </div>
+        <div class="pay-btn">
+          <button id="ali_btn" class="txt-white -gfc-buy" data-clipboard-text="<%= @alipay_url %>">点击复制链接</button>
+          <button class="txt-white -gfc-sell" onclick="redirect_url()">返回首页</button>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+        var ali_btn = document.getElementById('ali_btn');
+        var clipboard = new Clipboard(ali_btn);
+        //复制成功执行的回调，可选
+        clipboard.on('success', function (e) {
+            alertTx("复制成功！")
+        });
+
+        //复制失败执行的回调，可选
+        clipboard.on('error', function (e) {
+            alertTx("复制失败！")
+        });
+
+
+    </script>
+<% else %>
+    <div class="gfc-box pay-extra">
+      <div class="pay-content">
+        <img src="<%= @lottery_order.product.head_image %>" alt="">
+        <p class="txt-white">根据当前商品以及所在地区，需支付<%= @lottery_order.product.postage.to_f %>元运费</p>
+
+        <div class="pay-btn">
+          <button id="ali_btn" class="txt-white -gfc-buy" onclick="alipay_redirect('<%= @alipay_url%>')">前往支付</button>
+          <button class="txt-white -gfc-sell" onclick="redirect_url()">返回首页</button>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      function alipay_redirect(url){
+          window.location.href = url
+      }
+    </script>
+<% end %>
+
+<script>
+    function redirect_url() {
+        window.location.href = "/"
+    }
+</script>

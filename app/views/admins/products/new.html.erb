@@ -1,0 +1,156 @@
+<h3>商品添加</h3>
+<div class="container">
+  <form action="/admins/products" method="post">
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品名称</label>
+      <div class="col-sm-6">
+        <input type="input" name="name" class="form-control" id="add_product_name_input" required="required" onkeyup="validate_words_length(30,1)" placeholder="商品名称">
+
+      </div>
+      <p class="bg-danger p_last_num" id="apn_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品描述</label>
+      <div class="col-sm-6">
+        <textarea class="form-control" name="desc" rows="3" id="add_product_desc_input" required="required" onkeyup="validate_words_length(60,2)" placeholder="商品描述"></textarea>
+      </div>
+      <p class="bg-danger p_last_num" id="apd_last_num"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品价格</label>
+      <div class="col-sm-6">
+        <input type="number" name="price" min="0" max="99999999" step='0.01' class="form-control" required="required" placeholder="商品价格">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">商品库存</label>
+      <div class="col-sm-6">
+        <input type="number" min="1" max="99999999" name="inventory_count" class="form-control" required="required" placeholder="商品库存">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">邮费</label>
+      <div class="col-sm-6">
+        <input type="number" min="0" max="99999999" step="0.01" name="postage" class="form-control" required="required" placeholder="邮费">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <span class="col-sm-2 col-form-label">商品标签: </span>
+      <select class="col-sm-3 selectpicker" name="product_tag_id">
+        <option value=0 >无</option>
+        <% @product_tags.each do |tag| %>
+            <option value=<%= tag.id %>><%= tag.name %></option>
+        <% end %>
+
+      </select>
+
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">上期中奖者限制天数间隔</label>
+      <div class="col-sm-6">
+        <input type="number" min="0" max="99999999" name="interval" required="required" value="0" class="form-control" placeholder="上期中奖者限制天数间隔">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">抽奖百分比</label>
+      <div class="col-sm-6">
+        <input type="number" min="0.01" max="100" step="0.01" value="5" required="required" name="lottery_percent" class="form-control" placeholder="抽奖百分比">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">优众链接</label>
+      <div class="col-sm-6">
+        <input type="input" name="detail_url" class="form-control" placeholder="优众链接">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2">是否启用</label>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="is_published"> 启用
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+    <%= render partial: 'admins/products/send_diamond'%>
+
+    <div class="form-group row">
+
+      <div class="col-sm-6">
+        <input type="hidden" name="head_image" id="head_image_url" class="form-control" placeholder="缩略图">
+      </div>
+    </div>
+
+    <div class="form-group row">
+
+      <div class="col-sm-6">
+        <input type="hidden" name="pro_image_urls" id="pro_image_urls" ,class="form-control" placeholder="展示图">
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel panel-info" style="background-color: #ddd">商品缩略图(仅一张;图片比例为1:1)</div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-8 col-md-4">
+            <img id="preview_product_thumb">
+
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"><input type="file" id="add_product_thumb" name="file"></div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel panel-info" style="background-color: #ddd">商品展示图片(只限5张;图片比例为1:1)</div>
+      <div class="panel-body">
+
+        <div class="row">
+          <div class="col-xs-8 col-md-4">
+            <div id="preview_product_imgs">
+
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+      <div class="panel-footer">
+        <input type="file" id="add_product_imgs" name="file" multiple>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" id="add_product_submit" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+
+
+
+
+
+
+

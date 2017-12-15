@@ -1,0 +1,74 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">资金变动统计</div>
+  <div class="panel-body">
+    <%= render partial: 'admins/download_csv/search' %>
+    <hr>
+    资金变动统计下载: <a href="javascript:void(0);" onclick="dowload_csv(3)">点击下载（可选中上方的选则条件统计下载)</a>
+  </div>
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th colspan="5">用户信息</th>
+      <th colspan="6">虚拟资金变化</th>
+      <th colspan="5">钻石币变化</th>
+    </tr>
+
+    <tr>
+      <th>用户ID</th>
+      <th>用户名</th>
+      <th>手机号</th>
+      <th>注册时间</th>
+      <th>注册来源</th>
+
+      <th>初始资金</th>
+      <th>邀请好友获得虚拟金</th>
+      <th>其他方式获得虚拟金</th>
+      <th>虚拟盘盈亏</th>
+      <th>兑换钻石币消耗的虚拟资金</th>
+      <th>其他方式消耗的虚拟资金</th>
+
+      <th>注册获得钻石币</th>
+      <th>虚拟金兑换的的钻石币</th>
+      <th>其他方式获得的钻石币</th>
+      <th>夺宝消耗的钻石币</th>
+      <th>其他方式消耗的钻石币</th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+
+    <% @tongji_user_data_change.each do |tudc| %>
+        <tr>
+          <td><%= tudc[:user_id] %></td>
+          <td><%= tudc[:nickname] %></td>
+          <td><%= tudc[:phone] %></td>
+          <td><%= time_format tudc[:user_created_at] %></td>
+          <td><%= tudc[:openid].nil? ? 'h5注册' : '微信注册' %></td>
+          <td><%= 0 %></td>
+          <td><%= tudc[:ga_type21].to_f %></td>
+          <td><%= tudc[:ga_type100].to_f + tudc[:ga_type101].to_f + tudc[:ga_type102].to_f +
+                      tudc[:ga_type103].to_f + tudc[:ga_type104].to_f %></td>
+          <td><%= tudc[:ga_type1].to_f + tudc[:ga_type2].to_f + tudc[:ga_type3].to_f + tudc[:ga_type4].to_f %></td>
+          <td><%= tudc[:ga_type22].to_f %></td>
+          <td><%= tudc[:ga_type50].to_f %></td>
+          <td><%= tudc[:da_type30].to_f %></td>
+          <td><%= tudc[:da_type2].to_f %></td>
+          <td><%= tudc[:da_type10].to_f + tudc[:da_type100].to_f + tudc[:da_type101].to_f
+                  +tudc[:da_type102].to_f + tudc[:da_type103].to_f + tudc[:da_type104].to_f
+                  +tudc[:da_type31].to_f + tudc[:da_type32].to_f + tudc[:da_type33].to_f
+                  +tudc[:da_type34].to_f + tudc[:da_type36].to_f %></td>
+          <td><%= tudc[:da_type1].to_f %></td>
+          <td><%= tudc[:da_type20].to_f + tudc[:da_type36].to_f%></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+
+  <div class="flickr_pagination">
+    <%= will_paginate @users, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+  </div>
+</div>

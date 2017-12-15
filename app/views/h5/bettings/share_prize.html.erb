@@ -1,0 +1,24 @@
+<div class="gfc-box get-prize">
+  <div class="prize-banner"></div>
+  <div class="prize-content-bg">
+    <div class="prize-content">
+
+      <p>您在本次宝箱游戏中获得奖励<span><%= (@betting.amount * @betting.odds).to_i %></span>钻币<br/>
+        获得<span><%= ranking_config_item&.price&.to_i %></span><%= rank_item_name(ranking_config_item) %>
+      </p>
+      <div class="num-box"><%= image_tag "h5/images/num-#{@ranking_config.ranking}.png", alt: ''  %></div>
+      <button id="btn" class="<%= wechat_browser? ? 'wechat' : '' %>" data-img="share-success-box">分享并领取奖励</button>
+    </div>
+  </div>
+</div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<script type="text/javascript">
+$(function() {
+  $(".wechat").click()
+})
+</script>

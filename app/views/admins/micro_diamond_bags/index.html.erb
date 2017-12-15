@@ -1,0 +1,98 @@
+<div class="row">
+
+  <div class="col-lg-6">
+
+    <form action="/admins/lucky_bags/search" method="post">
+      <div class="input-group">
+        <input type="text" name="product_name" class="form-control" placeholder="微钻红包">
+
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">查询</button>
+      </span>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-8">
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/micro_diamond_bags/new" target="_self" class="btn btn-primary btn-lg" role="button">新增红包</a>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>创建时间</th>
+      <th>红包微钻数量</th>
+      <th>红包个数</th>
+      <th>参与需钻币数</th>
+      <th>上架时间</th>
+      <th>开抢时间</th>
+      <th>上架状态</th>
+      <th>是否启用</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+
+    <% @micro_bags.each do |micro| %>
+        <tbody>
+
+        <tr>
+          <td><%= time_format micro.created_at %></td>
+          <td><%= micro.micro_diamond_amount.to_f %></td>
+          <td><%= micro.person_count.to_i %></td>
+          <td><%= micro.buy_diamond_amount.to_f %></td>
+          <td><%= time_format micro.published_at %></td>
+          <td><%= time_format micro.buy_at %></td>
+          <td><%= admin_micro_diamond_bags_status micro.status %></td>
+          <td><%= admin_micro_diamond_active micro.is_active %></td>
+          <td>
+            <% if [1, 2].include? micro.status.to_i %>
+                不能修改
+            <% else %>
+                <a href="/admins/micro_diamond_bags/<%= micro.id %>/edit" onclick="" class="admin_product_operate_a">修改信息</a>
+            <% end %>
+
+            <% if micro.is_active %>
+                不能删除
+            <% else %>
+                <a href="javascript:void(0)" onclick="micro_bag_delete(<%= micro.id%>)" class="admin_product_operate_a">删除红包</a>
+            <% end %>
+
+          </td>
+
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @micro_bags, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+<%= render 'admins/micro_diamond_bags/micro_modal' %>

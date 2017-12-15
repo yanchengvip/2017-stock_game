@@ -1,0 +1,91 @@
+<div class="panel panel-default">
+  <div class="panel-heading">管理员信息
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target='#resetPasswordForAdminModal'>重置密码</button>
+  </div>
+
+  <div class="panel-body">
+    <form action="/admins/users/admin_update" method="post">
+      <div class="modal-body">
+
+        <input type="hidden" name="id" value="<%= @admin.id%>">
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">用户名:</label>
+          <div class="col-sm-6">
+            <input type="text" name="nickname" value="<%= @admin.nickname %>" class="form-control" required="true" placeholder="用户名">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">手机号：</label>
+          <div class="col-sm-6">
+            <input type="text" name="phone" value="<%= @admin.phone %>" class="form-control" required="true" placeholder="手机号">
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label class="col-sm-2">状态</label>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <label class="form-check-label">
+                <% if @admin.status.to_i == 0 %>
+                    <label><input name="status" id="not_login" checked type="radio" value="0"/>禁用 </label>
+                    <label><input name="status" id="yes_login" type="radio" value="1"/>正常 </label>
+                <% elsif @admin.status.to_i == 1 %>
+                    <label><input name="status" id="not_login" type="radio" value="0"/>禁用 </label>
+                    <label><input name="status" id="yes_login" checked type="radio" value="1"/>正常 </label>
+                <% end %>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <span class="col-sm-2 col-form-label">用户角色: </span>
+          <select class="col-sm-3 selectpicker" name="role">
+            <option value=2>管理员</option>
+          </select>
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <a type="button" href="/admins/users/admins_list" class="btn btn-default" data-dismiss="modal">取消</a>
+        <button type="submit" class="btn btn-primary">确定</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- 用户忘记密码修改modal -->
+<div class="modal fade" id="resetPasswordForAdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">重置密码</h4>
+      </div>
+      用户姓名：<span class="reset_password_user_name"><%= @admin.nickname%></span><br>
+      用户手机号：<span class="reset_password_user_phone"><%= @admin.phone%></span>
+      <form action="/admins/users/forget_password_update" method="post">
+        <input  type="hidden" name="id" value="<%= @admin.id%>">
+        <div class="modal-body">
+          <!--输入新密码：<input type="password" class="form-control" name='password'>-->
+          <!--确认密码：<input type="password" class="form-control" name='confirm_password'>-->
+          <input type="hidden" class="form-control" name='user_type' value="admin">
+          <input type="hidden" class="form-control" name='password' value="password">
+          <input type="hidden" class="form-control" name='confirm_password' value="password">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

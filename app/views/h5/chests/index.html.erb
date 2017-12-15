@@ -1,0 +1,240 @@
+<!-- <div class="BuyRecord-box bodygray"> -->
+  <!--title-->
+  <div class="ind-top">
+    <div class="header">
+      <div class="Ind-Money">
+        <%= image_tag 'h5/images/icon-logo.png', alt: '', onclick:"window.location.href='/h5/posts/diamond_account_role'" %>
+        <span id="user_total_coin" class="exchange_coin">
+          <%= current_user.total_diamond_coin.to_i %></span><span>钻币
+        </span>
+        <%= image_tag 'h5/images/change-2.png', class: 'img-pop exchange_coin', alt: '' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="opennewbox">
+    <div class="bg-img">
+      <!-- <img src="../images/openbox-new-bgc.png" alt=""> -->
+      <%= image_tag "h5/images/openbox-new-bgc.png", alt: '' %>
+    </div>
+    <div class="txt-img">
+      <div class="img">
+        <!-- <img src="../images/open-box-img-text.png" alt=""> -->
+        <%= image_tag "h5/images/open-box-img-text.png", alt: '' %>
+      </div>
+      <% if @user_chance <= 0 %>
+        <p>今天机会已用完，明天再来！</p>
+      <% else %>
+        <p>你今天剩<span class="times txt-yellow-1"><%= @user_chance %></span>次抽奖机会</p>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @user_chance > 0 || @is_give %>
+    <div class="choice-times">
+      <div class="left"><p>赢钻币</p></div>
+      <div class="right">
+        <ul>
+        <% @odds && @odds.each do |odd| %>
+          <li><%= odd.odds %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="treasure-box">
+      <ul>
+        <% if @is_give %>
+          <div class="note1"><p>分享成功，你可以免费开一次宝箱！</p></div>
+          <li>
+            <div class="treasure-img chose_bet_type free_and_give active" data_type="2" data_base='10'></div>
+            <div class="txt"><span class="span1"></span></div>
+          </li>
+        <% else %>
+          <li>
+            <div class="treasure-img chose_bet_type active" data_type="1" data_base='10'></div>
+            <div class="txt"><span class="span1"></span></div>
+          </li>
+          <li>
+            <div class="treasure-img chose_bet_type active" data_type="1" data_base='100'></div>
+            <div class="txt"><span class="span2"></span></div>
+          </li>
+          <li>
+            <div class="treasure-img chose_bet_type active" data_type="1" data_base='500'></div>
+            <div class="txt"><span class="span3"></span></div>
+          </li>
+        <% end %>
+      </ul>
+      <div class="muban-bgc">
+        <%= image_tag "h5/images/open-box-ban.png", alt: '' %>
+      </div>
+    </div>
+  <% end %>
+
+<!-- </div> -->
+
+
+
+
+<div class="open-pop text-hide winbox">
+  <div class="pop-box">
+    <span class="close-btn"></span>
+    <div class="img">
+      <div class="note gained_odds"></div>
+    </div>
+    <div class="text">
+      <!-- <p id="win_text">恭喜您！<br>获得<span id="bet_gain"></span>钻币</p> -->
+      <p id="win_text">恭喜您！<br>获得<span id="bet_gain_origin"></span>钻币</p>
+      <% if @free_share_left > 0 %>
+        <p class="mark-note">每天三次，分享获取开免费宝箱机会</p>
+      <% end %>
+    </div>
+    <% if @free_share_left > 0 %>
+      <div class="btn">
+        <button id="btn" data_base='' class="<%= wechat_browser? ? 'wechat' : '' %>" data-img="share-success-box">立即分享，免费再开一次</button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- <div class="BuyRecord-box bodygray"> -->
+  <!--弹框兑换钻石币-->
+  <%= render partial: 'share_template/exchange_diamond', locals: {redirect_url: "/h5/chests"} %>
+<!-- </div> -->
+
+
+
+<audio id="openboxmusic">
+  <!-- <source src="../video/openBox.mp3"> -->
+  <source src="<%=audio_path 'h5/openBox.mp3'%>">
+</audio>
+
+<%unless wechat_browser? %>
+  <script>
+    UrlCopy("btn", "<%=@share_config[:link_url]%>");
+  </script>
+<%end%>
+
+<script type="text/javascript">
+  $(function(){
+    // $(".wechat").click();
+    // 投币
+    // $('.chose_bet_type').on('click', function(){
+    //   // console.log($('#btn').attr('data_base'));
+    //   var bet_num = Number($(this).text());
+    //   if($(this).hasClass('fresh_man') || $(this).hasClass('free_and_give')){
+    //     // console.log('' || '123');
+    //     $('.chosed_num').text(bet_num);
+    //     $('.chosed_num').attr('data_type', $(this).attr('data_type'));
+    //     var user_total_coin = Number($('#user_total_coin').text());
+    //     if(user_total_coin > 0){
+    //       $('#open_the_box').addClass('active');
+    //     }
+
+    //   }
+    //   else{
+    //     var old_num = Number($('.chosed_num').text());
+    //     var new_num = bet_num + old_num;
+    //     var user_total_coin = Number($('#user_total_coin').text());
+    //     var max_num = <%#= SYSTEMCONFIG[:admin_config][:chest][:max_betting].presence || 5000 %>
+    //     var arr=[user_total_coin, max_num, new_num];
+    //     var ok_num = Math.min.apply(null, arr);
+    //     console.log(ok_num);
+    //     $('.chosed_num').text(ok_num);
+    //     $('.chosed_num').attr('data_type', $(this).attr('data_type'));
+    //     if(user_total_coin > 0){
+    //       $('#open_the_box').addClass('active');
+    //     }
+    //   }
+    // })
+
+    // $('.bet_all').on('click', function(){
+    //   var user_total_coin = Number($('#user_total_coin').text());
+    //   var max_num = <%#= SYSTEMCONFIG[:admin_config][:chest][:max_betting].presence || 5000 %>
+    //   var arr=[user_total_coin, max_num];
+    //   var ok_num = Math.min.apply(null, arr);
+    //   // console.log(ok_num);
+    //   $('.chosed_num').text(ok_num);
+    //   $('.chosed_num').attr('data_type', $(this).attr('data_type'));
+    //   if(user_total_coin > 0){
+    //     $('#open_the_box').addClass('active');
+    //   }
+    // })
+
+    // 打开宝箱
+    $('.chose_bet_type').on('click', function(){
+      ele = $(this);
+      if(ele.hasClass('active')){
+        // ele.removeClass('active');
+        $('.chose_bet_type').removeClass('active');
+        var bet_num = ele.attr('data_base');
+        $.ajax({
+          type: "POST",
+          url: '/h5/bettings',
+          data: {bet_num: bet_num, bet_type: ele.attr('data_type')},
+          success: function(result){
+            if(result.status == 200){
+              $('#btn').attr('data_base', result.data.bet_id);
+              if(result.data.odds > 0 && result.data.amount > 0){
+                // $('#bet_gain').text(result.data.amount);
+                autoPlayAudio("#openboxmusic");
+                // $('.open-win').show();
+                if($('.winbox').hasClass('open-no-win')){
+                  $('.winbox').removeClass('open-no-win');
+                }
+                $('.gained_odds').text(result.data.odds + '倍');
+                $('.winbox').addClass('open-win');
+                $('#win_text').html('恭喜您！<br>获得<span id="bet_gain">'+result.data.amount+'</span>钻币');
+                $('.winbox').show();
+                $('.chose_bet_type').addClass('active');
+                // setTimeout(function(){
+                //   $(".wechat").click();
+                // },1500);
+              }else{
+                autoPlayAudio("#openboxmusic");
+                // $('.open-no-win').show();
+                if($('.winbox').hasClass('open-win')){
+                  $('.winbox').removeClass('open-win');
+                }
+                $('.winbox').addClass('open-no-win');
+                $('#win_text').html('谢谢参与');
+                $('.winbox').show();
+                $('.chose_bet_type').addClass('active');
+                // setTimeout(function(){
+                //   $(".wechat").click();
+                // },1500);
+              }
+              // 修改显示用户的钻石币数量
+              $('#user_total_coin').text(result.data.user_coin);
+            }else{
+              $('.chose_bet_type').addClass('active');
+              if(result.data.expired == 'expired'){
+                alertTx(result.msg, function () {
+                  window.location.reload();
+                })
+              }else{
+                alertTx(result.msg);
+              }
+            }
+          },
+          error: function(XMLHttpResponse){
+            $('.chose_bet_type').addClass('active');
+            alertTx('投注失败，请重试')
+          }
+        })
+      }
+
+    })
+
+    $('.close-btn').on('click', function(){
+      $('.open-pop').hide();
+      <%if wechat_browser? %>
+        window.history.replaceState({url: '<%=SYSTEMCONFIG[:host]%>'+'/home/get_diamonds/'},'title', '<%=SYSTEMCONFIG[:host]%>'+'/home/get_diamonds/');
+        window.location.href = "/h5/chests"
+      <% else %>
+        window.location.href = "/h5/chests"
+      <% end %>
+    })
+
+  })
+</script>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>预测涨跌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/lucy-bag.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body class="bodygray body-box">
+<div class="BuyRecord-box bodygray">
+  <div class="ind-top">
+    <div class="header">
+      <div class="Ind-Money">
+        <img src="../images/icon-logo.png" alt="">
+        <span>8,000,888,888,8钻币</span>
+        <img class="img-pop" src="../images/change-2.png" alt="">
+      </div>
+      <!-- <a  class="Ind-topbtn fr" href="">10钻币=1夺宝人次</a> -->
+      <a class="Ind-Return bg-purple txt-white fr bg-purple txt-white" href="BuyRecord.html">夺宝记录</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function(){
+
+
+    $(".button-change>p").on("click",function(){
+      $(".make-money").css('display','block');
+    })
+
+    // 设置图片大小为正方形
+
+    function autoSizeBox(selector,x) {
+      $(selector).css({
+        height: $(selector).width() * x
+      });
+    }
+
+    window.onresize = function(){
+    autoSizeBox(".bodygray .Ind-left",1)
+    }
+
+
+  })
+$(window).scroll(function(){
+  if($(window).scrollTop()>60){
+    $('.header').addClass('posFix')
+  }else{
+    $('.header').removeClass('posFix')
+  }
+});
+</script>
+
+<script>
+//倒计时
+  function GetRTime(){
+    var EndTime= new Date('2017/03/10 13:49:00');//截止时间
+    var NowTime = new Date();
+    var t =EndTime.getTime() - NowTime.getTime();
+    var d=0;
+    var h=0;
+    var m=0;
+    var s=0;
+    if(t>=0){
+      d=Math.floor(t/1000/60/60/24);
+      h=Math.floor(t/1000/60/60%24);
+      m=Math.floor(t/1000/60%60);
+      s=Math.floor(t/1000%60);
+    }
+    if(d>=1){
+        h=h+d*24
+    }
+    if(h<10){
+        h='0'+h;
+    }
+    if(m<10){
+        m='0'+m;
+    }
+    if(s<10){
+        s='0'+s;
+    }
+    // document.getElementById("t_h").innerHTML =h+":"+m+':'+s;
+  }
+  setInterval(GetRTime,0);
+</script>
+<script>
+$(function(){
+  var tab=$('.IndTab p');
+  $(tab).click(function(){
+    $(this).addClass('Indclick').siblings().removeClass('Indclick');
+    var i=$(tab).index(this);
+    $('.Indiana-main').children().eq(i).show().siblings().hide();
+  })
+  $('.Ind-Money img.img-pop').on('click', function() {
+    $('.Pro-Mask').show();
+  });
+  addMuin();
+
+
+  setInterval(function(){doscroll()}, 1800);
+
+})
+</script>
+</body>
+</html>

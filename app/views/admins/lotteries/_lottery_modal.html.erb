@@ -1,0 +1,90 @@
+<!--夺宝顶置-->
+<div class="modal fade" id="topLotteryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">夺宝顶置</h4>
+      </div>
+      <form action="/admins/lotteries/set_sort" method="post">
+        <div class="modal-body">
+          <h3>确定顶置产品-期号：<span id="top_lottery_code"></span></h3>
+
+          <input type="hidden" class="form-control" name='id' id="top_lottery_id">
+          <input type="number" required="required" min="0" max="99999999" name="sort" class="form-control" placeholder="置顶排行">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- 自动延期夺宝lottery的modal -->
+<div class="modal fade" id="autoPublishLotteryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">自动延期该夺宝</h4>
+      </div>
+
+
+      <form action="/admins/lotteries/auto_extension_lottery" method="post">
+
+        <input type="hidden" class="form-control" name='id' id="lottery_id">
+
+        <div class="form-group row">
+          <label class="col-sm-2">是否自动延期</label>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <label class="form-check-label">
+                <label><input name="auto_extension_status" id="not_auto"  type="radio" value="1" />不自动延期 </label>
+                <label><input name="auto_extension_status" id="auto" type="radio" value="2" />自动延期 </label>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">自动发布开始时间</label>
+          <div class="col-sm-6">
+            <input type="number" id="auto_extension_start_time" name="auto_extension_start_time" min="0" max="24" step='1' class="form-control" required="required" placeholder="自动发布开始时间/小时">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">自动发布结束时间</label>
+          <div class="col-sm-6">
+            <input type="number" id="auto_extension_end_time" name="auto_extension_end_time"  min="0" max="24" step='1' class="form-control" required="required" placeholder="自动发布结束时间/小时">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input" class="col-sm-2 col-form-label">自动发布时间间隔/分钟</label>
+          <div class="col-sm-6">
+            <input type="number" id="auto_extension_interval" name="auto_extension_interval" min="0" max="99999999" step='1' class="form-control" required="required" placeholder="自动发布时间间隔/分钟">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+
+
+
+
+    </div>
+  </div>
+</div>
+
+

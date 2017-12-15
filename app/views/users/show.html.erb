@@ -1,0 +1,47 @@
+<%- model_class = User -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
+  <dd><%= @user.phone %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:encrypted_password) %>:</strong></dt>
+  <dd><%= @user.encrypted_password %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:current_sign_in_at) %>:</strong></dt>
+  <dd><%= @user.current_sign_in_at %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:last_sign_in_at) %>:</strong></dt>
+  <dd><%= @user.last_sign_in_at %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:current_sign_in_ip) %>:</strong></dt>
+  <dd><%= @user.current_sign_in_ip %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:last_sign_in_ip) %>:</strong></dt>
+  <dd><%= @user.last_sign_in_ip %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:province) %>:</strong></dt>
+  <dd><%= @user.province %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:openid) %>:</strong></dt>
+  <dd><%= @user.openid %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:nickname) %>:</strong></dt>
+  <dd><%= @user.nickname %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:sex) %>:</strong></dt>
+  <dd><%= @user.sex %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:city) %>:</strong></dt>
+  <dd><%= @user.city %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:country) %>:</strong></dt>
+  <dd><%= @user.country %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:headimgurl) %>:</strong></dt>
+  <dd><%= @user.headimgurl %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:unionid) %>:</strong></dt>
+  <dd><%= @user.unionid %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:salt) %>:</strong></dt>
+  <dd><%= @user.salt %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              users_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_user_path(@user), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              user_path(@user),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

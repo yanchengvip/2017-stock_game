@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>登录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+</head>
+<body>
+<div class="gfc-box login-bg login-box">
+  <!--<div class="container-box">-->
+    <div class="login-banner"></div>
+    <div class="login">
+      <div class="user">
+        <input class="" type="tel" maxlength=11 placeholder="请输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='请输入用户名'">
+        <span class="del"></span>
+      </div>
+      <div class="pwd">
+        <input class="password" type="password" maxlength=16 placeholder="请输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='请输入用户名'">
+        <span class="del"></span>
+      </div>
+      <div class="login-Verification-ode">
+        <span class="del"></span>
+        <input maxlength='6' id="img-identify-code" class="code" type="number" placeholder="请输入验证码" onfocus="this.placeholder=''"onblur="this.placeholder='请输入验证码'">
+        <div class="img-Verification-ode"><img src="../images/img-verification.png" alt=""></div>
+      </div>
+      <p class="Onclick-event btn-login bg-red txt-white">登录</p>
+      <span>或者</span>
+      <p class="wechart"><span></span>微信登录</p>
+    </div>
+    <div class="forget-pwd">
+      <a href="#1">忘记密码</a>
+      <span></span>
+      <a href="#1">新用户注册</a>
+    </div>
+  <!--</div>-->
+</div>
+<script src=../js/jquery-1.11.3.js></script>
+<script src=../js/base.js></script>
+<script>
+  DataValidation();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-2">
+
+      <div class="list-group">
+        <a href="/admins/micro_diamond_bags" class="list-group-item <%= menu_active1 %>">红包列表</a>
+        <a href="/admins/micro_diamond_bags/finish_list" class="list-group-item <%= menu_active2 %>">已完成红包</a>
+        <a href="/admins/micro_diamond_bags/micro_setting" class="list-group-item <%= menu_active3 %>">红包设置</a>
+      </div>
+    </div>
+
+
+    <div class="col-md-10">
+      <%= yield %>
+    </div>
+
+
+  </div>
+</div>

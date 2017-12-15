@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>微钻账单</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/lucy-bag.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <link rel="stylesheet" href="../css/ui-component.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body class="bodygray">
+<div class="gfc-box">
+	<div class="ui-box Micro-drill-bill">
+		<div class="stretch-box">
+			<div class="bgc-diy-top">
+				<div class="time">
+					<p>2017年1月</p>
+				</div>
+			</div>
+			<ul class="top-line-li">
+				<li>
+					<a href="#">
+						<div class="ui-content">
+							<ul class="line-arrangement">
+								<li class="txt-al-c">
+									<h5>概率增强器</h5>
+								</li>
+								<li class="txt-al-c">
+									<p><span class="txt-white">周三</span></p>
+									<p><span>05-16 </span><span> 12:50</span></p>
+								</li>
+							</ul>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="ui-content">
+							<ul class="line-arrangement">
+								<li class="txt-al-c">
+									<h5>充值赠送</h5>
+								</li>
+								<li class="txt-al-c">
+									<p><span class="txt-white">周三</span></p>
+									<p><span>05-16 </span><span> 12:50</span></p>
+								</li>
+							</ul>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="stretch-box">
+			<div class="bgc-diy-top">
+				<div class="time">
+					<p>2017年1月</p>
+				</div>
+			</div>
+			<ul class="top-line-li">
+				<li>
+					<a href="#">
+						<div class="ui-content">
+							<ul class="line-arrangement">
+								<li class="txt-al-c">
+									<h5>概率增强器</h5>
+								</li>
+								<li class="txt-al-c">
+									<p><span class="txt-white">周三</span></p>
+									<p><span>05-16 </span><span> 12:50</span></p>
+								</li>
+							</ul>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="ui-content">
+							<ul class="line-arrangement">
+								<li class="txt-al-c">
+									<h5>充值赠送</h5>
+								</li>
+								<li class="txt-al-c">
+									<p><span class="txt-white">周三</span></p>
+									<p><span>05-16 </span><span> 12:50</span></p>
+								</li>
+							</ul>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		var toppos = 0; 
+		$(window).scroll(function(){
+		 	var scrollTop = $(window).scrollTop();
+			 if(scrollTop > toppos){
+			  	console.log("下"); 
+			  	var windowScrollHeight = $(window).scrollTop()
+			  	var elmScrollHeight = $(".bgc-diy-top").offset().top
+			  	currentHeight = windowScrollHeight - elmScrollHeight
+			  	console.log(currentHeight)
+			 } else {
+			  	console.log("上");
+			 }
+		toppos = scrollTop;
+		});
+	})
+</script>
+</body>
+</html>

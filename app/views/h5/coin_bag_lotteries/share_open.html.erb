@@ -1,0 +1,23 @@
+<div class="gfc-box gift-page gift-receive">
+  <!--<div class="container-box">-->
+  <div class="gift-banner"></div>
+  <div class="gift-box-bg">
+    <ul>
+      <li class="gift-text-bg">
+        <div class="gift-left"></div>
+        <div class="gift-right">
+          <p>您的好友<span><%=@share_user.nickname%></span>分享给您一个</p>
+          <h3>钻币礼包</h3>
+        </div>
+        <div class="gift-head">
+          <img src="<%=@share_user.headimgurl%>" alt="">
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="receive-btn">
+    <button onclick="window.location.href='/h5/coin_bag_lotteries/<%=@coin_bag_lottery.id%>/share_open_result?share_code=<%=params[:share_code]%>'">点击领取</button>
+  </div>
+  <div class="gift-pic-bg"></div>
+  <!--</div>-->
+</div>

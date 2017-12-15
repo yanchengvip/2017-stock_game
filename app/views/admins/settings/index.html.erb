@@ -1,0 +1,122 @@
+<!-- <div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary add_chest" style="margin-bottom: 10px">添加配置</button>
+  </div>
+</div> -->
+
+<h3 style="text-align: center;">修改配置信息</h3>
+<div class="container">
+  <%= form_for :settings, url: update_sets_admins_settings_path, method: :put, class: 'valid_engine' do |f| %>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每用户每天开奖次数</label>
+      <div class="col-sm-6">
+        <%= text_field_tag 'settings[day_chance]', @settings['day_chance'], class: 'form-control', placeholder: "每用户每天开奖次数", id: "day_chance", required: "required"  %>
+        <!-- <input type="input" name="chest[odds]" id="chest_odd" required="required" value="<%#= @chest.odds %>" class="form-control" placeholder="赔付率"> -->
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num1"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每日奖金池钻币数</label>
+      <div class="col-sm-6">
+        <%= text_field_tag 'settings[day_coin_pool]', @settings['day_coin_pool'], class: 'form-control', placeholder: "每日奖金池钻币数", id: "day_coin_pool", required: "required"  %>
+        <!-- <input type="input" name="chest[odds]" id="chest_odd" required="required" value="<%#= @chest.odds %>" class="form-control" placeholder="赔付率"> -->
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num2"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每次最大投注钻币</label>
+      <div class="col-sm-6">
+        <%= text_field_tag 'settings[bet_max_coin]', @settings['bet_max_coin'], class: 'form-control', placeholder: "每次最大投注钻币", id: "bet_max_coin", required: "required"  %>
+        <!-- <input type="input" name="chest[odds]" id="chest_odd" required="required" value="<%#= @chest.odds %>" class="form-control" placeholder="赔付率"> -->
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num3"></p>
+    </div>
+
+    <!-- <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">新手赔付最小值（%）</label>
+      <div class="col-sm-6">
+        <%#= text_field_tag 'settings[fresh_odd_min]', @settings.fresh_odd_min, class: 'form-control', placeholder: "新手赔付最小值（%）", id: "fresh_odd_min", required: "required"  %>
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num1"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">新手赔付最大值（%）</label>
+      <div class="col-sm-6">
+        <%#= text_field_tag 'settings[fresh_odd_max]', @settings.fresh_odd_max, class: 'form-control', placeholder: "新手赔付最大值（%）", id: "fresh_odd_max", required: "required"  %>
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num2"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每日免费次数</label>
+      <div class="col-sm-6">
+        <%#= text_field_tag 'settings[free_times]', @settings.free_times, class: 'form-control', placeholder: "每日免费次数", id: "free_times", required: "required"  %>
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num3"></p>
+    </div>
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每次免费的投注额</label>
+      <div class="col-sm-6">
+        <%#= text_field_tag 'settings[free_coin_once]', @settings.free_coin_once, class: 'form-control', placeholder: "每次免费的投注额", id: "free_coin_once", required: "required"  %>
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num4"></p>
+    </div> -->
+
+    <div class="form-group row">
+      <label for="input" class="col-sm-2 col-form-label">每日分享赠送的免费次数</label>
+      <div class="col-sm-6">
+        <%= text_field_tag 'settings[free_share_times_day]', @settings['free_share_times_day'], class: 'form-control', placeholder: "每日分享赠送的免费次数", id: "free_share_times_day", required: "required"  %>
+      </div>
+      <p class="bg-danger p_last_num" id="epn_last_num5"></p>
+    </div>
+
+    <div class="form-group row" style="text-align: center;">
+      <div class="offset-sm-2 col-sm-10">
+        <!-- <button type="submit" class="btn btn-primary" onclick="window.location.href='/admins/settings/'">取消</button> -->
+        <button type="submit" class="btn btn-primary update_setting">确定</button>
+      </div>
+    </div>
+
+  <!-- </form> -->
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.update_setting').on('click', function(){
+      var day_coin_pool = $('#day_coin_pool').val();
+      var free_share_times_day = $('#free_share_times_day').val();
+      var bet_max = $('#bet_max_coin').val();
+      var day_chance = $('#day_chance').val();
+      if(day_chance == ''){
+        alert('每日抽奖次数不能为空');
+        return false;
+      }
+      if(day_coin_pool == ''){
+        alert('每日奖金池钻币数不能为空');
+        return false;
+      }
+      if(bet_max == ''){
+        alert('每次最大投注钻币不能为空');
+        return false;
+      }
+      if(free_share_times_day == ''){
+        alert('每日分享赠送的免费次数不能为空');
+        return false;
+      }
+      if(Number(day_coin_pool) <= 0){
+        alert('每日奖金池钻币数必须大于0');
+        return false;
+      }
+      if(Number(bet_max) <= 0){
+        alert('最大投注额必须大于0');
+        return false;
+      }
+    })
+  })
+</script>

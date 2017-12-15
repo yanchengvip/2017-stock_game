@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  psz_sub_port: MyString
+  i_mobi_count: 1
+  psz_msg: MyText
+  psz_mobis: MyText
+  request_ip: MyString
+  channel_name: MyString
+
+two:
+  psz_sub_port: MyString
+  i_mobi_count: 1
+  psz_msg: MyText
+  psz_mobis: MyText
+  request_ip: MyString
+  channel_name: MyString

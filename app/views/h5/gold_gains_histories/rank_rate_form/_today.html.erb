@@ -1,0 +1,38 @@
+<div class="day">
+  <a href="<%= rank_rate_detail_h5_gold_gains_histories_path(type: '本日收益率排行' ) %>">
+    <h3 class='prize_count_time'>日排名
+      <span class='seconds hide'><%= ("#{Date.today} 17:30:00".to_time - Time.now).to_i %></span>
+      <span>距开奖时间：</span><span class='time_str'>00:00:00</span>
+    </h3>
+  </a>
+  <% unless @today_ranks.blank? %>
+    <ul class="win">
+      <% @today_ranks.first(3).each do |dr| %>
+        <% user = dr['user'] %>
+        <li>
+          <span></span>
+          <span><%= image_tag user['headimgurl'] %></span>
+          <span><%= user['nickname'] || user['phone'] %></span>
+          <% if !dr.blank? && dr['user_id'] == current_user.id && @self_today_rank_rate %>
+            <%= render partial: 'get_prize', locals: { ranking_config: @self_today_rank_rate, type: 'D', amount: (dr['amount'].presence.to_f || 0), from: 'rank_rate' } %>
+          <% else %>
+            <p>收益率<span><%= number_to_currency ((dr['amount'].to_f / @gold).to_f * 100).round(2) %>%</span></p>
+          <% end %>
+        </li>
+      <% end %>
+      <%# self_rank = @today_ranks.pluck(:user_id).index(current_user.id) + 1 rescue nil %>
+      <% unless @today_ranks.first(3).map{|i| i['user_id']}.include?(current_user.id) || @today_ranks.blank? %>
+        <li class="last">
+          <% self_rank = $redis.get("self_rank_#{current_user.id}_today_rank").to_i %>
+          <span><%= rank(self_rank) %></span>
+          <span><%= image_tag current_user.headimgurl %></span>
+          <span><%= current_user.nickname || current_user.phone %></span>
+          <%# self_amount = @today_ranks.where(user_id: current_user.id).first.amount rescue 0 %>
+          <% self_amount = JSON.parse($redis.get("self_rank_#{current_user.id}_today_data"))['amount'] rescue 0 %>
+          <%= render partial: 'get_prize', locals: { ranking_config: @self_today_rank_rate, type: 'D', amount: self_amount.to_f, from: 'rank_rate' } %>
+          <!-- <p>收益率<span><%#= number_to_currency ((self_amount / @gold).to_f * 100).round(2) if self_amount.present? %>%</span></p> -->
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

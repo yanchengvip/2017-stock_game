@@ -1,0 +1,45 @@
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>订单商品详情</strong></div>
+  <ul class="list-group">
+
+    <li class="list-group-item">期号：<%= @lottery_order.lottery.lottery_code%></li>
+    <li class="list-group-item">商品名称：<%= @lottery_order.product.name%></li>
+    <li class="list-group-item">商品价格：<%= @lottery_order.product.price%></li>
+    <li class="list-group-item">总需人次：<%= @lottery_order.lottery.total_count%>人&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li class="list-group-item">开奖状态：<%= lottery_status @lottery_order.lottery.status%></li>
+    <li class="list-group-item">中奖用户：<%= user_nickname @lottery_order.user%></li>
+    <li class="list-group-item">中奖期号：<%= arry_to_str @lottery_code_win%></li>
+    <li class="list-group-item">购买次数：<%= @lottery_order.total_count%></li>
+  </ul>
+
+</div>
+
+
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>订单用户信息</strong></div>
+  <ul class="list-group">
+
+    <li class="list-group-item">购买用户：<%= user_nickname @lottery_order.user%></li>
+    <li class="list-group-item">用户手机：<%= user_phone @lottery_order.user%></li>
+    <li class="list-group-item">购买时间：<%= time_format @lottery_order.created_at%></li>
+    <li class="list-group-item">购买人次：<%= @lottery_order.total_count%>人&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li class="list-group-item">支付金额：<%= @total_price%></li>
+    <li class="list-group-item">获得期号：<%= arry_to_str @lottery_code_all%></li>
+
+  </ul>
+
+</div>
+
+
+<%= render partial: 'admins/lottery_orders/order_address'%>
+
+
+
+
+
+
+
+

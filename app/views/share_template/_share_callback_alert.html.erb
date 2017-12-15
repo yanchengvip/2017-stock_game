@@ -1,0 +1,174 @@
+<%= stylesheet_link_tag    'h5/alertgold', media: 'all', 'data-turbolinks-track': 'reload' %>
+<!--分享后苹果手机页面-->
+  <div class="warn-alertlayer warn1 display">
+    <div class="warn-alertBox bounceIn">
+      <%=image_tag "h5/images/warm1.png"%>
+      <p>获得<span><%=current_user.total_diamond_coin.to_i%></span>钻石币</p>
+      <p class="colorBule">（<%=current_user.total_diamond_coin.to_i / 10%>次免费抽奖机会）</p>
+      <p>点击立即夺宝抽奖吧</p>
+      <p class="AgreeProtol "><span><%=image_tag "h5/images/agree_icon.png", class:"agree-icon AgreeProtolimg"%></span>本人已阅读并同意<a href="/h5/users/law_illustration">《用户协议》</a></p>
+      <button class="warnButton">知道了</button>
+    </div>
+    <div class="goldAlertBox">
+      <div class="goldAlert">
+        <div class="item1">
+          <div class="kodai">
+          </div>
+          <div class="clipped-box"></div>
+        </div>
+        <p id="html"></p>
+        <audio preload="auto" controls="controls" id="music" style="display: none">
+          <source src="<%=audio_path 'h5/gold.mp3'%>" type="audio/ogg" />
+          <source src="<%=audio_path 'h5/gold.mp3'%>" type="audio/ogg" />
+        </audio>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+$(function(){
+  function agreement(){
+    $(this).attr('data_agreed', 1);
+    var agreed = $(this).attr('data_agreed');
+    if(agreed == 1){
+      $.ajax({
+        type: 'put',
+        url: "/h5/users/<%= current_user.id %>",
+        data: {'id': <%= current_user.id %>, "user[accept_agreement]": agreed, 'action_type': 'agreement' },
+        success: function(datas) {
+          if(datas['status'] == 200){
+            unwarn_alertlayer();
+          }else{
+            alertTx('网络错误, 请重试');
+          }
+        },
+        error: function(XMLHttpResponse) {
+          alertTx("网络错误, 请重试");
+        }
+      })
+    }
+
+  }
+
+  function  goldShow(){
+    <%if wechat_browser?%>
+    wx.ready(function(){
+      $(".warn1").show()
+      media = document.getElementById("music")
+      media.src = "<%=audio_path 'h5/gold.mp3'%>"
+      media.play();
+      play_media()
+    })
+    <%else%>
+      $(".warn1").show()
+      media = document.getElementById("music")
+      media.src = "<%=audio_path 'h5/gold.mp3'%>"
+      media.play();
+      play_media()
+    <%end%>
+
+    function play_media() {
+      (genClips = function () {
+        $t = $('.item1');
+        var amount = 5;
+        var width = $t.width() / amount;
+        var height = $t.height() / amount;
+        var totalSquares = Math.pow(amount, 2);
+        var y = 0;
+        var index = 1;
+        for (var z = 0; z <= (amount * width) ; z = z + width) {
+          $('<img class="clipped" src="/default_image/jb' + index + '.png" />').appendTo($('.item1 .clipped-box'));
+          if (z === (amount * width) - width) {
+              y = y + height;
+              z = -width;
+          }
+          if (index >= 5) {
+              index = 1;
+          }
+          index++;
+          if (y === (amount * height)) {
+              z = 9999999;
+          }
+        }
+      })();
+      function rand(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      var first = false,
+          clicked = false;
+      $('.item1 .clipped-box').css({
+          'display': 'block'
+      });
+      $('.clipped-box img').each(function () {
+        var v = rand(120, 90),
+          angle = rand(80, 89),
+          theta = (angle * Math.PI) / 180,
+          g = -9.8;
+
+        // $(this) as self
+        var self = $(this);
+        var t = 0,
+          z, r, nx, ny,
+          totalt =10;
+        var negate = [1, -1, 0],
+          direction = negate[Math.floor(Math.random() * negate.length)];
+
+        var randDeg = rand(-5, 10),
+          randScale = rand(0.9, 1.1),
+          randDeg2 = rand(30, 5);
+
+        // And apply those
+        $(this).css({
+          'transform': 'scale(' + randScale + ') skew(' + randDeg + 'deg) rotateZ(' + randDeg2 + 'deg)'
+        });
+
+        // Set an interval
+        z = setInterval(function () {
+          var ux = (Math.cos(theta) * v) * direction;
+          var uy = (Math.sin(theta) * v) - ((-g) * t);
+          nx = (ux * t);
+          ny = (uy * t) + (0.9 * (g) * Math.pow(t, 2));
+          if (ny < -800) {
+              ny = -800;
+          }
+          //$("#html").html("g:" + g + "bottom:" + ny + "left:" + nx + "direction:" + direction);
+          $(self).css({
+              'bottom': (ny) + 'px',
+              'left': (nx) + 'px',
+          });
+          // Increase the time by 0.10
+          t = t + 0.1;
+
+          //跳出循环
+          if (t > totalt) {
+            clicked = false;
+            first = true;
+            $('.goldAlertBox').remove()
+            clearInterval(z);
+          }
+        }, 10);
+      });
+    };
+
+  }
+
+
+  <%if params[:share_callback] == '1' && current_user.accept_agreement == false%>
+    goldShow();
+  <%end%>
+  $(".AgreeProtol>span").on("click",function(){
+    $(".agree-icon").toggleClass("AgreeProtolimg");
+  })
+
+  /*button 事件*/
+  $('.warnButton').on('click',function(){
+    if(!($(".agree-icon").hasClass("AgreeProtolimg"))){
+      alertTx("请阅读《用户协议》");
+    }else{
+      agreement()
+
+    }
+  })
+  // warn_alertlayer()
+})
+</script>

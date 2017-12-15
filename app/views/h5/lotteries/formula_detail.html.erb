@@ -1,0 +1,57 @@
+  <div class="BuyRecord-box Formula-box1 Formula-box">
+    <div>
+      <p class="FormulaTitle"><b>幸运号码计算公式</b></p>
+      <p class="colorRed">[(数值A+数值B)÷商品总需人次]取余数+10000001 </p>
+    </div>
+    <!--分割线-->
+    <p class="Pro-gray"></p>
+    <div class="FormulaText">
+      <p class="For-border">
+        <b>数值A</b>
+        <span class="iblockText">=该期夺宝最后一单购买时，(<i>0.3克拉钻石</i>当前价+<i>0.5克拉钻石</i>当前价)×100 + 老时时彩下一期开奖号码</span>
+        <%if @lottery.status == 2%>
+        <span>=<i class="colorRed"><%=@lottery.num_b.to_i%></i></span>
+        <%end%>
+      </p>
+      <p>
+        <b>数值B</b>
+        <span>=截止该期夺宝最后一个号码分配完毕，将本期夺宝的最后50个参与时间的数值进行求和</span>
+        <%if @lottery.status == 2%>
+        <span>=<i class="colorRed"><%=@lottery.num_a.to_i%></i></span>
+        <%end%>
+      </p>
+    </div>
+    <!--分割线-->
+    <p class="Pro-gray"></p>
+    <div class="FormulaText">
+      <p>
+        <b>幸运号码</b>
+        <span>=(数值A+数值B)除以该奖品总需人次得到的余数，加原始数10000001，得到最终幸运号码</span>
+        <%if @lottery.status == 2%>
+        <span>=<i class="colorRed" style="padding-bottom: 0px;">(<%=@lottery.num_a%>+<%=@lottery.num_b%>)%<%=@lottery.total_count%>+<%=LotteryOrderItem::BEGINNUMBER%></i></span>
+        <span>=<i class=""><%=@lottery.win_lottery_code%></i></span>
+        <%end%>
+      </p>
+    </div>
+    <% if @lottery.status != 2 %>
+    <p class="Pro-gray"></p>
+    <div class="FormulaText suchText">
+      <b>例如：</b>
+      <span>某期夺宝需要<i class="colorRed">3657</i>人次，当最后一个单购买时，根据<i>"湖南文交所"GIA钻石大盘</i>指数显示，0.3克拉钻石价格为<i class="colorRed">2645.12</i>，0.5克拉钻石价格为<i class="colorRed">8563.75</i>，下一期老时时彩的开奖号码为<i class="colorRed">63534</i>;</span>
+      <p class="f-size">
+        <span>本期夺宝最后50个参与时间求和为<i class="colorRed">4714824928</i></span>
+        <span>（注：夺宝时间为2017-04-12 09:43:29.478对应数值为094329478）</span>
+      </p>
+      <p>
+        <span>数值A=(2645.12+ 8563.75)×100+63534=<i>1184421</i></span>
+        <span>数值B=<i>4714824928</i></span>
+      </p>
+      <p>
+        <span>幸运号码=[(1184421+4714824928)÷3657]取余数+10000001=<i>10000662</i></span>
+      </p>
+    </div>
+    <%end%>
+  </div>
+
+
+

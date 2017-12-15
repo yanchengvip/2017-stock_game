@@ -1,0 +1,2 @@
+module BookingTradesHelper
+end

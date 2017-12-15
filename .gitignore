@@ -1,0 +1,16 @@
+tmp/
+*.log
+log
+public/assets
+public/page_cache
+public/uploads
+db/development.sqlite3
+.DS_Store
+public/video
+public/images
+db/test.sqlite3
+#compress_assets.rb
+.idea
+config/database.yml
+db/schema.rb
+dump.rdb

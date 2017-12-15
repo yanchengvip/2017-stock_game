@@ -1,0 +1,34 @@
+alipay_sanbox: &development_alipay_sanbox
+  alipay:
+    app_id: 1 #沙箱环境
+    #应用私钥 沙箱环境
+    private_key: 1
+    #沙箱环境 支付宝公钥，用于验签
+    alipay_public_key: 1
+    host: "http://wx.frp.balawo.com/"
+    gateway_url: 'https://openapi.alipaydev.com/gateway.do'
+
+alipay_sanbox: &development_alipay_dev
+  alipay:
+    app_id: 2017041006617723 #模拟盘开发
+    #拟盘开发 应用私钥
+    private_key: 1
+    #拟盘开发 支付宝公钥，用于验签
+    alipay_public_key: 1
+    host: "http://wx.frp.balawo.com/"
+    gateway_url: 'https://openapi.alipay.com/gateway.do'
+development:
+  <<: *development_alipay_sanbox
+  #<<: *development_alipay_dev
+production:
+  alipay:
+    app_id: 2017041006617723 #模拟盘开发
+    private_key: 1
+    #支付宝公钥，用于验签
+    alipay_public_key: 1
+    host: "1"
+    gateway_url: 'https://openapi.alipay.com/gateway.do'
+
+
+
+

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  amount: 1
+  odds: 9.99
+  bet_type: 1
+  diamond_account_id: 1
+  request_ip: MyString
+
+two:
+  user_id: 1
+  amount: 1
+  odds: 9.99
+  bet_type: 1
+  diamond_account_id: 1
+  request_ip: MyString

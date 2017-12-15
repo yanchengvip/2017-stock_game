@@ -1,0 +1,91 @@
+<div class="gfc-box login-bg login-box">
+  <!--<div class="container-box">-->
+    <div class="login-banner"></div>
+    <div class="login">
+      <div class="user">
+        <input id="phone" class="" type="tel" maxlength=11 placeholder="请输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='请输入手机号'">
+        <span class=""></span>
+      </div>
+      <div class="pwd">
+        <input id="password" class="password" type="password" maxlength=16 placeholder="请输入密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入密码'">
+        <span class=""></span>
+      </div>
+      <div class="login-Verification-ode">
+        <span class=""></span>
+        <%= rucaptcha_input_tag(class: ' code', placeholder: '图片验证码', id: "_rucaptcha") %>
+        <!-- , oninput: "clearWval(this)") -->
+        <div class="img-Verification-ode">
+        <%= rucaptcha_image_tag(alt: 'Captcha') %>
+        </div>
+      </div>
+      <p class="btn-login bg-red txt-white">登录</p>
+    </div>
+    <div class="forget-pwd">
+      <!-- <a href="#1">忘记密码</a> -->
+      <%= link_to '忘记密码', get_pwd_path %>
+      <span></span>
+      <a href="/register">新用户注册</a>
+    </div>
+  <!--</div>-->
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $(".rucaptcha-image").click(function(){
+      $(this).attr("src", "/rucaptcha/")
+    })
+    $(".rucaptcha-image").click()
+    DataValidation();
+    $("input").focus(function(){
+      $(this).siblings("span").addClass("del")
+    })
+    $("input").blur(function(){
+      obj = $(this)
+      setTimeout('obj.siblings("span").removeClass("del")', 100)
+    })
+    $("body").on("click", ".del", function(){
+      $(this).siblings("input").val("")
+    })
+    $(".btn-login").click(function(){
+      if($("#phone").val() == ""){
+        alertTx("请输入手机号")
+        return false
+      }
+      if($("#password").val() == ""){
+        alertTx("请输入密码")
+        return false
+      }
+      value = $("#password").val();
+      if(value.length >16 || value.length < 6){
+        alertTx("密码长度应在6-16位");
+        return false;
+      }
+      if($('#_rucaptcha').val() == ''){
+        alertTx("图片验证码不能为空")
+        return false
+      }
+
+      $.ajax({
+        type : "POST",  //提交方式
+        url : "/session/auth.json",//路径
+        data : { phone: $("#phone").val(), password: $("#password").val(), _rucaptcha: $("#_rucaptcha").val()},//数据，这里使用的是Json格式进行传输
+        success : function(result) {//返回数据根据结果进行相应的处理
+          console.log(result)
+          if(result.status == 200){
+            window.location.href = result.data.url
+          }else{
+            alertTx(result.msg);
+            $(".rucaptcha-image").click();
+          }
+
+        },
+        error: function(){
+        }
+      });
+    })
+  })
+
+  function clearWval(ele){
+    ele.value = ele.value.replace(/[&\|\\\*^%$#,.;/<>@\-]/g,"")
+  }
+</script>

@@ -1,0 +1,72 @@
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" style="margin-bottom: 10px" onclick="add_ranking_modal2()">添加收益率奖品</button>
+  </div>
+
+</div>
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>日排名奖品设置   &nbsp&nbsp&nbsp&nbsp 当前开奖时间：每日，17:00</strong></div>
+  <ul class="list-group">
+
+    <%@day_list.each do |day|%>
+        <li class="list-group-item">名次：<%= day.ranking%>；  <%= day.award_name%>
+          <a href="/admins/ranking_configs/award_manage?id=<%=day.id%>&&ranking_type=2" target="_self">修改</a>
+        </li>
+    <%end%>
+
+  </ul>
+
+</div>
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>周排名奖品设置 &nbsp&nbsp&nbsp&nbsp  当前开奖时间：每周六，17:00</strong></div>
+  <ul class="list-group">
+
+    <%@week_list.each do |week|%>
+        <li class="list-group-item">名次：<%= week.ranking%>；   <%= week.award_name%>
+          <a href="/admins/ranking_configs/award_manage?id=<%=week.id%>&&ranking_type=2" target="_self">修改</a>
+        </li>
+    <%end%>
+
+
+  </ul>
+
+</div>
+
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>月排名奖品设置  &nbsp&nbsp&nbsp&nbsp 当前开奖时间：每月最后一天，17:00</strong></div>
+  <ul class="list-group">
+
+    <%@month_list.each do |month|%>
+        <li class="list-group-item">名次：<%= month.ranking%>；  <%= month.award_name%>
+          <a href="/admins/ranking_configs/award_manage?id=<%=month.id%>&&ranking_type=2" target="_self">修改</a>
+        </li>
+    <%end%>
+
+
+  </ul>
+
+</div>
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>总排名奖品设置</strong></div>
+  <ul class="list-group">
+
+    <%@year_list.each do |year|%>
+        <li class="list-group-item">名次：<%= year.ranking%>；  <%= year.award_name%>
+          <a href="/admins/ranking_configs/award_manage?id=<%=year.id%>&&ranking_type=2" target="_self">修改</a>
+        </li>
+    <%end%>
+
+
+  </ul>
+
+</div>
+
+<%= render partial: 'admins/ranking_configs/add_ranking_modal'%>

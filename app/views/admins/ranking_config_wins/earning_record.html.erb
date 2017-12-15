@@ -1,0 +1,54 @@
+<%= render partial: 'admins/ranking_config_wins/serach_record'%>
+
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>领奖时间</th>
+      <th>领奖用户</th>
+      <th>用户手机</th>
+      <th>奖品名称</th>
+      <th>所属排行</th>
+      <th>排行名次</th>
+
+
+      <th>订单状态</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+
+    <% @rcw_orders.each do |order| %>
+        <tbody>
+        <tr>
+          <td><%= time_format order.created_at %></td>
+          <td><%= user_nickname order.user %></td>
+          <td><%= user_phone order.user %></td>
+          <td><%= order.product.present? ? order.product.name : '商品已下架' %></td><!--TODO-->
+          <td><%= ranking_type_helper order.ranking_config.ranking_type, order.ranking_config.date_type %></td>
+          <td><%= ranking_helper order.ranking_config.ranking %></td>
+          <td><%= lottery_order_status order.status %></td>
+          <td>
+            <a href="/admins/ranking_config_win_orders/<%= order.id %>" class="admin_product_operate_a">管理订单</a>
+
+          </td>
+
+
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @rcw_orders, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+

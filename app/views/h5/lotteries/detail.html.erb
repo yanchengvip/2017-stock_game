@@ -1,0 +1,180 @@
+<script>
+  $(function(){
+    function ZeroClick(lottery_id){
+      $('.ZeroClick').attr('id', lottery_id);
+      $('.ZeroClick').show();
+      // 不直接兑换的时候赋值id
+      $('.BuyAbsolute-Receive img').attr('lot', lottery_id);
+      // $('body').addClass('PostionFixed');
+    }
+    //兑换钻石提醒
+    function ZeroTx(){
+      $('.ZeroTx').show();
+      // $('body').addClass('PostionFixed');
+    }
+    //隐藏弹框
+    function BoxClose(){
+      $('.BuyRecord-absolute').hide();
+      // $('body').removeClass('PostionFixed');
+    }
+    //点击X号隐藏弹框
+    $('.BuyAbsolute-BoxClose').on('click',function(){
+      BoxClose()
+    })
+    //fr 追加购买
+    $('.BuyRecordFoot').on('click','.fr', function(event) {
+      var lottery_id = $(this).attr('id');
+      console.log(lottery_id,"lottery_id")
+      window.location.href="/h5/lotteries/"+lottery_id
+    });
+    //领取奖品按钮判断根据value值，1-分享福袋
+    // $('.BrPrizeState-Receive').on('click', function() {
+    $('#receive').on('click', function(event) {
+      var value=$(this).attr('value');
+      $('.pprice').text($(this).attr('product_price'));
+      var lottery_id = $(this).attr('value');
+      if(value==1){
+        window.location.href="/h5/lotteries/"+lottery_id+"/choose_address"
+      }else{
+        ZeroClick(lottery_id);
+      }
+      //直接领取奖品
+      $('.BuyAbsolute-exchange img').on('click',  function() {
+        window.location.href="/h5/lotteries/"+lottery_id+"/choose_address"
+      });
+      //兑换钻石提醒
+      $('.BuyAbsolute-Receive img').on('click',  function() {
+        BoxClose();
+        ZeroTx();
+      });
+      //是，直接兑换
+      $('.Buyexchange-nextYes').on('click', function() {
+        $.ajax({
+          type : "POST",  //提交方式
+          url : "/h5/lotteries/"+lottery_id+"/take_award",//路径
+          data : {type: 2},//数据，这里使用的是Json格式进行传输
+          beforeSend: function(){
+          },
+          success : function(result) {//返回数据根据结果进行相应的处理
+            console.log(result)
+            if(result.status == 200){
+              BoxClose();
+              //兑换成功提醒
+              $("#diamond_coin").html(result.data + "钻石币");
+              $('.ZreoSuccess').show();
+              setTimeout(function(){
+                window.location.href = "/h5/lotteries/"+lottery_id+"/share_prize";
+              },1000);
+            }else{
+              BoxClose();
+              alertTx(result.msg)
+            }
+          }
+        });
+      });
+      //否
+      $('.Buyexchange-nextNo').on('click', function() {
+        BoxClose();
+      });
+    });
+    //查看号码弹框
+    var a;
+    var this_id;
+    $("body").on("click", ".click-showNumber", function(){
+      this_id = $(this).attr('id');
+      // a=$('body').scrollTop();
+      // b=-Number(a);
+      // $('.BuyRecord-box').addClass('PostionFixed');
+      // $('.BuyRecord-box').css({
+      //   height:'100%',
+      //   width:'100%',
+      //   top:b+'px'
+      // });
+      $('.data_count').text($(this).attr('data_count'));
+      $('.data_text').html($(this).attr('data_text'));
+      $('#show_number_').show();
+      Scrollheight();
+    });
+    //隐藏弹框
+    $('.hidden').on('click',function(){
+      $('.show-Number').hide();
+      unScrollheight()
+      // $('.BuyRecord-box').removeClass('PostionFixed');
+      // $('.BuyRecord-box').css({
+      //   height:'auto',
+      //   top:'initial'
+      // });
+      // $('body').scrollTop(a);
+    })
+  });
+</script>
+<div class="BuyRecord-box Product-box BuyDetails-box">
+   <!--图片-->
+   <%= render partial: "h5/lotteries/show_template/pic_slide" %>
+  <!--信息-->
+  <div class="Pro-DetailBox">
+    <div>
+      <p class="Pro-GoodsName"><%= @product.try(:name)%></p>
+      <div class="clearfix padding-px">
+        <div class="Pro-Number white-space">期号：<%=@lottery.try(:lottery_code)%></div>
+        <% if @lottery.status == 2%>
+          <div class="Pro-Number ">揭晓时间：<span><%=@lottery.lottery_time.strftime("%Y-%m-%d %H:%M:%S") if @lottery.lottery_time %></span></div>
+        <% end %>
+      </div>
+      <% if @lottery.status == 2%>
+        <p class="Proann-UserState">幸运号码　<span><%=@lottery.try(:win_lottery_code)%></span></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="User-WinningInfo">
+    <p>本期参与 <span class="txt-yellow"><%=@lottery.lottery_orders.where(user_id: current_user.id).sum(:total_count)%></span> 人次</p>
+    <%=render "h5/lotteries/show_template/lottery_orders_2"%>
+  </div>
+</div>
+
+<div class="BuyRecord-absolute show-Number" id="show_number_<%#= lottery_order.id %>">
+<div class="show-NumberBox">
+   <p><span>您参与了：</span><span class="colorPurple data_count"><%#= lottery_order.total_count %></span>人次</p>
+   <p>
+     <span>夺宝号码：</span>
+       <span class="data_text">
+       </span>
+   </p>
+   <a href="javascript:void(0)" class="hidden">确认</a>
+</div>
+</div>
+<div class="BuyRecord-absolute ZeroClick">
+  <!-- 0元夺宝选择领取 -->
+  <div class="BuyAbsolute-Box">
+    <%= image_tag 'h5/images/icon-close.png', class: 'BuyAbsolute-BoxClose', alt: '' %>
+    <div class="BuyAbsolute-exchange" style="clear:both;">
+      <!-- <img src="../images/icon-p.png" alt=""> -->
+      <%=image_tag "h5/images/icon-p.png" %>
+      <p>直接领取奖品</p>
+    </div>
+    <p class="BuyAbsolute-line"><%=image_tag "h5/images/icon-or.png" %></p>
+    <div class="BuyAbsolute-Receive">
+      <!-- <img src="../images/icon-diam.png" alt=""> -->
+      <%=image_tag "h5/images/icon-diam.png" %>
+      <p>兑换等值钻石币</p>
+    </div>
+  </div>
+</div>
+<div class="BuyRecord-absolute ZeroTx">
+  <!-- 0元夺宝兑换钻石提醒 -->
+  <div class="BuyAbsolute-Box Buyexchange-ClickBox">
+    <%=image_tag "h5/images/icon-close.png", class: 'BuyAbsolute-BoxClose' %>
+    <div style="clear:both;">
+      <p class="Buyexchange-nextText">是否继续兑换？</p>
+      <div class="Buyexchange-nextClick">
+        <p><span class="Buyexchange-nextYes">是</span></p>
+        <p><span class="Buyexchange-nextNo">否</span></p>
+      </div>
+    </div>
+    <p class="Bor-line"></p>
+    <div class="Buyexchange-nextTx">
+      <p class="icon-questuin">兑换收益</p>
+      <p>您的中奖商品会等值兑换为钻石币，兑换成功后您将无权领取中奖商品</p>
+    </div>
+  </div>
+</div>

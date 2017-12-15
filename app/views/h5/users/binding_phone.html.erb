@@ -1,0 +1,163 @@
+<div class="gfc-box bind-phone">
+
+  <%#= simple_form_for [:h5, @user]  do |f| %>
+    <div class="form">
+      <input type="tel" maxlength=11 placeholder="请输入手机号" id="phone_num" name="user[phone]" onfocus="this.placeholder=''" onblur="this.placeholder='请输入手机号'">
+      <span class="point-one"></span>
+
+      <input type="tel" maxlength=6 placeholder="请输入验证码" id="code" name="user[code]" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'">
+      <!-- <input type="hidden" name='action_type' value="binding_phone"> -->
+      <span class="point-two"></span>
+
+      <!-- <p class="My-verification-code" id="codep"><%#= link_to '发送验证码', 'javascript:void(0)', id: 'send_code' %></p> -->
+      <p class="verification-code verify" id="codep">发送验证码<%#= link_to '发送验证码', 'javascript:void(0)', id: 'send_code' %></p>
+      <a class="Voice-prompt" href="javascript:void(0)" id="voice_code">收不到验证码？请试试<span>语音验证码</span></a>
+      <%= link_to '绑定手机','javascript:void(0)', class: 'button-l -gfc-buy', id: 'bind_phone' %>
+      <%#= f.submit '绑定手机', class: 'button-l phone-button', id: 'bind_phone' %>
+    </div>
+  <%# end %>
+
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    DataValidation();
+    $("input").focus(function(){
+      $(this).next("span").addClass("del-grey");
+    })
+    $("input").blur(function(){
+      obj = $(this);
+      setTimeout('obj.next("span").removeClass("del-grey")', 100);
+    })
+    $("body").on("click", ".del-grey", function(){
+      $(this).prev("input").val("");
+    })
+
+    // $('#code').bind('input propertychange', function() {
+    //   if($(this).val().length >= 6){
+    //     $(this).blur();
+    //   }
+    // });
+    // $('#phone_num').bind('input propertychange', function() {
+    //   if($(this).val().length >= 11){
+    //     $(this).blur();
+    //   }
+    // });
+
+    $('#codep, #voice_code').on('click', function(){
+      var phone_num = $("#phone_num").val();
+      if(phone_num ==''){
+        alertTx("手机号不能为空");
+        return false;
+      }
+      var pattern = /^1[34578]\d{9}$/;
+      if(!pattern.test(phone_num)){
+        alertTx("手机号格式不正确");
+        return false;
+      }
+
+      var dom_id = $(this).attr('id');
+      var code_type = dom_id == 'voice_code' ? '1' : '0';
+      // alert(code_type);
+      if (countdown == 60){
+        $.ajax({
+          type: 'POST',
+          url: "/session/send_verification_code",
+          data: {'phone': $('#phone_num').val(), 'is_voice': code_type},
+          // async: false,
+          success: function(datas) {
+            if(datas['status'] == 200){
+              settime($("#codep"));
+              if(dom_id == 'voice_code'){
+                // alert(countdown);
+                // alertTx("验证码将通过语音电话通知到您，请注意接听");
+                alertYzm("验证码将通过语音电话通知到您，请注意接听");
+              }
+            }else{
+              alertTx(datas['msg']);
+            }
+          },
+          error: function(XMLHttpResponse) {
+            alertTx(datas['msg']);
+          }
+        })
+      }
+    })
+
+    var countdown=60;
+    function settime(obj) {
+      // var btn_text = obj.attr('id') == 'voice_code' ? '收不到验证码？请试试语音验证码' : '发送验证码';
+      if (countdown == 0) {
+        obj.removeAttr("disabled");
+        $('#voice_code').removeAttr("disabled");
+        obj.html('发送验证码');
+        $('#codep').css("background-color","#2e273e ");
+        $('#codep').css("color","#cdc9ea ");
+        countdown = 60;
+        return;
+      } else {
+        obj.attr("disabled", true);
+        $('#voice_code').attr('disabled', true);
+        $('#codep').css("background-color","#2e273e ");
+        $('#codep').css("color","#cdc9ea ");
+        obj.html("重新发送(" + countdown + ")");
+        countdown--;
+        console.log(countdown)
+      }
+      setTimeout(function(){settime(obj)},1000)
+    }
+
+    $('#bind_phone').on('click', function(){
+      if($("#phone_num").val() == ''){
+        alertTx("手机号不能为空");
+        return false;
+      }
+      if($("#code").val() == ''){
+        alertTx("验证码不能为空");
+        return false;
+      }
+      // if($("#phone_num").val().length != 11){
+      //   alertTx("手机号格式不正确");
+      //   return false;
+      // }
+      var pattern = /^1[34578]\d{9}$/;
+      if(!pattern.test($("#phone_num").val())){
+        alertTx("手机号格式不正确");
+        return false;
+      }
+      var user_phone = <%= current_user.phone.presence || '1' %>;
+      if($("#phone_num").val() == user_phone){
+        alertTx("该手机号已经绑定");
+        return false;
+      }
+
+      $.ajax({
+        type: 'put',
+        url: "/h5/users/<%= current_user.id %>",
+        data: {'code': $('#code').val(), 'phone': $('#phone_num').val(), 'id': <%= current_user.id %>, 'action_type': 'binding_phone'},
+        success: function(datas) {
+          if(datas['status'] == 200){
+            alertDb('绑定成功', '确认', function(){
+              if(<%=!params[:callback_url].blank?%>){
+                window.location.href = "<%=params[:callback_url]%>"
+              }else{
+                window.location.href = "/h5/users/home"
+              }
+            });
+            setTimeout(function(){
+              window.location.href = "/h5/users/home";
+            },1000);
+          }else{
+            alertTx(datas['msg']);
+          }
+        },
+        error: function(XMLHttpResponse) {
+          alertTx("网络错误, 请重试");
+        }
+      })
+
+    })
+
+
+  })
+</script>

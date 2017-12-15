@@ -1,0 +1,97 @@
+<div class="BuyRecord-box invite_record">
+  <div class="VirInvit-title">
+    <p>受邀好友</p>
+    <p>时间</p>
+    <p>所获奖励</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <% if @diamond_accounts.blank? %>
+    <div class="no-data">暂无记录</div>
+  <% else %>
+    <ul class="VirInvit-main invite_list">
+
+    </ul>
+  <% end %>
+</div>
+
+
+<script id="invitor" type="text/x-jsrender">
+  <li>
+    <div>
+      <img src="{{:follower_user.headimgurl}}" alt="">
+      <span>{{:follower_user.nickname || follower_user.phone}}</span>
+    </div>
+    <div> {{:~format(created_at, "yyyy.MM.dd")}}</div>
+    <div>
+      <%= image_tag "h5/images/money.png", alt: '' %>
+      <span>{{:amount}}</span>
+    </div>
+  </li>
+</script>
+
+<script type="text/javascript">
+  $(function(){
+    function amount_format(amount){
+      return amount.split('.')[0]
+    }
+    $.views.helpers({amount_format: amount_format});
+    var page = 1;
+    var diamond_accounts = <%= raw @diamond_accounts.to_json %>;
+    $.each(diamond_accounts, function(index, diamond_account){
+      var tmpl = $.templates('#invitor');
+      var htmlOutput = tmpl.render(diamond_account);
+      $('.invite_list').append(htmlOutput);
+    })
+    // loading = false;
+    // if(diamond_accounts.length == 0){
+    //   $(".invite_list").append($.templates("#invitor").render());
+    // }
+
+    $('.invite_record').dropload({
+      scrollArea: window,
+      domDown: {
+        domClass: 'dropload-down',
+        domRefresh: '<div class="dropload-refresh">↑上拉加载更多-自定义内容</div>',
+        domLoad: '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>',
+        domNoData: '<div class="dropload-noData">暂无数据...</div>'
+      },
+      loadDownFn : function(me){
+        $.ajax({
+          type: 'GET',
+          url: "/h5/users/invite_history_page",
+          dataType: 'json',
+          data: {page: page + 1, is_json: true},
+          beforeSend: function(){
+            me.lock();
+          },
+          success: function(result){
+            if(result.status == 200 && result.data.diamond_accounts.length > 0){
+              // console.log(result);
+              // console.log(result.data.diamond_accounts.length);
+              $.each(result.data.diamond_accounts, function(index, diamond_account){
+                var tmpl = $.templates('#invitor');
+                var htmlOutput = tmpl.render(diamond_account);
+                $(".invite_list").append(htmlOutput);
+              });
+              page += 1;
+            }
+            // loading = false;
+            me.resetload();
+            me.unlock();
+            console.log(result.data.diamond_accounts.length);
+            if(result.data && result.data.diamond_accounts.length == 0){
+              me.lock();
+              me.noData();
+            }
+          },
+          error: function(){
+            me.resetload();
+            me.unlock();
+          }
+        });
+      },
+      threshold : 50
+    });
+  })
+</script>

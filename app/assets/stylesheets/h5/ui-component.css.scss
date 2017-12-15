@@ -1,0 +1,165 @@
+/*
+* @Author: Administrator
+* @Date:   2017-05-12 11:45:03
+* @Last Modified by:   Administrator
+* @Last Modified time: 2017-05-25 10:32:35
+*/
+.ui-box {
+	overflow: hidden;
+}
+/* 顶部自定义背景块 */
+.ui-box .bgc-diy-top {
+    background-color: #2e273e;
+    margin-top: -8px;
+    text-indent: 8px;
+}
+.ui-box .bgc-diy-top.stop {
+	position: fixed;
+}
+.ui-box .bgc-diy-top.go {
+	position: absolute;
+}
+/* 中间自定义背景块 */
+.ui-box .bgc-diy {
+    background-color: #2e273e;
+    text-indent: 8px;
+}
+.ui-box h5	{
+    height: 34px;
+    font-size: 18px;
+    font-weight: normal;
+    /* padding-bottom: 10px; */
+    /* padding-top: 10px; */
+}
+.ui-box p {
+	color: #9d91b5;
+	font-size: 16px;
+	line-height: 22px;
+}
+.ui-box p span.time {
+	font-size: 14px;
+}
+.ui-box .paragraph {
+	padding-top: 10px;
+}
+.ui-box .paragraph p {
+	text-indent: 1.3em;
+	padding-bottom: 10px;
+}
+.block-box {
+	padding: 8px 0;
+	background: #433a57;
+	margin: 14px 14px;
+	overflow: hidden;
+}
+.radius-box {
+	padding: 8px 0;
+	background: #433a57;
+	margin: 14px 14px;
+	border-radius: 8px;
+	overflow: hidden;
+}
+.stretch-box {
+	padding: 8px 0;
+	background: #433a57;
+	margin: 14px 0;
+	/* border-radius: 8px; */
+	overflow: hidden;
+	position: relative;
+}
+.top-line-box {
+	border-top: 1px solid #524A64;
+	padding-top: 8px;
+	margin-top: 8px;
+}
+ul.top-line-li>li {
+	border-top: 1px solid #524A64;
+	padding-top: 8px;
+	margin-top: 8px;
+}
+ul.top-line-li>li:nth-child(1){	
+	border-top: 0px solid #524A64;
+	padding-top: 0;
+	margin-top: 0;
+}
+.ui-content {
+	padding: 0 8px;
+}
+.line-arrangement {
+    padding: 10px 0 10px 0;
+    overflow: hidden;
+}
+.line-vertical {
+    padding: 10px 0 10px 0;
+    overflow: hidden;
+}
+.line-arrangement li {
+	float: left;
+}
+.line-vertical li {
+    float: none;
+    padding: 5px 0;
+}
+.ui-box .line-arrangement li .img-icon {
+	width: 40px;
+    height: 40px;
+    margin: 0 20px;
+    background: asset_url("h5/images//rec-wechat.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.ui-box .line-arrangement li:last-child {
+	float: right;
+	padding-right: 10px;
+}
+
+
+/* 通栏banner图 */
+.ui-banner-img img {
+	width: 100%;
+}
+
+/* 通用按钮 */
+.ui-btn {
+	height: 84px;
+	/* background: #eee; */
+	position: relative;
+}
+.ui-btn span.btn.auto-btn {
+	height: 40px;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	/* background: green; */
+}
+.ui-btn span.btn.auto-btn button {
+	width: 80%;
+	height: 100%;
+	display: block;
+	border-radius: 24px;
+	margin: 0 auto;
+}
+
+
+/* 回到顶部 */
+.back-top-ctr {
+	position: fixed;
+	bottom: 80px;
+	right: 30px;
+	display: none;
+}
+.back-top-ctr .back-top-btn {
+	width: 40px;
+	height: 40px;
+	background-image: asset_url("h5/images//btn-back-top.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	cursor: pointer;
+}
+

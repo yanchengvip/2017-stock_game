@@ -1,0 +1,53 @@
+<!--福袋中奖记录-->
+<%= render partial: 'admins/lucky_bags/win_items_search'%>
+
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>抽奖期号</th>
+      <th>抽奖时间</th>
+      <th>福袋ID</th>
+      <th>福袋名称</th>
+      <th>抽奖用户</th>
+      <th>手机号码</th>
+      <th>订单状态</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+    <% if !@lottery_order_items.empty?%>
+        <%@lottery_order_items.each do |item|%>
+            <tbody>
+
+            <tr>
+              <td><%= item.lottery_code%></td>
+              <td><%= time_format item.created_at%></td>
+              <td><%= item.lottery_id %></td>
+              <td><%= item.product.name %></td>
+              <td><%= user_nickname item.user%></td>
+              <td><%= user_phone item.user%></td>
+              <td><%= lottery_order_status item.lottery_order.status%></td>
+              <td>
+                <a href="/admins/lucky_bags/manage_order?item_id=<%=item.id%>"  class="admin_product_operate_a">管理订单</a>
+              </td>
+
+
+            </tr>
+
+            </tbody>
+        <%end%>
+    <%end%>
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @lottery_order_items, :container => false,:previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+

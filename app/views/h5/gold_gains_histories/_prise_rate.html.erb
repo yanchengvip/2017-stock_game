@@ -1,0 +1,34 @@
+<% if @self_day_rank_rate && get_left_time_by('D') > 0 %>
+  <div class='display-text prise'  id="rank_1">
+    <!-- <p>在<span>XXX</span>竞赛中，获得了第<%#= to_zw(@self_day_rank_rate + 1) %>名，奖励1000元奖金</p> -->
+    <%= render partial: 'get_prize_detail', locals: { ranking_config: @self_day_rank_rate, type: 'D' } %>
+  </div>
+<% end %>
+
+<% if @self_week_rank_rate %>
+  <div class="<%= p_type.include?('周') ? '' : 'hide' %> display-text prise" id="rank_2">
+    <!-- <p>在<span>XXX</span>竞赛中，获得了第<%#= to_zw(@self_week_rank_rate + 1) %>名，奖励1000元奖金</p> -->
+    <%= render partial: 'get_prize_detail', locals: { ranking_config: @self_week_rank_rate, type: 'W' } %>
+  </div>
+<% end %>
+
+<% if @self_month_rank_rate %>
+  <div class="<%= p_type.include?('月') ? '' : 'hide' %> display-text prise" id="rank_3">
+    <!-- <p>在<span>XXX</span>竞赛中，获得了第<%#= to_zw(@self_month_rank_rate + 1) %>名，奖励1000元奖金</p> -->
+    <%= render partial: 'get_prize_detail', locals: { ranking_config: @self_month_rank_rate, type: 'M' } %>
+  </div>
+<% end %>
+
+<% if @self_total_rank_rate %>
+  <div class="hide display-text prise" id="rank_total">
+    <!-- <p>在<span>XXX</span>竞赛中，获得了第<%#= to_zw(@self_total_rank_rate + 1) %>名，奖励1000元奖金</p> -->
+    <%= render partial: 'get_prize_detail', locals: { ranking_config: @self_total_rank_rate, type: 'T' } %>
+  </div>
+<% end %>
+
+<% if @self_today_rank_rate && get_left_time_by('TD') <= 0 %>
+  <div class="display-text prise" id="rank_4">
+    <!-- <p>在<span>XXX</span>竞赛中，获得了第<%#= to_zw(@self_total_rank + 1) %>名，奖励1000元奖金</p> -->
+    <%= render partial: 'get_prize_detail', locals: { ranking_config: @self_today_rank_rate, type: 'TD' } %>
+  </div>
+<% end %>

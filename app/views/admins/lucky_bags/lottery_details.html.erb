@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">福袋抽奖记录</div>
+  <ul class="list-group">
+    <li class="list-group-item">分享时间：<%= time_format @lottery.created_at%></li>
+    <li class="list-group-item">福袋ID：<%= @lottery.id%></li>
+    <li class="list-group-item">福袋名称：<%= @lottery.product.name%></li>
+    <li class="list-group-item">详细详情：&nbsp;&nbsp;
+      价格：<%= @lottery.product.price%>&nbsp;&nbsp;&nbsp;&nbsp;
+
+      总需人次：<%= @lottery_count%>&nbsp;&nbsp;
+
+      参与人次：<%= @loi_count%>人&nbsp;&nbsp;&nbsp;&nbsp;
+
+      剩余人次：<%= @lottery_count - @loi_count%>人&nbsp;&nbsp;&nbsp;&nbsp;
+
+    </li>
+    <li class="list-group-item">开奖状态：<%= lottery_status @lottery.status%></li>
+  </ul>
+
+</div>
+
+
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">抽奖记录列表</div>
+
+  <!-- Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>抽奖单号</th>
+      <th>抽奖时间</th>
+      <th>购买人</th>
+      <th>手机号</th>
+      <th>IP</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+
+    <%@lottery_order_items.each do |loi|%>
+        <tr>
+          <td><%= loi.lottery_code%></td>
+          <td><%= time_format loi.created_at%></td>
+          <td><%= user_nickname loi.user%></td>
+          <td><%= user_phone loi.user%></td>
+          <td><%= loi.request_ip%></td>
+        </tr>
+    <%end%>
+    </tbody>
+  </table>
+</div>
+

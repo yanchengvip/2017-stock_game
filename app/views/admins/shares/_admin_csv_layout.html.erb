@@ -1,0 +1,25 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-2">
+
+      <div class="list-group">
+        <a href="/admins/download_csv" class="list-group-item <%= menu_active1 %> ">下载记录</a>
+        <a href="/admins/download_csv/show_user_info" class="list-group-item <%= menu_active2 %>">用户基本情况统计</a>
+        <a href="/admins/download_csv/show_remain_balance" class="list-group-item <%= menu_active7 %>">资金余额统计</a>
+        <a href="/admins/download_csv/show_change_balance" class="list-group-item <%= menu_active8 %> ">资金变动统计</a>
+        <a href="/admins/download_csv/show_month_money" class="list-group-item <%= menu_active9 %> ">资金月报统计</a>
+        <a href="/admins/download_csv/show_lottery_orders" class="list-group-item <%= menu_active6 %> ">中奖订单统计</a>
+        <a href="/admins/download_csv/show_channel" class="list-group-item <%= menu_active3 %> ">渠道统计</a>
+      </div>
+    </div>
+
+
+    <div class="col-md-10">
+      <%= yield %>
+    </div>
+
+
+  </div>
+</div>

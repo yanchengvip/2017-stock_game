@@ -1,0 +1,58 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">奖品详情</div>
+  <ul class="list-group">
+    <li class="list-group-item">上架时间：<%= time_format @lottery.published_at%></li>
+    <li class="list-group-item">期号：<%= @lottery.lottery_code%></li>
+    <li class="list-group-item">商品名称：<%= @lottery.product.name%></li>
+    <li class="list-group-item">商品详情：&nbsp;&nbsp;
+      商品价格：<%= @lottery.product.price%>&nbsp;&nbsp;&nbsp;&nbsp;
+
+      单价：<%= @lottery.price%>钻石币&nbsp;&nbsp;&nbsp;&nbsp;
+
+      总需人次：<%= @lottery.total_count%>人&nbsp;&nbsp;&nbsp;&nbsp;
+
+      参与人次：<%= @lottery.sales_count%>人&nbsp;&nbsp;&nbsp;&nbsp;
+
+    </li>
+    <li class="list-group-item">开奖状态：<%= lottery_status @lottery.status%></li>
+  </ul>
+
+</div>
+
+
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">抽奖记录</div>
+
+  <!-- Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>订单号</th>
+      <th>购买时间</th>
+      <th>购买人</th>
+      <th>购买数量</th>
+      <th>IP</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+
+    <%@lottery.lottery_orders.each do |lo|%>
+    <tr>
+      <td><%= lo.id%></td>
+      <td><%= time_format lo.created_at%></td>
+      <td><%= nickname_or_phone lo.user%></td>
+      <td><%= lo.total_count%></td>
+      <td><%= lo.request_ip%></td>
+    </tr>
+    <%end%>
+    </tbody>
+  </table>
+</div>
+
+
+

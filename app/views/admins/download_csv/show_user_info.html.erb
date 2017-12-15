@@ -1,0 +1,59 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">用户基本情况统计</div>
+  <div class="panel-body">
+    <%= render partial: 'admins/download_csv/search' %>
+    <hr>
+
+    用户基本情况统计下载:<a href="javascript:void(0);" onclick="dowload_csv(1)">点击下载（可选中上方的选则条件统计下载)</a>
+
+  </div>
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th>用户ID</th>
+      <th>用户名</th>
+      <th>手机号</th>
+      <th>注册时间</th>
+      <th>关注微信公众号</th>
+      <th>注册来源</th>
+      <th>注册渠道</th>
+      <th>成功邀请好友人数</th>
+      <th>登录天数(活跃度)</th>
+      <th>夺宝次数</th>
+      <th>中奖次数</th>
+      <th>钻币抽奖次数</th>
+      <th>钻币中奖金额</th>
+      <th>虚拟盘交易次数</th>
+      <th>虚拟盘交易金额</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @datas.each do |user| %>
+        <tr>
+          <td><%= user[0]%></td>
+          <td><%= user[1]%></td>
+          <td><%= user[2]%></td>
+          <td><%= user[3]%></td>
+          <td><%= user[4]%></td>
+          <td><%= user[5]%></td>
+          <td><%= user[6]%></td>
+          <td><%= user[7]%></td>
+          <td><%= user[8]%></td>
+          <td><%= user[9]%></td>
+          <td><%= user[10]%></td>
+          <td><%= user[11]%></td>
+          <td><%= user[12]%></td>
+          <td><%= user[13]%></td>
+          <td><%= user[14]%></td>
+
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <div class="flickr_pagination">
+    <%= will_paginate @users, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+  </div>
+</div>
+

@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  is_published: false
+  min_size: 9.99
+  max_size: 9.99
+  exchange_name: MyString
+  exchange_code: MyString
+  idex_trading_volume: 1
+  rap_trading_volume: 1
+  color: MyString
+  clarity: MyString
+  change_price: 9.99
+  change_price_persent: MyString
+  price: 9.99
+  current_price: 9.99
+  price: 9.99
+  current_price: 9.99
+  opening_price: 9.99
+
+two:
+  name: MyString
+  is_published: false
+  min_size: 9.99
+  max_size: 9.99
+  exchange_name: MyString
+  exchange_code: MyString
+  idex_trading_volume: 1
+  rap_trading_volume: 1
+  color: MyString
+  clarity: MyString
+  change_price: 9.99
+  change_price_persent: MyString
+  price: 9.99
+  current_price: 9.99
+  price: 9.99
+  current_price: 9.99
+  opening_price: 9.99

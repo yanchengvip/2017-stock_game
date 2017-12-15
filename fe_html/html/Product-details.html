@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>商品详情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/swiper.jquery.min.js"></script>
+  <script src="../js/base.js"></script>
+  <script>
+    $(function(){
+      fetchBanner();
+      $('.Pro-Mask').hide();
+      function fetchBanner() { //轮播
+        var jqSlideWrapper = $('.swiper-wrapper');
+        var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            pagination: '.swiper-pagination',
+            autoplay: 3000
+        });
+        bannerReady = true;
+      }
+      /*立即购买*/
+      $('.Pro-postion p').click(function(){
+        var value=$('.Pro-Mask').attr('value');
+        if(value==1){
+          /*1的时候购买*/
+          alert(1);
+        }else{
+          $('.Pro-Mask').show();
+          $('.Pro-Mask').attr('value','1');
+          $('body').addClass('PostionFixed');
+        }
+
+      })
+      /*查看公式详情*/
+      $('.Pro-LuckyTitle img').click(function(){
+        window.location.href="Formula-detail.html";
+      })
+      /*购买份数选择 兑换基数*/
+     
+      ShowHide();
+    })
+
+  </script>
+</head>
+<body>
+<div class="BuyRecord-box Product-box">
+  <div class="pro-Tital">
+   <!--轮播-->
+    <div class="slide swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="../images/pro-detail.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="../images/gift-banner.png" ></div>
+          <div class="swiper-slide"><img src="../images/pro-detail.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="../images/pro-detail.jpg" alt=""></div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  <!--商品详情-->
+  <div class="Pro-DetailBox">
+    <p class="Ind-GoodsName Pro-GoodsName">Burberry黑色真皮拼接格纹装饰女士斜挎包</p>
+    <!--start 未揭晓-->
+    <div>
+      <div class="Goods-Money Pro-Money">
+        <p class="fl">￥8,500</p>
+        <p class="fr">50钻石币/人次</p>
+      </div>  
+      <div class="Pro-AttendanceBox">
+        <div class="Ind-Number white-space Pro-Number">期号：20140102123265</div>
+        <!--进度条-->
+        <p class="Per-Progress">
+          <span style="width:60%"></span>
+        </p>
+        <div class="clearfix">
+          <p class="fl">总需人次<span>8,500</span></p>
+          <p class="fr">剩余<span>7,000</span></p>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--start 已揭晓-->
+    <div>
+      <div class="Goods-Money Pro-Money">
+        <p class="fl">￥8,500</p>
+        <p class="fr">50钻石币/人次</p>
+      </div>  
+      <div class="Pro-AttendanceBox Proann-AttendanceBox clearfix">
+        <div class="Ind-Number white-space">期号：20140102123265</div>
+        <div class="Ind-Number ">本期参与：总人次<span>8,500</span></div>
+      </div>
+    </div>
+    <!--end-->
+    <!-- start 福袋-->
+    <div>
+      <div class="Goods-Money Pro-Money">
+        <p>￥8,500</p>
+        <div>
+          <p class="fl">分享人：欧阳夏丹</p>
+          <p class="fr">需要人次：30</p>
+        </div>
+      </div>
+      <div class="Pro-AttendanceBox">
+        <!--进度条-->
+        <p class="Per-Progress">
+          <span style="width:60%"></span>
+        </p>
+        <div class="clearfix">
+          <p class="fl">总需人次<span>30</span></p>
+          <p class="fr">剩余<span>10</span></p>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!-- start 福袋已揭晓-->
+    <div>
+      <div class="Goods-Money Pro-Money">
+        <p>￥8,500</p>
+        <div>
+          <p class="fl">分享人：欧阳夏丹</p>
+          <p class="fr">需要人次：30</p>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--已揭晓-->
+    <div class="Pro-AttendanceBox Proann-AttendanceBox clearfix">
+      <!--中奖用户-->
+      <div class="Pro-luckyUserBox clearfix">
+        <div class="Pro-luckyUser">
+          <div class="Pro-recordLeft">
+            <img src="../images/header.jpg">
+          </div>
+          <div class="Pro-recordRight">
+            <p >获奖用户：<span class="Pro-recordRightName">欧阳靖琪</span></p>
+            <p>本期参与：<span class="colorRed">29</span>人次</p>
+            <p class="white-space">揭晓时间：2017-02-13 20:10:58</p>
+          </div>
+          <p class="Proann-UserState">幸运号码　<span>10202789</span></p>
+        </div>
+        <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+      </div>
+      <p class="Pro-UserState">您还没有参加本期夺宝哦！</p>
+      <!--用户参与-->
+      <div class="Proann-Userparticipation">
+        <!--福袋抽奖号码-->
+        <p>您的抽奖号码：10002552</p>
+        <!--0元夺宝-->
+        <p>您参与了：<span class="colorRed">2</span>人次</p>
+        <div class="Proann-BuyNumBox">
+          <p class="Proann-BuyNum">夺宝号码：<span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span><span>10002552、</span><span>10002554、</span><span><i class="colorRed">10002554</i>、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10002552、</span><span>10003000、</span></p>
+          <span class="Proann-More">展开全部</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <!--公式-->
+  <div class="Pro-LuckyNumber">
+    <p class="Pro-LuckyTitle"><span>幸运号码计算公式</span><img src="../images/h1_03.png"></p>
+    <p class="Pro-formula">[(数值A+数值B)÷商品总需人次]取余数+10000001</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="Pro-Detail">商品图文详情</div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <div class="Pro-recordBox">
+    <div class="Pro-recordTiele">
+      <p class="fl">所有参与记录</p>
+      <p class="fr"><span>2017-02-13 09:27:14</span>开始</p>
+    </div>
+    <!--参与记录-->
+    <div class="Pro-null">暂无记录</div>
+    <ul class="Pro-record" style="display:none;">
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="Pro-recordLeft">
+          <img src="../images/header.jpg">
+        </div>
+        <div class="Pro-recordRight">
+          <p class="Pro-recordRightName">扔了几万该中车了吧</p>
+          <p>温州 IP:60.190.82.66</p>
+          <p>参与了<span class="colorRed">10</span>人次　<span>2017-02-13 20:10:58</span></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray" style="height:80px;"></div>
+  <div class="Pro-Mask" value=0 style="display:none;">
+    <div class="Pro-MaskPosition">
+      <div class="Pro-close">
+        <img src="../images/icon-close.png">
+      </div>
+      <div class="Pro-Buy">
+        <p>参与人次</p>
+        <div class="change">
+          <span class="minus"></span>
+          <input class="buy-cont" type="number" min="1" max="10.3658" value="2" data-base="3.21">
+          <span class="add"></span>
+        </div>
+        <p>共计使用 <span class="colorRed"><span class="Change-Num">60</span>钻石币</span></p>
+        <p class="colorGray">夺宝有风险，参与需谨慎</p>
+      </div>
+    </div>
+  </div>
+  <div class="Pro-postion">
+    <p>立即夺宝</p>
+  </div>
+</div>
+</body>
+<script>
+  GoodsBubble('../images/header2x.png','一个名字',5,33,3)//图片地址，用户名称，参与人次，时间，动画延迟3s标准，2s最小
+  GoodsBubble('../images/header2x.png','又一个名字',5,33,3)
+  GoodsBubble('../images/header2x.png','又一个名字1',5,33,3)
+  GoodsBubble('../images/header2x.png','又一个名字2',5,33,3)
+  GoodsBubble('../images/header2x.png','又一个名字3',5,33,3)
+  $(function(){
+    addMuin();
+  })
+</script>
+</html>

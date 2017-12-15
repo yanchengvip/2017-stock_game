@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>交易记录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/pullToRefresh.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script src="../js/iscroll.js"></script>
+  <script src="../js/pullToRefresh.js"></script>
+</head>
+<style>
+  /* .postion-header{ position: absolute; width: 100%; top: 0; left: 0; z-index: 100; } */
+</style>
+<body class="body-box">
+<div class="gfc-box list-box" style="position: relative;">
+  <ul class="header postion-header">
+    <li><span>我的挂单</span></li>
+    <li class="active"><span>交易记录</span></li>
+  </ul>
+  <div id="wrapper" class="record">
+    <div class="ul">
+      <li>hjhgj</li>
+    </div>
+  </div>
+</div>
+<div class="footer-box">
+  <div class="footer">
+    <ul class="ul">
+      <li onclick="index()">
+        <span></span>
+        <span>首页</span>
+      </li>
+      <li onclick="list()">
+        <span></span>
+        <span>交易记录</span>
+      </li>
+      <li onclick="RankinglistRate()">
+        <span></span>
+        <span>竞赛</span>
+      </li>
+      <li onclick="Indiana()">
+        <span></span>
+        <span>0元夺宝</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<script>
+refresher.init({
+  id:"wrapper",
+  slt:".ul",
+  pullDownAction:Refresh,                                                            
+  pullUpAction:Load                                       
+  });      
+  function getElm(){
+    el =document.querySelector("#wrapper .ul");
+    return el;
+  }                                                                       
+function Refresh() {                       
+  setTimeout(function () {  // <-- Simulate network congestion, remove setTimeout from production!
+    var el, li, i;         
+    el =getElm();
+    //这里写你的刷新代码       
+    document.getElementById("wrapper").querySelector(".pullDownIcon").style.display="none";   
+    document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="刷新成功";                                          
+    setTimeout(function () {
+      wrapper.refresh();
+      document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="";                
+      },1000);//模拟qq下拉刷新显示成功效果
+    /****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****/
+  }, 1000);
+}
+function Load() {
+  setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+    var el, li, i;      
+    el =getElm();
+    for (i=0; i<2; i++) {
+      li = document.createElement('li');
+      li.innerHTML="<p>网易游戏出品,双维度操控，真人真机对战</p>"
+      el.appendChild(li, el.childNodes[0]);
+    }
+    wrapper.refresh();/****remember to refresh after action completed！！！   ---id.refresh(); --- ****/
+  },2000);  
+}
+</script>
+</body>
+</html>

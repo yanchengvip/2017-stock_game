@@ -1,0 +1,30 @@
+<form action="https://openapi.alipaydev.com/gateway.do" method="post">
+  <input  name="app_id" value="2016080200146859">
+  <input  name="biz_content" value={"subject":"测试数据","out_trade_no":"123456","total_amount":"100","product_code":"QUICK_WAP_PAY"}>
+  <input  name="charset" value="UTF-8">
+  <input  name="method" value="alipay.trade.wap.pay">
+
+  <input  name="sign_type" value="RSA2">
+  <input  name="timestamp" value="2014-07-24 03:07:50">
+  <input  name="version" value="1.0">
+  <input  name="sign" value="erwhxPyfNhfmzS1a05k1n3dlrYxUDAH2Opy+cD7oxEFJ5KsKu//TaGTs6U4/0/Ib6P04p8T6NWxSusqUMUaC1Ls1grJ+8bqJDOocHG9yul5NvLOG7PbLuSgbzdtcuJn9YIggd3t1Yn1eT++j9Tv0ySm0ad+cHFPxA64il4iFekQKzbQ2DvovVUpVbzvfTuS0KD/ggeriveFHmVHfqtQ21xeDqE9pAiLNNfg74wfm0AgtFSrklXJ3mZiMXMCs2cCZGU+jaHficcDM7qhV17XEEQDVYIEnfyq7zDolxU4itG95aAGjTTZtbakUQ4BQ+UgbREJ4wgBx79ytwqaxyQj+zg==">
+  <button class="btn btn-primary" type="submit">支付</button>
+</form>
+
+
+
+<!--<form action="https://openapi.alipaydev.com/gateway.do" method="post" id="alipay_form">-->
+  <!--<input type="hidden" name="app_id" value="<%#= @wap[:app_id]%>">-->
+  <!--<input type="hidden" name="biz_content" value="<%#= @wap[:biz_content]%>">-->
+  <!--<input type="hidden" name="charset" value="<%#= @wap[:charset]%>">-->
+  <!--<input type="hidden" name="method" value="<%#= @wap[:method]%>">-->
+
+  <!--<input type="hidden" name="sign_type" value="<%#= @wap[:sign_type]%>">-->
+  <!--<input type="hidden" name="timestamp" value="<%#= @wap[:timestamp]%>">-->
+  <!--<input type="hidden" name="version" value="<%#= @wap[:version]%>">-->
+  <!--<input type="hidden" name="sign" value="<%#= @sign%>">-->
+  <!--&lt;!&ndash;<button class="btn btn-primary" type="submit">支付</button>&ndash;&gt;-->
+<!--</form>-->
+<!--<script>-->
+   <!--document.getElementById('alipay_form').submit();-->
+<!--</script>-->

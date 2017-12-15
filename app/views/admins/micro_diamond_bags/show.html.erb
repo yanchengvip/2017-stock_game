@@ -1,0 +1,51 @@
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">红包详情</div>
+  <ul class="list-group">
+    <li class="list-group-item">上架时间：<%= time_format @micro_bag.published_at %></li>
+    <li class="list-group-item">开抢时间：<%= time_format @micro_bag.buy_at %></li>
+    <li class="list-group-item">微钻数量：<%= @micro_bag.micro_diamond_amount.to_f %></li>
+    <li class="list-group-item">红包个数：<%= @micro_bag.micro_diamond_bag_items.size%>/<%= @micro_bag.person_count.to_i %></li>
+    <li class="list-group-item">参与需钻币：<%= @micro_bag.buy_diamond_amount.to_f %></li>
+    <li class="list-group-item">红包状态：<%= admin_micro_diamond_bags_status @micro_bag.status %>&nbsp;</li>
+    <li class="list-group-item">耗时：&nbsp;<%= @micro_bag.duration_time%>秒</li>
+    <li class="list-group-item">本次最佳：&nbsp;&nbsp;</li>
+  </ul>
+
+</div>
+
+
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">抢红包记录</div>
+
+  <!-- Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>订单号</th>
+      <th>抢红包时间</th>
+      <th>抢红包用户</th>
+      <th>所得微钻数</th>
+      <th>IP</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <%@micro_bag.micro_diamond_bag_items.each do |bag|%>
+        <tr>
+          <td><%= bag.id%></td>
+          <td><%= time_format bag.created_at%></td>
+          <td><%= nickname_or_phone bag.user%></td>
+          <td><%= bag.amount%></td>
+          <td><%= bag.request_ip%></td>
+        </tr>
+    <%end%>
+    </tbody>
+  </table>
+</div>
+
+
+

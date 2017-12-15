@@ -1,0 +1,109 @@
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">收益-日排行奖品设置</div>
+  <div class="panel-body">
+    <p>当前名次：<%= @ranking_config.ranking %></p>
+  </div>
+  <form action="/admins/ranking_configs/award_manage_save" method="post">
+
+    <input type="hidden" name="ranking_config_id" value="<%= @ranking_config.id%>">
+    <input type="hidden" name="ranking_type" value="<%= @ranking_config.ranking_type%>">
+  <ul class="list-group">
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox" name="empty_award" id="empty_award" value="1" <%= empty_award_is_checked%>>无</label>
+
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox"  class="o-checkbox" name="virtual_money" value="2"
+                      <%= rcx_is_disabled%>  <%= rcx_is_checked @virtual_money_v%> >虚拟资金</label>
+        <input type="number"  name="virtual_money_v"  placeholder="虚拟资金" value="<%= @virtual_money_v%>">
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox" class="o-checkbox" name="diamond_money" value="3"
+                      <%= rcx_is_disabled%> <%= rcx_is_checked @diamond_money_v%>>钻石币</label>
+        <input type="number" name="diamond_money_v" value="<%= @diamond_money_v%>" placeholder="钻石币">
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox" class="o-checkbox" name="real_money" value="7"
+                      <%= rcx_is_disabled%> <%= rcx_is_checked @real_money_v%>>现金</label>
+        <input type="number" name="real_money_v" value="<%= @real_money_v%>" placeholder="现金">
+      </div>
+    </li>
+
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox" class="o-checkbox" name="lottery_product" value="4"
+                      <%= rcx_is_disabled%> <%= rcx_is_checked @lottery_product_v%>>夺宝商品</label>
+        <select  name="lottery_product_v" style="width: 30%">
+          <%@lottery_products.each do |pro|%>
+              <option value= "<%= pro.id%>" <%= set_select_option pro.id,@lottery_product_v%> ><%= pro.name%></option>
+          <%end%>
+        </select>
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <div class="checkbox">
+        <label><input type="checkbox" class="o-checkbox" name="lucky_bag" value="5"
+                      <%= rcx_is_disabled%> <%= rcx_is_checked @lucky_bag_v%>>分享福袋</label>
+        <select  name="lucky_bag_v" style="width: 30%">
+          <%@lucky_bags.each do |bag|%>
+              <option value= "<%= bag.id%>" <%= set_select_option bag.id,@lucky_bag_v%>  ><%= bag.name%></option>
+          <%end%>
+        </select>
+      </div>
+    </li>
+
+
+    <!--<li class="list-group-item">-->
+      <!--<div class="checkbox">-->
+        <!--<label><input type="checkbox" class="o-checkbox" name="diamond_bag" value="6">钻石礼包</label>-->
+        <!--<select class="selectpicker" name="diamond_bag_v" style="width: 30%">-->
+          <!--<option value=''>暂无</option>-->
+        <!--</select>-->
+      <!--</div>-->
+    <!--</li>-->
+
+  </ul>
+
+
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <button type="submit" class="btn btn-primary">确定更新</button>
+        </div>
+
+
+        <div class="btn-group" role="group">
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </form>
+</div>
+
+
+
+
+
+
+
+
+

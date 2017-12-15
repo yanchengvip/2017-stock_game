@@ -1,0 +1,36 @@
+<!--朋友圈排行进贡记录-->
+<div class="BuyRecord-box">
+  <div class="VirInvit-title Coshow-title">
+    <p>受邀好友</p>
+    <p>时间</p>
+    <p>进/吃贡</p>
+    <p>所获奖励</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+
+  <% if !@pay_tributes.present? %>
+      <div class="no-data">暂无记录</div>
+  <% end %>
+  <ul class="VirInvit-main Coshow-main">
+    <% @pay_tributes.each do |pt| %>
+        <li>
+          <div>
+            <img src="<%= pt[:headimgurl] %>" alt="">
+            <span><%= pt[:nickname] %></span>
+          </div>
+          <div><%= date_format pt[:created_at] %></div>
+          <% if pt[:tribute_type].to_i == 1 %>
+              <div>吃贡</div>
+          <% else %>
+              <div class="colorGreen">进贡</div>
+          <% end %>
+
+          <div>
+            <%= image_tag("h5/images/money2x.png") %>
+            <span><%= number_to_currency pt[:amount].to_f %></span>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>

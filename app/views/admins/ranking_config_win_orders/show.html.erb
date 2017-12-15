@@ -1,0 +1,77 @@
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>领取排名的订单管理</strong></div>
+  <ul class="list-group">
+
+    <li class="list-group-item">领奖时间：<%= time_format @rcw_order.created_at%></li>
+    <li class="list-group-item">所在排行：<%= ranking_type_helper @rcw_order.ranking_config.ranking_type,@rcw_order.ranking_config.date_type%></li>
+    <li class="list-group-item">领奖时间：<%= time_format @rcw_order.created_at%></li>
+    <li class="list-group-item">领奖用户：<%=user_nickname @rcw_order.user%></li>
+    <li class="list-group-item">用户手机：<%=user_phone @rcw_order.user%></li>
+    <li class="list-group-item">所在名次：<%=ranking_helper @rcw_order.ranking_config.ranking%></li>
+    <li class="list-group-item">获得奖励：<%= @rcw_order.product.present? ? @rcw_order.product.name : '商品已删除'%></li><!--TODO-->
+
+  </ul>
+
+</div>
+
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>物流信息</strong></div>
+  <ul class="list-group">
+    <form action="/admins/ranking_config_win_orders/manage" method="post">
+    <%if @user_address.present?%>
+        <li class="list-group-item">收货信息：</br>
+          姓名：<%= @user_address.user_name%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          收货电话：<%= @user_address.phone%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          邮编：<%= @user_address.postcode%></br>
+          <%= @user_address.address%>
+        </li>
+    <%else%>
+        <li class="list-group-item">
+          <div class="alert alert-danger" role="alert">该用户未填写收货信息,请自行联系用户！</div>
+          <input type="hidden" value="1" name="is_add_address">
+          <input type="input" name="user_name"  placeholder="收货人姓名">
+          <input type="input" name="user_phone"  placeholder="收货人手机号">
+          <input type="input" name="postcode"  placeholder="邮政编码"></br>
+
+          <textarea rows="2" cols="60" placeholder="详细地址" name="address"></textarea>
+          </li>
+    <%end%>
+
+      <li class="list-group-item">当前状态：<%= lottery_order_status @rcw_order.status%></li>
+      <input type="hidden" name="id" value="<%= @rcw_order.id%>">
+      <li class="list-group-item">订单状态：
+        <select class="selectpicker" name="status" style="width: 30%">
+          <option <%= set_select_option @rcw_order.status,0%> value=0>未发货</option>
+          <option <%= set_select_option @rcw_order.status,3%> value=3>待发货</option>
+          <option <%= set_select_option @rcw_order.status,1%> value=1>已发货</option>
+          <option <%= set_select_option @rcw_order.status,-1%> value=-1>已作废</option>
+        </select>
+      </li>
+
+      <li class="list-group-item">物流公司：<input type="input" name="courier_name" value="<%= @order_courier.present? ? @order_courier.courier_name : ''%>"  placeholder="输入物流公司名称"></li>
+      <li class="list-group-item">快递单号：<input type="input" name="courier_no" value="<%= @order_courier.present? ? @order_courier.courier_no : ''%>" placeholder="输入快递单号"></li>
+
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-primary">确定更新</button>
+          </div>
+
+
+          <div class="btn-group" role="group">
+
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+  </ul>
+
+</div>

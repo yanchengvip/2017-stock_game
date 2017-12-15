@@ -1,0 +1,35 @@
+<div class="day week footer-top">
+  <a href="<%= rank_detail_h5_gold_gains_histories_path(type: '总收益排行' )%>">
+    <h3>总排名<!-- <span>距开奖时间：<span>24:30:05</span> --></h3>
+  </a>
+  <% unless @total_ranks.blank? %>
+    <ul class="win">
+      <% @total_ranks.first(3).each do |tr| %>
+        <li>
+          <span></span>
+          <span><%= image_tag tr['headimgurl'] %></span>
+          <span><%= tr['nickname'] || tr['phone'] %></span>
+          <%# if tr['id'] == current_user.id && @self_total_rank %>
+            <%#= render partial: 'get_prize', locals: { ranking_config: @self_total_rank, type: 'T', amount: tr['total_gold_gains'].to_f, from: 'rank' } %>
+          <%# else %>
+            <p><span class="logo-money"></span><%= number_to_currency tr['total_gold_gains'] %></p>
+          <%# end %>
+        </li>
+      <% end %>
+      <%# self_rank = @total_ranks.pluck(:id).index(current_user.id) rescue nil %>
+      <% unless @total_ranks.first(3).map{|i| i['id']}.include?(current_user.id) || @total_ranks.blank? %>
+        <li class="last">
+          <% self_rank = $redis.get("self_rank_#{current_user.id}_total_rank").to_i %>
+          <span><%= rank(self_rank) %></span>
+          <span><%= image_tag current_user.headimgurl %></span>
+          <span><%= current_user.nickname || current_user.phone %></span>
+          <!-- 不要删 -->
+          <%# self_amount = @total_ranks.where(id: current_user.id).first.total_gold_gains rescue 0 %>
+          <%# self_amount = JSON.parse($redis.get("self_rank_#{current_user.id}_total_data"))['total_gold_gains'] rescue 0 %>
+          <%#= render partial: 'get_prize', locals: { ranking_config: @self_total_rank, type: 'T', amount: self_amount.to_f, from: 'rank' } %>
+          <p><span class="logo-money"></span><%= number_to_currency current_user.total_gold_gains %></p>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

@@ -1,0 +1,514 @@
+
+<div class="BuyRecord-box bodygray">
+  <div class="ind-top">
+    <div class="header">
+      <div class="Ind-Money">
+        <%=image_tag "h5/images/icon-logo.png", onclick:"window.location.href='/h5/posts/diamond_account_role'"%>
+        <span class="exchange_coin" ><%= current_user.total_diamond_coin.to_i %>钻币</span>
+        <%=image_tag "h5/images/change-2.png", class: "img-pop exchange_coin"%>
+      </div>
+      <!-- <a  class="Ind-topbtn fr" href="javascript:void(0)">10钻币=1夺宝人次</a> -->
+      <a class="Ind-Return fr" href="/h5/lotteries/buy_record">夺宝记录</a>
+    </div>
+  </div>
+  <!-- 夺宝首页banner -->
+  <div class="indbanner">
+    <ul class="img-list">
+      <a href="javascript:void(0)" class="<%=wechat_browser? ? 'wechat' : ''%>" data-img ='index-box' id="share_btn">
+        <li><%=image_tag "h5/images/img-list2.png"%></li>
+      </a>
+      <a href="/home/get_diamonds">
+        <li><%=image_tag "h5/images/img-list1.png"%></li>
+      </a>
+    </ul>
+  </div>
+
+  <%# unless @new_ten_orders.blank? %>
+    <div class="slide-containerBox">
+      <%= image_tag 'h5/images/win-tips-icon.png', alt: '' %>
+      <div class="slide-container">
+        <ul class="slide-list js-slide-list order_list">
+          <% if @notice.present? %>
+              <li> <p class="mquee"><%= @notice['desc']%></p> </li>
+          <%end%>
+        </ul>
+      </div>
+    </div>
+  <%# end %>
+
+  <script id="newly_orders" type="text/x-jsrender">
+    <li onclick="window.location.href='/h5/lotteries/{{:id}}'">
+      <p class="mquee">恭喜
+        <span class="txt-yellow-1">
+          {{:~filter_string(win_user.nickname || win_user.phone)}}
+        </span>{{:lottery_time}}前获得
+        <span class="trade-name txt-white">{{:product.name}}</span>
+      </p>
+    </li>
+  </script>
+
+  <ul class="IndTab">
+    <li class="<%=params[:status].to_i == 0 ? 'active' : ''%>" >夺宝中</li>
+    <li class="<%=params[:status] == '1,2' ? 'active' : ''%>" >最新揭晓</li>
+  </ul>
+  <ul class="sort sort-tab">
+    <%progress =  params[:q] && params[:q][:s] && params[:q][:s].split(" ")[0] == 'progress'%>
+    <%total_count = params[:q] && params[:q][:s] && params[:q][:s].split(" ")[0] == 'total_count'%>
+    <li class="sort_li <%= params[:q].blank? ||  params[:q][:s].blank? || params[:q][:s].split(" ")[0] == 'sort' ? 'active' : '' %>">默认</li>
+    <li class="sort_li <%= progress ? 'active' : '' %>"><span class="<%=progress ? (params[:q][:s].split(" ")[1] == 'desc' ? 'down-active' : 'up-active') : '' %>">进度</span></li>
+    <li class="sort_li <%=total_count ? 'active' : '' %>"><span class="<%=total_count ? (params[:q][:s].split(" ")[1] == 'desc' ? 'down-active' : 'up-active') : '' %>">总需人次</span></li>
+    <li>
+      <div class="filter-tab <%=(params[:tag_id].blank?) ? '' : 'active' %>">筛选</div>
+    </li>
+  </ul>
+
+
+  <div class="Indiana-main">
+    <!--******************0元夺宝   Goods-Money****************************-->
+    <div class="Indiana-main1">
+      <div class="Ind-main">
+        <!--最新商品-->
+        <ul class="NewGoods" id="lottery_list">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--侧滑筛选框-->
+  <div class="Sideslip-filter">
+    <div class="Sideslip-box">
+      <h3>商品分类</h3>
+      <ul class="Sideslip-tab">
+        <%@tags.each do |tag|%>
+        <li data-id ='<%=tag.id%>' class="<%=(params[:tag_id] &&( params[:tag_id].split(",").include?(tag.id.to_s))) ? 'active' : ''%>"><%=tag.name%></li>
+        <%end%>
+      </ul>
+      <ul class="Sideslip-btn">
+        <li>
+          <button class="reset -gfc-sell">重置</button>
+        </li>
+        <li>
+          <button class="sure -gfc-buy">确定</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<script id="nodata" type="text/x-jsrender">
+<!-- 暂无夺宝中商品 -->
+<div class="BuyRecord-Null">
+  <%=image_tag "h5/images/duobaonull.png"%>
+  <p>暂无夺宝商品</p >
+</div>
+</script>
+
+<script id="status0" type="text/x-jsrender">
+  <a class="commodity-a" href="javascript:void(0);" data-id= "{{:id}}">
+    <li>
+      <div class="commodity">
+        <div class="Ind-left img-square">
+          <img src="<%=SYSTEMCONFIG[:cdn_host]%>{{:product.head_image}}" alt="">
+        </div>
+        <div class=" BuyRecordRight Ind-right indianaing">
+          <div class="Ind-Number white-space">{{:~lottery_name(product.name)}}</div>
+          <div class="Ind-Foot">
+            <div class="Ind-FootLeft">
+              <!--进度条-->
+              <p class="Per-money"><span>{{:~to_fixed(price, 0)}}</span>钻币/次</p>
+              <p class="Per-Progress">
+                <span style="width:{{:~sales_percent(sales_count, total_count) }}%"></span>
+              </p>
+            </div>
+            <div class="Ind-FootRight">
+              <div class="Ind-Money">
+                立即夺宝
+              </div>
+              <p class="fl">揭晓进度<span class="txt-purple">{{:~to_persent(progress,  total_count, sales_count)}}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </li>
+  </a>
+</script>
+
+<script id="status1" type="text/x-jsrender">
+  <a class="commodity-a" href="javascript:void(0);" data-id= "{{:id}}">
+    <li>
+      <div class="commodity ">
+        <div class="Ind-left img-square">
+          <img src="<%=SYSTEMCONFIG[:cdn_host]%>{{:product.head_image}}" alt="">
+        </div>
+        <div class=" BuyRecordRight Ind-right">
+          <div class="Ind-Number white-space">{{:~lottery_name(product.name)}}</div>
+          <div class="Ind-Number white-space">期号：{{:lottery_code}}</div>
+          <div class="Ind-Foot">
+            <p class="txt-blue"><span class="span1" id="countdown_{{:id}}"></span>后揭晓</p>
+          </div>
+        </div>
+      </div>
+
+    </li>
+  </a>
+</script>
+
+<script id="status2" type="text/x-jsrender">
+  <a class="commodity-a" href="javascript:void(0);" data-id= "{{:id}}">
+    <li>
+      <div class="commodity">
+        <div class="Ind-left img-square">
+          <img src="<%=SYSTEMCONFIG[:cdn_host]%>{{:product.head_image}}" alt="">
+        </div>
+        <div class=" BuyRecordRight Ind-right">
+          <div class="Ind-Number white-space">{{:~lottery_name(product.name)}}</div>
+          <div class="Ind-Number white-space">期号：{{:lottery_code}}</div>
+          <!-- <div class="Ind-Number white-space">本期参与：{{:participant_time}}人次</div> -->
+          <div class="Ind-Number white-space -gfc-red">幸运号码：{{:win_lottery_code}}</div>
+          <div class="Ind-Foot">
+            <p class="-gfc-red">获奖用户：{{:~filter_string(win_user.nickname)}}</p>
+          </div>
+        </div>
+      </div>
+
+    </li>
+  </a>
+</script>
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("share_btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<%unless @lottery_orders_exists  %>
+<%=render 'share_template/lottery_times', locals: {redirect_url: ""}%>
+<%end%>
+<!-- 返回顶部 -->
+<div class="back-top-ctr">
+  <div class="back-top-btn" data-scrollTop="0">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("body").on("click", ".commodity-a", function(){
+      console.log($.param({status: status, q: q, tag_id: tag_id}))
+      window.history.replaceState({url: "<%=SYSTEMCONFIG[:host]%>/?"+$.param({status: status, q: q, tag_id: tag_id}) },'<%=@title%>', "<%=SYSTEMCONFIG[:host]%>/?"+$.param({status: status, q: q, tag_id: tag_id}));
+      window.location.href='/h5/lotteries/'+$(this).attr("data-id")+"?" + $.param({status: status, q: q, tag_id: tag_id})
+    })
+
+    //    商品筛选框
+    $(".Sideslip-tab li").on("click",function(){
+      $(this).toggleClass("active");
+      return false;
+    })
+    $(".Sideslip-box").on("click",function(){
+      return false;
+    })
+    $(".filter-tab").on("click",function() {
+      $(".Sideslip-tab li[value='1']").addClass("active");
+      $("body").addClass("after-body");
+      $(".Sideslip-filter").fadeIn();
+      $(".Sideslip-box").animate({
+        right: 0
+      })
+      return false;
+    })
+    $(".Sideslip-filter").on("click",function(){
+      $(".Sideslip-box").animate({
+        right: -80
+      })
+      $(".Sideslip-filter").fadeOut();
+      $("body").removeClass("after-body");
+      $(".Sideslip-tab li[value='0']").delay(850).queue(function(){$(this).removeClass("active").dequeue()});
+      $(".Sideslip-tab li[value='1']").delay(850).queue(function(){$(this).addClass("active").dequeue()});
+
+//      .queue(function(){$(this).hide();})
+
+    })
+    //  确定
+    $(".sure").on("click",function(){
+
+      $(".Sideslip-box").animate({
+        right: -80
+      })
+      $(".Sideslip-filter").fadeOut();
+      $("body").removeClass("after-body");
+      FilterBox()
+      $(".Sideslip-tab li").attr("value","0");
+      $(".Sideslip-tab li[class='active']").attr("value","1");
+
+      tag_id = ""
+      $(".Sideslip-tab .active").each(function(index, data){
+        tag_id += $(data).attr("data-id") + ","
+      })
+      page = 0
+      load_lottery_data()
+    })
+    //  重置
+    $(".reset").on("click",function(){
+      $(".Sideslip-tab li").removeClass("active");
+      $(".Sideslip-tab li").each(function () {
+        ValNum = $(this).attr("value");
+        if (ValNum == "1") {
+          $(".filter-tab").addClass("active");
+          return false;
+        }
+      })
+      if(ValNum == "0"){
+        $(".filter-tab").removeClass("active");
+      }
+    })
+
+    $(window).scroll(function(){
+      if($(window).scrollTop()>60){
+        $('.header').addClass('posFix')
+      }else{
+        $('.header').removeClass('posFix')
+      }
+    });
+    // 页数
+    var page = 1;
+    var status = "<%=params[:status]%>"
+    var q = <%=raw( params[:q] ? params[:q].to_json : {status_eq: 0}.to_json)%>
+    var loading = true
+    var tag_id = "<%=params[:tag_id]%>"
+    $(".sort_li").click(function(){
+      if(loading){
+        return false
+      }
+      loading = true
+      $(this).siblings().removeClass("active")
+      $(this).addClass("active")
+      $(this).siblings().children("span").removeClass("up-active").removeClass("down-active")
+      if($(this).index() == 0){
+        if($(".IndTab li[class=active]").index() == 0){
+          q = {"status_eq": 0,"s":"sort desc"}
+        }else{
+          q = {"status_gteq": 1, "s":"lottery_time desc"}
+        }
+      }
+
+      if($(this).index() == 1){
+        if($(this).children("span").hasClass('up-active') || !$(this).children("span").hasClass('down-active')){
+          $(this).children("span").removeClass("up-active").addClass("down-active")
+          if($(".IndTab li[class=active]").index() == 0){
+            q = {"status_eq": 0,"s":"progress desc"}
+          }else{
+            q = {"status_gteq": 1, "s":"progress desc"}
+          }
+
+        }else{
+          $(this).children("span").removeClass("down-active").addClass("up-active")
+          if($(".IndTab li[class=active]").index() == 0){
+            q = {"status_eq": 0,"s":"progress asc"}
+          }else{
+            q = {"status_gteq": 1, "s":"progress asc"}
+          }
+        }
+      }
+      if($(this).index() == 2){
+        console.log($(this).children("span").attr("class"))
+        if($(this).children("span").hasClass('up-active') || !$(this).children("span").hasClass('down-active')){
+          $(this).children("span").removeClass("up-active").addClass("down-active")
+          if($(".IndTab li[class=active]").index() == 0){
+            q = {"status_eq": 0,"s":"total_count desc"}
+          }else{
+            q = {"status_gteq": 1,"s":"total_count desc"}
+          }
+        }else{
+          $(this).children("span").removeClass("down-active").addClass("up-active")
+          if($(".IndTab li[class=active]").index() == 0){
+            q = {"status_eq": 0,"s":"total_count asc"}
+          }else{
+            q = {"status_gteq": 1,"s":"total_count asc"}
+          }
+        }
+      }
+      page = 0
+      load_lottery_data()
+    })
+
+    $(".IndTab li").click(function(){
+      if(loading){
+        return false
+      }
+      loading = true
+      $(".IndTab li").removeClass("active")
+      $(".sort li").removeClass("active")
+
+      $(".sort li span").removeClass("up-active").removeClass("down-active")
+      $(this).addClass("active")
+      if($(this).index() == 0){
+        status = "0"
+        q = {"status_eq":"0", "s": "sort desc" }
+        $(".sort_li span").removeClass("up-active").removeClass("down-active")
+        $($(".sort li")[0]).addClass("active")
+      }
+      if($(this).index() == 1){
+        status = "1,2"
+        q = {"status_gteq":"1", "s":"lottery_time desc"}
+        $($(".sort li")[0]).addClass("active")
+      }
+      page = 0
+      load_lottery_data()
+    })
+    function sales_percent(sales_count, total_count){
+      return sales_count * 100 / total_count
+    }
+    function left_count(sales_count, total_count){
+      return total_count - sales_count
+    }
+    $.views.helpers({sales_percent: sales_percent, left_count: left_count});
+
+    var  lotteries = <%=raw @lotteries.to_json%>
+
+    $("#lottery_list").html("")
+    $.each(lotteries, function(index, lottery){
+      var tmpl = $.templates("#status" + lottery.status);
+      var htmlOutput = tmpl.render(lottery);
+      $("#lottery_list").append(htmlOutput);
+      if(lottery.status == 1){
+        lottery_time("countdown_"+lottery.id, lottery.lottery_end_time)
+      }
+    })
+    loading = false
+
+    if(lotteries.length == 0){
+      $("#lottery_list").append($.templates("#nodata").render());
+    }
+    function getHeightToBottom(select) {
+      var minHeight;
+      minHeight = jQuery(window).height() - ($(select).offset().top - jQuery(window).scrollTop())
+      $(select).css({
+        minHeight: minHeight
+      });
+    }
+    function load_lottery_data(){
+      getHeightToBottom("#lottery_list")
+          $.ajax({
+            type : "GET",  //提交方式
+            url : "/h5/lotteries.json",//路径
+            data : {page: page+1, status: status, q: q, tag_id: tag_id},//数据，这里使用的是Json格式进行传输
+            beforeSend: function(){
+            },
+            success : function(result) {//返回数据根据结果进行相应的处理
+              $("#lottery_list").html("")
+              if(result.status == 200 && result.data.lotteries.length > 0){
+
+                $.each(result.data.lotteries, function(index, lottery){
+                  var tmpl = $.templates("#status" + lottery.status);
+                  var htmlOutput = tmpl.render(lottery);
+                  $("#lottery_list").append(htmlOutput);
+                  if(lottery.status == 1){
+                    lottery_time("countdown_"+lottery.id, lottery.lottery_end_time)
+                  }
+                })
+                page += 1
+              }
+              // window.scroll("top", $(".ind-top").height()+$(".indbanner").height()+5)
+              if(result.data.lotteries.length == 0){
+                if(page == 0){
+                  $("#lottery_list").append($.templates("#nodata").render());
+                }
+              }
+              loading = false
+              dropload.unlock();
+              dropload.noData(false)
+              dropload.resetload()
+
+            },
+            error: function(){
+            }
+          });
+    }
+
+    // dropload
+    var dropload = $('.Indiana-main1').dropload({
+        scrollArea : window,
+        domDown: {domRefresh: ''},
+        loadDownFn : function(me){
+          $.ajax({
+            type : "GET",  //提交方式
+            url : "/h5/lotteries.json",//路径
+            data : {page: page+1, status: status, q: q, tag_id: tag_id},//数据，这里使用的是Json格式进行传输
+            beforeSend: function(){
+              me.lock();
+            },
+            success : function(result) {//返回数据根据结果进行相应的处理
+              if(result.status == 200 && result.data.lotteries.length > 0){
+                $.each(result.data.lotteries, function(index, lottery){
+                  var tmpl = $.templates("#status" + lottery.status);
+                  var htmlOutput = tmpl.render(lottery);
+                  $("#lottery_list").append(htmlOutput);
+                  if(lottery.status == 1){
+                    lottery_time("countdown_"+lottery.id)
+                  }
+                })
+                page += 1
+              }
+              me.unlock();
+              me.resetload();
+
+              if(result.data.lotteries.length == 0){
+                me.lock();
+                me.noData();
+              }
+            },
+            error: function(){
+              me.resetload();
+              me.unlock();
+            }
+          });
+        },
+        threshold : 100
+    });
+});
+
+  $(function(){
+    if(<%= current_user.total_diamond_coin.to_i == 0 && $cache.get("get_diamond_user_#{current_user.id}") == nil %>){
+      $.ajax({
+        type: 'POST',
+        url: '/h5/lotteries/alert_get_diamond',
+        success: function(result){
+        }
+      })
+      // Rankingalert('钻币没有了，还想抽奖？</br>', '/home/get_diamond', '查看赚币方法');
+    }
+  })
+
+  $(function(){
+    $.ajax({
+      type: 'GET',
+      url: '/h5/lotteries/newly_orders.json',
+      data: {},
+      success: function(new_ten_orders){
+        // console.log(new_ten_orders);
+        if(new_ten_orders.data.length > 0){
+          // console.log(result.data.new_ten_order.length);
+          $.each(new_ten_orders.data, function(index, new_ten_order){
+            var tmpl = $.templates('#newly_orders');
+            var htmlOutput = tmpl.render(new_ten_order);
+            $(".order_list").append(htmlOutput);
+          });
+        }
+      },
+      error: function(XMLHttpResponse){
+
+      }
+    })
+  })
+
+  $(function(){
+    // doscroll()
+    setInterval(function(){doscroll()}, 5000);
+  })
+
+</script>
+
+<%= render partial: 'share_template/lottery_times'%>
+<div class="BuyRecord-box bodygray">
+  <!--弹框兑换钻石币-->
+  <%= render partial: 'share_template/exchange_diamond', locals: {redirect_url: "/h5/lotteries"} %>
+</div>
+
+

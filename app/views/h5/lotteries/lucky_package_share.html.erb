@@ -1,0 +1,24 @@
+
+<div class="gfc-box bless-active">
+  <div class="bless-banner">
+    <span></span>
+    <div></div>
+  </div>
+  <div class="bless-text">
+    <p>恭喜你获得钻石大富翁送出的价值<span><%=number_to_currency @lottery.product.price%></span>元神秘大礼，赶紧分享给你的好友吧！</p>
+    <span>需要<span><%=@lottery.total_count%></span>人开启福袋</span>
+    <a class="button-l -gfc-buy <%=wechat_browser? ? 'wechat' : ''%>" id="btn" href="javascript:void(0)" data-img = 'bless-box-black'>立即分享</a>
+  </div>
+</div>
+
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<script type="text/javascript">
+$(function() {
+  $(".wechat").click()
+})
+</script>

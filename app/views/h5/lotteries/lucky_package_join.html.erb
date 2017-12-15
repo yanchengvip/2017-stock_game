@@ -1,0 +1,17 @@
+<div class="gfc-box bless-join">
+  <ul>
+    <li><%=image_tag @lottery.user.headimgurl %></li>
+    <li><span><%= @lottery.user.nickname%></span></li>
+    <li><p>分享了一个福袋，赶快打开吧！</p></li>
+  </ul>
+  <div class="bless-join-text">
+    <span></span>
+    <p>您将有机会获得<span><%=number_to_currency @lottery.product.price%></span>元神秘奖品</p>
+
+    <%if @lottery.user_id != current_user.id%>
+      <a class="button-l -gfc-buy" href="/h5/lotteries/<%=@lottery.id%>/lucky_package_open?share_code=<%=params[:share_code]%>">立即参与</a>
+    <%else%>
+      <a class="button-l -gfc-buy" href="#1" onclick="alertTx('分享者不能参与活动')">立即参与</a>
+    <%end%>
+  </div>
+</div>

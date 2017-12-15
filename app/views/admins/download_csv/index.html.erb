@@ -1,0 +1,63 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">统计下载</div>
+  <div class="panel-body">
+
+    <form action="/admins/download_csv" method="get">
+      <div class="input-group">
+
+        <div class="col-xs-12">
+          <span class="lottery-search-span ">文件类型:</span>
+          <select class="selectpicker"  name="statistic_type"  title="文件类型">
+            <option  value="0" selected>全部</option>
+            <option  value="1">用户基本情况统计</option>
+            <option  value="2">资金余额统计</option>
+            <option  value="3">资金变动统计</option>
+            <option  value="4">资金月报统计</option>
+            <option  value="5">每天关注统计</option>
+            <option  value="6">中奖订单统计</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-primary lottery-search-button" type="submit">确定查询</button>
+      </div>
+    </form>
+
+  </div>
+
+  <!--<ul class="list-group">-->
+  <!--<li class="list-group-item">用户基本情况统计下载:<%#= link_to "点击下载",controller: "download_csv", action: "user_info_csv", format: "csv" %></li>-->
+  <!--<li class="list-group-item">资金余额统计下载:<%#= link_to "点击下载",controller: "download_csv", action: "remain_balance_csv", format: "csv" %></li>-->
+  <!--<li class="list-group-item">资金变动统计下载:<%#= link_to "点击下载",controller: "download_csv", action: "change_balance_csv", format: "csv" %></li>-->
+  <!--<li class="list-group-item">资金月报统计下载:<%#= link_to "点击下载",controller: "download_csv", action: "month_money_csv", format: "csv" %></li>-->
+
+  <!--</ul>-->
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>文件名称</th>
+      <th>文件类型</th>
+      <th>下载时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @csv_files.each_with_index do |csv,index| %>
+        <tr>
+          <th scope="row"><%= index + 1%></th>
+          <td><%= csv.csv_name%></td>
+          <td><%= statistic_type_name  csv.statistic_type%></td>
+          <td><%= csv.download_date%></td>
+          <td><a href="/admins/download_csv/download_csv_file.csv?id=<%= csv.id%>&file_path=<%=csv.url%>&filename=<%=csv.csv_name%>">点击下载</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="flickr_pagination">
+  <%= will_paginate @csv_files, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>

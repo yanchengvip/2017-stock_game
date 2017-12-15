@@ -1,0 +1,33 @@
+<div class="gfc-box fast-indiana">
+  <ul>
+    <li>
+      <p>方法.1</p>
+      <p>长按关注“钻石大富翁”</p>
+      <p>即获<span>3次</span>夺宝机会<span>（30钻石币）</span></p>
+      <%=image_tag "h5/images/rich-man.jpg"%>
+    </li>
+    <li>
+      <p>方法.2</p>
+      <p>邀请好友注册，每邀请一位好友，</p>
+      <p>即获<span>10次</span>夺宝机会<span>（100钻石币）</span></p>
+      <button id="share_btn" class="<%=wechat_browser? ? 'wechat' : ''%>" data-img ='index-box' >立即邀请</button>
+    </li>
+    <li>
+      <p>方法.3</p>
+      <p>去“赚币”玩模拟盘，获海量夺宝机会</p>
+      <button onclick="window.location.href='/home/index'">马上玩</button>
+    </li>
+    <li>
+      <p>更多盈利</p>
+      <p>长按关注“行走的资产”</p>
+      <p>了解钻石投资真实盘信息</p>
+      <%=image_tag "h5/images/go-wealth.jpg"%>
+    </li>
+  </ul>
+</div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("share_btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>充值</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+
+</head>
+<body>
+  <div class="gfc-box Recharge">
+    <div class="Recharge-con">
+      <p class="Rec-tips">充值金额用于购买优众网的电商优惠券（一元等于一张优惠券，并赠送100微钻），同时获取相应个数的微钻，用户参与钻石大富翁的游戏，充值的款将无法退回</p>
+      <div class="Rec-box Rec-money">
+        <h4>充值金额</h4>
+        <ul class="Rec-money-list">
+          <li value="1"><span>1元激活</span></li>
+          <li value="10"><span>10</span></li>
+          <li value="20"><span>20</span></li>
+          <li value="50"><span>50</span></li>
+          <li value="100"><span>100</span></li>
+          <li class="other-amount">
+            <input id="Num" type="tel" maxlength='5' placeholder="其他金额" onfocus="this.placeholder=''" onblur="this.placeholder='其他金额'">
+          </li>
+        </ul>
+      </div>
+      <div class="Rec-box Rec-mode">
+        <h4>选择支付方式</h4>
+        <ul class="Rec-mode-list">
+          <li class="mode-list-box Rec-wechat">
+            <div class="fl"></div>
+            <div class="fc">
+              <h4>微信支付</h4>
+              <p class="txt-yellow">推荐优先使用，最低1元</p>
+            </div>
+            <div class="fr"><span class="opt"></span></div>
+          </li>
+          <li class="mode-list-box Rec-alipay">
+            <div class="fl"></div>
+            <div class="fc">
+              <h4>支付宝</h4>
+              <p class="txt-gray-purple">最低2元，最高3000元</p>
+            </div>
+            <div class="fr"><span class="opt"></span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="Rec-btn-box">
+      <div class="Rec-btn">
+        <button class="-gfc-sell txt-white">立即充值</button>
+      </div>
+    </div>
+  </div>
+  <!--弹框-->
+  <div class="BuyRecord-absolute BuyAttention">
+    <!--引导注册-->
+    <div class="BuyAbsolute-Box BuyAttention-Box">
+      <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+      <div style="clear:both;" >
+        <div class="Rec-bomb-box">
+          <p>是否已完成支付？</p>
+        </div>
+        <div class="Rec-bomb-btn">
+          <button class="-gfc-buy txt-white">支付遇到问题</button>
+          <button class="-gfc-sell txt-white">完成支付</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/base.js"></script>
+<script>
+  $(function(){
+    /*金额输入框*/
+    var RexM =  /^([1-9][0-9]*)$/;
+
+    document.getElementById('Num').addEventListener('input', function(e){
+      if ($(this).attr("maxlength") != null) {
+        if ($(this).val().length > parseInt($(this).attr("maxlength"))) {
+          $(this).val($(this).val().substr(0, parseInt($(this).attr("maxlength"))));
+        }
+      }
+      /*非数值型限制*/
+      if(!(RexM.test($(this).val()))){
+        $("#Num").val($(this).val().slice(0,$(this).length-2));
+      }
+    })
+
+    $(".Rec-money-list>li").not(".other-amount").on("click",function(){
+      $("#Num").val("");
+    })
+
+    $(".Rec-mode-list li").attr("value","0")
+    /*金额选择*/
+    $(".Rec-money-list li").on("click",function(){
+      if($(this).hasClass("other-amount")){
+        $(this).siblings().removeClass("active");
+      }else{
+        $(this).addClass("active").siblings().removeClass("active");
+      }
+    })
+
+    /*支付方式勾选*/
+    $(".Rec-mode-list li").on("click",function(){
+      var Opt = $(this).find(".opt");
+      Opt.toggleClass("selected");
+      if(Opt.hasClass("selected")){
+        $(this).attr("value","1").siblings().attr("value","0");
+      }else{
+        $(this).attr("value","0");
+      }
+      $(".Rec-mode-list li[value='0']").find(".opt").removeClass("selected");
+    })
+    /*点击叉号-关闭弹框*/
+    $('.BuyAbsolute-BoxClose').on('click',function(){
+      $('.BuyRecord-absolute').hide();
+    })
+
+  })
+</script>
+</body>
+</html>

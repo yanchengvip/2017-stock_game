@@ -1,0 +1,64 @@
+<script id="hold_diamonds_position" type="text/x-jsrender">
+<div class="market-box">
+  <div class="market-text">
+    <div>
+      <p>持仓</p>
+      {^{for hold_diamonds_info}}
+      <div class="house">
+        <ul>
+          <li><span>钻石名称</span><span>{{:cn_name}}</span></li>
+          <li><span>钻石品种</span><span>{{:exchange_code}}</span></li>
+          <li><span>商品数量</span><span>{{:total_count}}</span></li>
+          <li><span>可卖数量</span><span>{{:available_count}}</span></li>
+          <li><span>成本价格</span><span>{{:~outputmoney(avg_price)}}</span></li>
+          <li><span>市场价格</span><span>{{:~outputmoney(market_price)}}</span></li>
+          <li><span>当前市值</span><span>{{:~outputmoney(total_market_price)}}</span></li>
+          {^{if total_profit >= 0}}
+          <li><span>浮动盈亏</span><span class="-gfc-red">+{{:~outputmoney(total_profit)}}</span></li>
+          {{else}}
+          <li><span>浮动盈亏</span><span class="gfc-green">{{:~outputmoney(total_profit)}}</span></li>
+          {{/if}}
+        </ul>
+        {^{if available_count > 0}}
+        <div class="line"></div>
+        <span class="cancel -gfc-sell txt-white" onclick="window.location.href='/h5/sale_diamonds/{{:id}}/sell'">卖出</span>
+        {{/if}}
+      </div>
+      {{else}}
+      <div class="no-data">暂无持仓</div>
+      {{/for}}
+    </div>
+    <div>
+      <p>做空</p>
+      {^{for diamond_trades_info}}
+      <div class="house">
+        <ul>
+          <li><span>钻石名称</span><span>{{:sale_diamond.cn_name}}</span></li>
+          <li><span>钻石品种</span><span>{{:sale_diamond.exchange_code}}</span></li>
+          <li><span>做空价格</span><span>{{:~outputmoney(price)}}</span></li>
+          <li><span>现价</span><span>{{:~outputmoney(~diamond_current_price(sale_diamond_id))}}</span></li>
+          <li><span>做空数量</span><span>{{:total_count}}</span></li>
+          {^{if ~diamond_current_price(sale_diamond_id) <= price}}
+          <li><span>浮动盈亏</span><span class="-gfc-red">+{{:~outputmoney(~diamond_trade_total_profit(sale_diamond_id, total_count, total_price, -1))}}</span></li>
+          {{else}}
+          <li><span>浮动盈亏</span><span class="gfc-green">{{:~outputmoney(~diamond_trade_total_profit(sale_diamond_id, total_count, total_price, -1))}}</span></li>
+          {{/if}}
+        </ul>
+        <div class="line"></div>
+        {^{if close_shorting_status === 0}}
+          {^{if ~can_close(created_at)}}
+          <span class="cancel -gfc-buy txt-white" onclick="window.location.href='/h5/sale_diamonds/{{:sale_diamond_id}}/close?diamond_trade_id={{:id}}&callback_url=%2Fh5%2Fhold_diamonds'">平仓</span>
+          {{else}}
+          <span class="cancel -gfc-buy txt-white" onclick="cannot_close_alert()">平仓</span>
+          {{/if}}
+        {{else}}
+        <span class="cancel no-position">平仓</span>
+        {{/if}}
+      </div>
+      {{else}}
+      <div class="no-data">暂无做空</div>
+      {{/for}}
+    </div>
+  </div>
+</div>
+</script>

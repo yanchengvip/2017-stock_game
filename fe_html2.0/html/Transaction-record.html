@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>交易记录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/dropload.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+</head>
+<style>
+  /* .postion-header{ position: absolute; width: 100%; top: 0; left: 0; z-index: 100; } */
+</style>
+<body class="body-box">
+<div class="gfc-box list-box" style="position: relative;">
+  <ul class="header postion-header">
+    <li><span>我的挂单</span></li>
+    <li class="active"><span>交易记录</span></li>
+  </ul>
+  <div class="record">
+    <div class="ul">
+      <li>
+        <p class="date-title">2017-03-31 10:23</p>
+        <div class="business top clearfix">
+          <ul>
+            <li><span>商品品名</span><span>0.3JVS2V</span></li>
+            <li><span>商品代码</span><span>403011</span></li>
+            <li><span>价格</span><span>3310.00</span></li>
+            <li><span>数量</span><span>1</span></li>
+            <li><span>收益</span><span class="gfc-green">-3,270.00</span></li>
+            <li><span>状态</span><span class="gfc-sell gfc-buy">买入</span></li>
+            <li><span>手续费</span><span>4.70</span></li>
+          </ul>
+          <!--<div class="line"></div>
+          <span class="cancel -gfc-cancel txt-cancel">撤销</span>-->
+        </div>
+      </li>
+      <li>
+        <p class="date-title">2017-03-31 10:23</p>
+        <div class="business top clearfix">
+          <ul>
+            <li><span>商品品名</span><span>0.3JVS2V</span></li>
+            <li><span>商品代码</span><span>403011</span></li>
+            <li><span>价格</span><span>3310.00</span></li>
+            <li><span>数量</span><span>1</span></li>
+            <li><span>收益</span><span class="gfc-green">-3,270.00</span></li>
+            <li><span>状态</span><span class="gfc-sell gfc-buy">买入</span></li>
+            <li><span>手续费</span><span>4.70</span></li>
+          </ul>
+          <!--<div class="line"></div>
+          <span class="cancel -gfc-cancel txt-cancel">撤销</span>-->
+        </div>
+      </li>
+      <li>
+        <p class="date-title">2017-03-31 10:23</p>
+        <div class="business top clearfix">
+          <ul>
+            <li><span>商品品名</span><span>0.3JVS2V</span></li>
+            <li><span>商品代码</span><span>403011</span></li>
+            <li><span>价格</span><span>3310.00</span></li>
+            <li><span>数量</span><span>1</span></li>
+            <li><span>收益</span><span class="gfc-green">-3,270.00</span></li>
+            <li><span>状态</span><span class="gfc-sell gfc-buy">买入</span></li>
+            <li><span>手续费</span><span>4.70</span></li>
+          </ul>
+          <!--<div class="line"></div>
+          <span class="cancel -gfc-cancel txt-cancel">撤销</span>-->
+        </div>
+      </li>
+      <li>
+        <p class="date-title">2017-03-31 10:23</p>
+        <div class="business top clearfix">
+          <ul>
+            <li><span>商品品名</span><span>0.3JVS2V</span></li>
+            <li><span>商品代码</span><span>403011</span></li>
+            <li><span>价格</span><span>3310.00</span></li>
+            <li><span>数量</span><span>1</span></li>
+            <li><span>收益</span><span class="gfc-green">-3,270.00</span></li>
+            <li><span>状态</span><span class="gfc-sell gfc-buy">买入</span></li>
+            <li><span>手续费</span><span>4.70</span></li>
+          </ul>
+          <!--<div class="line"></div>
+          <span class="cancel -gfc-cancel txt-cancel">撤销</span>-->
+        </div>
+      </li>
+    </div>
+  </div>
+</div>
+<div class="footer-box">
+  <div class="footer">
+    <ul class="ul">
+      <li onclick="index()">
+        <span></span>
+        <span>首页</span>
+      </li>
+      <li onclick="list()">
+        <span></span>
+        <span>交易记录</span>
+      </li>
+      <li onclick="RankinglistRate()">
+        <span></span>
+        <span>竞赛</span>
+      </li>
+      <li onclick="Indiana()">
+        <span></span>
+        <span>0元夺宝</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/base.js"></script>
+<script src="../js/dropload.min.js"></script>
+<script>
+$(function(){
+    // 页数
+    var page = 0;
+    // 每页展示10个
+    var size = 10;
+
+    // dropload
+    $('.record').dropload({
+        scrollArea : window,
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新-自定义内容</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新-自定义内容</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>'
+        },
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '<div class="dropload-refresh">↑上拉加载更多-自定义内容</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>',
+            domNoData  : '<div class="dropload-noData">暂无数据-自定义内容</div>'
+        },
+        loadUpFn : function(me){
+            $.ajax({
+                type: 'GET',
+                url: 'json/update.json',
+                dataType: 'json',
+                success: function(data){
+                    var result = '';
+                    for(var i = 0; i < data.lists.length; i++){
+                        result +=   '<a class="item opacity" href="'+data.lists[i].link+'">'
+                                        +'<img src="'+data.lists[i].pic+'" alt="">'
+                                        +'<h3>'+data.lists[i].title+'</h3>'
+                                        +'<span class="date">'+data.lists[i].date+'</span>'
+                                    +'</a>';
+                    }
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        $('.ul').html(result);
+                        // 每次数据加载完，必须重置
+                        me.resetload();
+                        // 重置页数，重新获取loadDownFn的数据
+                        page = 0;
+                        // 解锁loadDownFn里锁定的情况
+                        me.unlock();
+                        me.noData(false);
+                    },1000);
+                },
+                error: function(xhr, type){
+                    alert('Ajax error!');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        },
+        loadDownFn : function(me){
+            page++;
+            // 拼接HTML
+            var result = '';
+            $.ajax({
+                type: 'GET',
+                url: 'http://ons.me/tools/dropload/json.php?page='+page+'&size='+size,
+                dataType: 'json',
+                success: function(data){
+                    var arrLen = data.length;
+                    if(arrLen > 0){
+                        for(var i=0; i<arrLen; i++){
+                            result +=   '<a class="item opacity" href="'+data[i].link+'">'
+                                            +'<img src="'+data[i].pic+'" alt="">'
+                                            +'<h3>'+data[i].title+'</h3>'
+                                            +'<span class="date">'+data[i].date+'</span>'
+                                        +'</a>';
+                        }
+                    // 如果没有数据
+                    }else{
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        // 插入数据到页面，放到最后面
+                        $('.ul').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    alert('Ajax error!');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        },
+        threshold : 20
+    });
+});
+</script>
+</body>
+</html>

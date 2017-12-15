@@ -1,0 +1,29 @@
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-2">
+
+      <div class="list-group">
+
+        <a href="/admins/products" target="_self" class="list-group-item <%= menu_active1 %>">商品列表</a>
+        <a href="/admins/lotteries" class="list-group-item <%= menu_active2 %>">夺宝列表</a>
+        <a href="/admins/lottery_orders" class="list-group-item <%= menu_active3 %> ">中奖订单</a>
+        <a href="/admins/product_tags" class="list-group-item <%= menu_active4 %> ">商品标签</a>
+       <!-- <a href="#" class="list-group-item <%#= menu_active4 %> ">商城设置</a>-->
+      </div>
+    </div>
+
+
+    <div class="col-md-10">
+      <%= yield %>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- /.container -->
+
+

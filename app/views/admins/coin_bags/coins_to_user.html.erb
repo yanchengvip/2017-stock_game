@@ -1,0 +1,58 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><strong>分发钻币礼包</strong> &nbsp &nbsp &nbsp
+    钻币礼包数量：<%= @coin_bag.coin_count %></div>
+  <div class="panel-body">
+
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div id="unselected_users">
+          <input type="hidden" id='coin_bag_product_id' value="<%= @coin_bag.id%>">
+          <ul class="list-group">
+            <div class="input-group">
+              <input type="text" name="name" class="form-control" id="coin_to_user_search" placeholder="姓名/手机号">
+
+              <span class="input-group-btn">
+                   <button class="btn btn-default" type="button" onclick="search_unselected_users()">查询</button>
+             </span>
+            </div>
+            <div id="unselected_users_partial">
+              <%= render partial: 'admins/shares/unselected_users' %>
+            </div>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+
+        <div id="selected_users">
+          <span>已选择用户:<span id="show_selected_num">0</span></span>　　　<span>预计分发数量:<span id="pre_send_num">0</span></span>
+          <ul class="list-group" id="selected_user_ul">
+
+            <!--<li class="list-group-item list-group-item-success">-->
+
+            <!--<span class="glyphicon glyphicon-minus badge_cursor" id="reduce_span" onclick="reduce_num()" aria-hidden="true"></span>-->
+            <!--&nbsp<input type="number" value="1" id="btu_num" class="bags_to_user_input">&nbsp-->
+            <!--<span class="glyphicon glyphicon-plus badge_cursor" id="add_span" onclick="add_num()" aria-hidden="true"></span>-->
+
+
+            <!--</li>-->
+
+          </ul>
+
+
+          <button onclick="save_selected_user_coin(<%=@coin_bag.id%>)" class="btn btn-primary selected_user_submit">
+            分发钻币礼包
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>

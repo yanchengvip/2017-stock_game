@@ -1,0 +1,83 @@
+<div class="BuyRecord-box Product-box BuyDetails-box">
+   <!--图片-->
+   <%= render partial: "h5/lotteries/show_template/pic_slide" %>
+  <!--信息-->
+  <div class="Pro-DetailBox">
+    <div>
+      <p class="Pro-GoodsName"><%= @product.try(:name)%></p>
+      <div class="clearfix padding-px">
+        <div class="Pro-Number white-space">期号：<%=@lottery.try(:lottery_code)%></div>
+        <% if @lottery.status == 2%>
+          <div class="Pro-Number ">揭晓时间：<span><%=@lottery.lottery_time.strftime("%Y-%m-%d %H:%M:%S") if @lottery.lottery_time %></span></div>
+        <% end %>
+      </div>
+      <% if @lottery.status == 2%>
+        <p class="Proann-UserState">幸运号码　<span><%=@lottery.try(:win_lottery_code)%></span></p>
+      <% end %>
+    </div>
+  </div>
+  <% if [1,3,4].include?(@lottery_order.status.to_i) && @lottery.win_user_id == current_user.id && @lottery.product.product_second_type != 1%>
+    <div class="User-AddressInfo">
+      <p >
+        <span>收货信息</span>
+        <% if @lottery_order.status != 3 && @lottery_order.status != 1%>
+          <a onclick="window.location.href = '/h5/lotteries/<%= @lottery.id%>/choose_address?order_id=<%=@lottery_order.id%>&index=<%= params[:index]%>&scrollTop=<%= params[:scrollTop]%>'"><%= image_tag 'h5/images/edit-add.png', alt: ''%></a>
+        <% end %>
+      </p>
+      <div>
+        <p><span>收货人：</span><span><%= @address.try(:user_name)%></span></p>
+        <p><span>联系方式：</span><span id="phone"><%= @address.try(:phone)%></span></p>
+        <p class="User-LengAddress"><span>地址：</span><span><%= @address.try(:address)%></span></p>
+        <p><span>邮编：</span><span><%= @address.try(:postcode)%></span></p>
+      </div>
+    </div>
+  <% end %>
+  <% if @lottery_order.status == 3 && @lottery.win_user_id == current_user.id && @lottery.product.product_second_type != 1%>
+    <div class="User-SuccessNews">我们会在1-5个工作人日内为您发货</div>
+  <% end %>
+  <% if @lottery_order.status == 1 && @lottery.win_user_id == current_user.id && @lottery.product.product_second_type != 1%>
+    <div class="User-SuccessNews">
+      <% if !@lottery_order&.couriers.first.courier_name.blank? && !@lottery_order&.couriers.first.courier_no.blank?%>
+        <span>已发货</span>&nbsp;&nbsp;<span><%=@lottery_order&.couriers.first&.courier_name%></span>&nbsp;&nbsp;<span><%=@lottery_order&.couriers.first&.courier_no%></span>
+      <% else %>
+        <span>已发货</span>&nbsp;&nbsp;<span>(快递信息请咨询客服)</span>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @lottery_order.status == 2 && @lottery.win_user_id == current_user.id && @lottery.product.product_second_type != 1%>
+    <div class="User-SuccessNews">已兑换收益<%= (@lottery.price * @lottery.total_count * (1 - SYSTEMCONFIG["lottery_system_persent"].to_f)).to_i %></div>
+  <% end %>
+</div>
+<!--底部按钮-->
+<% if @lottery_order.status == 4%>
+  <div style="height:64px;"></div>
+  <div class="Pro-postion">
+    <div class="Pro-buttomBUtton">
+      <p class="pay" data-id="<%= @lottery_order.id%>">支付运费(￥<span><%= @product.try(:postage)%></span>)元</p>
+    </div>
+  </div>
+<% end %>
+<% if [1,3,2].include?(@lottery_order.status.to_i) && @lottery.win_user_id == current_user.id%>
+  <div style="height:64px;"></div>
+  <div class="Pro-postion">
+    <div class="Pro-buttomBUtton">
+      <p id="btn" class="<%= wechat_browser? ? 'wechat' : '' %>" data-img="share-success-box">分享中奖信息</p>
+    </div>
+  </div>
+<% end %>
+<%unless wechat_browser? %>
+  <script>
+    UrlCopy("btn", "<%=@share_config[:link_url]%>")
+  </script>
+<%end%>
+<script type="text/javascript">
+  $(function() {
+    $("#phone").html(cutPhone('#phone'));
+    $("body").on("click", ".pay", function(){
+      id = $(this).data("id")
+      back_url = "/h5/lotteries/buy_record?index=" + <%= params[:index]%> + "&scrollTop=" + String(<%= params[:scrollTop]%>)
+      history.replaceState({url: back_url}, "<%=@title%>", back_url)
+      window.location.href="/h5/mustpay/pay_order?lottery_order_id="+id
+    })
+  })
+</script>

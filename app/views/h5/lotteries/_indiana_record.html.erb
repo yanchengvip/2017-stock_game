@@ -1,0 +1,144 @@
+<!-- 抽奖\夺宝记录 -->
+<script type="text/javascript">
+  $(function(){
+    var a;
+    var this_id;
+    $('.click-showNumber').on('click',  function(event) {
+    // $('.BuyRecord-ul').on('click','.click-showNumber', function(event) {
+      var lottery_id = $(this).attr('id');
+      var order = $(this).attr('order_id');
+      window.location.href="/h5/lotteries/"+lottery_id+"/detail?order_id="+order
+    });
+    // 页数
+    // var page = 0;
+    // dropload
+    // $('.BuyRecordTop').dropload({
+    //   scrollArea : window,
+    //   domDown: {domRefresh: ''},
+    //   loadDownFn : function(me){
+    //     $.ajax({
+    //       type : "GET",  //提交方式
+    //       url : "/h5/lottery_orders.json",//路径
+    //       data : {page: page+1, q: {lottery_id_eq: <%= lottery.id%>, s: "id desc"}  },//数据，这里使用的是Json格式进行传输
+    //       beforeSend: function(){
+    //         me.lock();
+    //       },
+    //       success : function(result) {//返回数据根据结果进行相应的处理
+    //         if(result.status == 200 && result.data.length > 0){
+    //           var tmpl = $.templates("#buyRcd");
+    //           var htmlOutput = tmpl.render(result.data);
+    //           $("#buyRcd").append(htmlOutput);
+    //           page += 1
+    //           $.each(result.data, function (index, e) {
+    //             if((Date.now() - Date.parse(e.created_at)) / 1000 < 5 * 60){
+    //               GoodsBubble(e.user.headimgurl, e.user.nickname, e.total_count, parseInt((Date.now() - Date.parse(e.created_at)) / 1000),3)
+    //             }
+    //           })
+    //           me.resetload();
+    //           me.unlock();
+    //         }
+    //       },
+    //       error: function(){
+    //       }
+    //     });
+    //   },
+    //   threshold : 150
+    // });
+  });
+</script>
+<% status = lottery_status_str(lottery) %>
+<li class="<%= (status[:val] == 2 && status[:user_id] == current_user.id && lottery_order.is_win) ? 'Winning' : '' %>">
+  <div class="BuyRecordTop">
+      <div class="BuyRecordLeft" onclick="window.location.href='/h5/lotteries/<%= lottery.id %>'">
+          <%=image_tag lottery.product.head_image || "h5/images/pro.jpg" %>
+      </div>
+      <div class=" BuyRecordRight">
+          <div class="BuyRecordNumber white-space" onclick="window.location.href='/h5/lotteries/<%= lottery.id %>'">
+               <!-- 期号：20140102123265 --><%= lottery.product.name %>
+          </div>
+          <div class="BuyRecordOther">
+            <%# orders = lottery.lottery_orders_by(current_user) %>
+            <p class="BuyRecordTime white-space">期号：<%= lottery.lottery_code %></p>
+            <!-- <p class="BuyRecordTime white-space">抽奖时间：<%= time_str(lottery_order.created_at) %></p> -->
+            <p>
+              <span>本期参与：</span><span class="perNum"><%= lottery_order.total_count %></span><span>人次</span>
+              <% items = lottery_order.lottery_order_items %>
+              <% text = code_show(items) %>
+              <% count = lottery_order.total_count %>
+              <a class="click-showNumber" href="javascript:void(0)" id="<%= lottery.id %>" order_id="<%= lottery_order.id %>">查看详情</a>
+              <!-- <a class="click-showNumber">查看详情</a> -->
+            </p>
+          </div>
+      </div>
+  </div>
+
+  <div class="BuyRecordFoot">
+      <!--左侧状态汇总-->
+      <%# if status[:val] == 1 %>
+        <!-- <p class="BuyRecordState fl"> -->
+          <%# if status[:user_id] == current_user.id %>
+            <!-- <span class="BuyRecordState1"><%#= status[:str] %></span> -->
+          <%# else %>
+            <%#= status[:str] %>
+          <%# end %>
+        <!-- </p> -->
+      <%# elsif status[:val] == 2 && status[:user_id] == current_user.id %>
+      <!-- <% if status[:val] == 1 %>
+        <p class="BuyRecordState fl"><span class="BuyRecordState1"><%= status[:str] %></span></p>
+      <% elsif status[:val] == 2 %>
+        <p class="BuyRecordState fl BuyRecordStateP"><span class="BuyRecordState1 white-space"><%= status[:str] %></span></p>
+      <% end %> -->
+      <div class="fl BuyFoot-left">
+        <!-- 进度条 -->
+        <p class="Per-Progress">
+          <span style="width:60%"></span>
+        </p>
+        <p>揭晓进度<span class="txt-yellow">100%</span></p>
+      </div>
+      <button class="fr" id="<%= lottery.id %>" product_id ="<%=lottery.product.id%>">追加购买</button>
+      <%# else %>
+        <!-- <p class="BuyRecordState fl Stateblack"> -->
+          <%#= status[:str] %>
+       <!-- </p> -->
+      <%# end %>
+
+      <!--右侧状态汇总-->
+      <!-- <% if status[:user_id] == current_user.id %>
+        <% if lottery_order.is_win && !lottery.take_award %>
+          <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive" value='0' id="lqjp_<%= lottery.id %>" product_id ="<%=lottery.product.id%>" product_price ="<%= (lottery.total_count * lottery.price * (1 - SYSTEMCONFIG[:lottery_system_persent].to_f)).to_i %>">领取奖品</span></p>
+        <% elsif lottery_order.is_win %> -->
+          <!-- 已领奖 -->
+          <%# order = lottery.win_order %>
+          <!-- <p class="BrPrizeState fr white-space"><span><%= order_status_str(lottery_order)[:str] %></span></p>
+        <% end %>
+      <% end %> -->
+  </div>
+  <!--中奖类别-->
+  <p class="BuyRecord-postionLeft postionLeft-blue">钻币夺宝</p>
+  <!--获奖后li添加class  Winning 右侧图片-->
+  <% if status[:val] == 2 && status[:user_id] == current_user.id && lottery_order.is_win %>
+    <%= image_tag "h5/images/seal.png", class: "BuyRecordSeal" %>
+  <% end %>
+</li>
+
+ <!--查看号码弹框-->
+<!-- <div class="BuyRecord-absolute show-Number" id="show_number_<%#= lottery_order.id %>">
+  <div class="show-NumberBox">
+    <p><span>您参与了：</span><span class="colorPurple"><%#= lottery_order.total_count %></span>人次</p>
+    <p>
+      <span>夺宝号码：</span>
+      <%# items = lottery_order.lottery_order_items %>
+      <%# items.each_with_index do |item, index| %>
+        <span>
+          <%# if item.is_win  %>
+            <i class="colorPurple"><%#= item.lottery_code %></i>
+          <%# else %>
+            <%#= item.lottery_code %>
+          <%# end %>
+          <%#= index == (items.size - 1) ? '' : '、'%>
+        </span>
+      <%# end %>
+    </p>
+    <a href="javascript:void(0)" class="hidden">确认</a>
+  </div>
+</div> -->

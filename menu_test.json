@@ -1,0 +1,50 @@
+{
+    "button": [
+        {
+            "type": "view",
+            "name": "0元夺宝",
+            "url": "http://balawo.com/h5/lotteries",
+
+        },
+        {
+            "name": "钻石富翁",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "钻石大富翁",
+                    "url": "http://balawo.com/",
+
+                },
+                {
+                    "type": "view",
+                    "name": "竞赛",
+                    "url": "http://balawo.com/h5/gold_gains_histories",
+
+                }
+            ]
+        },
+        {
+            "name": "伺候您",
+            "sub_button": [
+                {
+                    "type":"click",
+                    "name":"联系客服",
+                    "key":"contact_customer_service"
+                },
+                {
+                    "type": "view",
+                    "name": "新手指南",
+                    "url": "https://mp.weixin.qq.com/s?__biz=MzI0NzgwODE1OQ==&mid=100000001&idx=1&sn=b83f09d28050bb489f4f0a12539847c4&key=24fe34f0ac7da0986c811ccf464e86e361eebdc66df7dc1a43d8dd79b5904547f4d63ed59a717defca0a66f3cf7593b1caece320d74aa682b9c37df83f48bc8a3195d5f623cc2293370d98416f68f7d5&ascene=18&uin=MjM0NTcyOTM0NA%3D%3D&devicetype=iMac+MacBookPro12%2C1+OSX+OSX+10.12+build(16A323)&version=12020010&nettype=WIFI&fontScale=100&pass_ticket=PqeaFQBSQrds7uvy8JJP3kkYrXFwOSf77gzO8jYAzMzALNf1VzLgsrdfGSxVJrju",
+                    "sub_button": []
+                },
+                {
+                    "type": "view",
+                    "name": "大富翁秘籍",
+                    "url": "https://mp.weixin.qq.com/s?__biz=MzI0NzgwODE1OQ==&mid=100000007&idx=1&sn=129d95883955598286510d4f0c4554fb&key=cb720192b1bcda02357ae9264801f6d0123b26894916f913106dfc2aa2099889581bf05f1f8f279d9c52cc26730e5ca9aa1f392d05af40e2ee62d9b54bb855c82e647ba4e5bf5733b2df744c047d46d4&ascene=18&uin=MjM0NTcyOTM0NA%3D%3D&devicetype=iMac+MacBookPro12%2C1+OSX+OSX+10.12+build(16A323)&version=12020010&nettype=WIFI&fontScale=100&pass_ticket=PqeaFQBSQrds7uvy8JJP3kkYrXFwOSf77gzO8jYAzMzALNf1VzLgsrdfGSxVJrju",
+
+                }
+            ]
+        }
+    ]
+}
+Faraday.new.post("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=#{token}", menu.to_json.gsub("\\u0026", "&"))

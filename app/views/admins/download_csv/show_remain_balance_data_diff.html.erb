@@ -1,0 +1,33 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">恢复资金余额统计数据</div>
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th>用户ID</th>
+      <th>用户名</th>
+      <th>手机号</th>
+      <th>虚拟资金余额(user表total_gold--gold_accounts表amount)</th>
+      <th>钻石币余额(user表total_diamond_coin--diamond_accounts表amount)</th>
+      <th>恢复</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.nickname %></td>
+          <td><%= user.phone %></td>
+          <td>(<%= user.total_gold%>--<%= user.ga1_amount %>)</td>
+          <td>(<%= user.total_diamond_coin%>--<%= user.da1_amount %>)</td>
+          <td><a href="/admins/download_csv/recovery_remain_balance_data_diff?user_id=<%= user.id%>">恢复</a></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+  <div class="flickr_pagination">
+    <%#= will_paginate @user_remain_balance, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+  </div>
+</div>

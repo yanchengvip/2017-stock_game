@@ -1,0 +1,114 @@
+<div class="row">
+
+  <div class="col-lg-6">
+
+    <form action="/admins/products/search" method="post">
+      <div class="input-group">
+        <input type="text" name="name" class="form-control" placeholder="商品名称搜索">
+
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">查询</button>
+      </span>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-6">
+      <div class="alert alert-danger" role="alert">
+        提示：抽奖状态为进行中和待揭晓的商品不能修改商品信息
+      </div>
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/products/new" target="_self" class="btn btn-primary btn-lg" role="button">新增商品</a>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>商品名称</th>
+
+      <th>单价</th>
+      <th>剩余库存</th>
+      <th>使用状态</th>
+      <th>商品标签</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+    <% if !@products.empty? %>
+        <% @products.each do |product| %>
+            <tbody>
+
+            <tr>
+              <td><%= product.name %></td>
+
+              <td><%= product.price %></td>
+              <td><%= product.inventory_count %></td>
+
+              <td>
+                <% if product_is_lottery product %>
+                    已参与夺宝
+                <% elsif product.ranking_config_items.length > 0 %>
+                    已参与竞赛排名
+                <% else %>
+                    未使用
+                <% end %>
+              </td>
+              <td><%= product.product_tag.present? ? product.product_tag.name : '无'%></td>
+              <td>
+
+                <a href="/admins/products/<%= product.id %>/edit" target="_self" class="admin_product_operate_a">修改信息</a>
+                <a href="javascript:void(0)" onclick="show_add_lottery_modal(<%= product.id%>,'<%= product.price%>','<%= product.name%>')" class="admin_product_operate_a">增加一期夺宝</a>
+                <% if product_is_lottery product || product.ranking_config_items.length > 0 %>
+                    不能删除
+                <% else %>
+                    <a href="javascript:void(0)" onclick="product_delete(<%= product.id%>,'<%= product.name%>','<%= product.price%>')"
+                       class="admin_product_operate_a">删除商品</a>
+                <% end %>
+
+
+              </td>
+
+            </tr>
+
+            </tbody>
+        <% end %>
+    <% end %>
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @products, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+
+<%= render partial: 'product_modal' %>
+
+
+
+
+

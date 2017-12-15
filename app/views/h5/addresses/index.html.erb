@@ -1,0 +1,135 @@
+<div class="gfc-box address">
+  <div class="address-box">
+    <% @addresses.each do |addr| %>
+        <div class="Rec-box" value="<%=addr.is_default == true ? 1 : 0%>">
+          <ul class="address-txt">
+            <li class="txt1">
+              <p class="fl name"><%= addr.user_name %></p>
+              <p class="fl tel"><%= addr.phone %></p>
+            </li>
+            <li class="txt2">
+              <p><%= addr.address %></p>
+            </li>
+          </ul>
+          <div class="address-btn">
+            <div class="mode">
+              <% if addr.is_default %>
+                  <span class="opt select selected"></span>
+                  <span value="<%= addr.id %>" class="opt-txt gfc-green">默认地址</span>
+              <% else %>
+                  <span class="opt select"></span>
+                  <span value="<%= addr.id %>" class="opt-txt txt-white-gray">设为默认</span>
+              <% end %>
+            </div>
+            <div class="add-btn-box">
+              <button><a href="/h5/addresses/<%= addr.id %>/edit/">编辑</a></button>
+              <button onclick="show_delete_modal(<%= addr.id%>)">删除</button>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <div class="Rec-btn-box">
+    <div class="Rec-btn">
+      <a class="-gfc-sell txt-white" href="/h5/addresses/new">添加新地址</a>
+    </div>
+  </div>
+</div>
+
+
+<!--弹框-->
+<div class="prompt-double-box display">
+  <div>
+    <input type="hidden" id="delete_address_id">
+    <div class="Close-Right">
+    </div>
+    <p>是否删除</p>
+    <div class="prompt-double-btn">
+      <button class="hidden">否</button>
+      <button class="show" onclick="delete_address()">是</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    $(function () {
+        //    弹框
+        $(".hidden").on('click', function () {
+            $('.prompt-double-box').hide();
+            unScrollheight()
+        })
+        $(".Close-Right").on('click', function () {
+            $('.prompt-double-box').hide();
+            unScrollheight()
+        })
+
+
+//        $(".Rec-box").attr("value", "0")
+
+        $(".address-btn .mode").on("click", function () {
+            var Opt = $(this).find(".opt");
+            var OptTxt = $(this).find(".opt-txt");
+            Opt.toggleClass("selected");
+            OptTxt.toggleClass("gfc-green");
+            var address_id = ''
+            var set_status = 0 // 1:设置默认地址操作,2:取消默认地址操作
+            if (Opt.hasClass("selected")) {
+                set_status = 1
+                OptTxt.text("默认地址");
+                $(this).parents(".Rec-box").attr("value", "1").siblings().attr("value", "0");
+                address_id = $(".Rec-box[value='1']").find(".opt-txt").attr("value");
+            } else {
+                set_status = 2
+                address_id = $(".Rec-box[value='1']").find(".opt-txt").attr("value");
+                OptTxt.text("设为默认");
+                $(this).parents(".Rec-box").attr("value", "0");
+            }
+            $(".Rec-box[value='0']").find(".opt").removeClass("selected");
+            $(".Rec-box[value='0']").find(".opt-txt").removeClass("gfc-green").text("设为默认");
+            console.log(set_status)
+            $.ajax({
+                type: 'post',
+                url: "/h5/addresses/address_set_default",
+                data: {id: address_id,set_status: set_status},
+                success: function (data) {
+                    if (Opt.hasClass("selected")) {
+                        alertTx('默认地址添加成功')
+                    } else {
+                        alertTx('默认地址取消成功')
+                    }
+
+                },
+                error: function () {
+                    alertTx('默认设置地址失败')
+                }
+
+            })
+        })
+
+
+    })
+
+
+    function show_delete_modal(id) {
+        $('#delete_address_id').val(id);
+        $('.prompt-double-box').show();
+        Scrollheight()
+    }
+
+    function delete_address() {
+        var id = $("#delete_address_id").val()
+        $.ajax({
+            type: 'delete',
+            url: "/h5/addresses/" + id,
+            data: {id: id},
+            success: function (response) {
+                $('.prompt-double-box').hide();
+                unScrollheight();
+                alertTx('删除成功');
+                window.location.href = '/h5/addresses'
+            }
+        })
+    }
+
+</script>

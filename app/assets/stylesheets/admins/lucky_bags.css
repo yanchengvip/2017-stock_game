@@ -1,0 +1,10 @@
+.badge_cursor {
+    cursor: pointer;
+}
+.bags_to_user_input {
+    width: 15%;
+}
+.selected_user_form_submit{
+    float: right;
+    margin-top: -20px;
+}

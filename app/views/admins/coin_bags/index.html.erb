@@ -1,0 +1,92 @@
+<div class="row">
+
+  <form action="/admins/coin_bags/search" method="post">
+    <div class="input-group">
+
+      <div class="row lottery-search">
+
+        <div class="col-xs-6">
+          <span class="lottery-search-span">钻币数量:</span>
+          <input type="text" name="coin_count" class="form-control lottery-search-input" placeholder="礼包钻币数量">
+        </div>
+
+        <div class="col-xs-6">
+          <span class="lottery-search-span">有效期:</span>
+          <input type="date" name="end_time" class="form-control  lottery-search-input" placeholder="发布日期">
+        </div>
+
+
+        <button class="btn btn-default lottery-search-button" type="submit">查询</button>
+      </div>
+
+    </div>
+  </form>
+
+
+</div>
+
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-6">
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/coin_bags/new" target="_self" class="btn btn-primary btn-lg" role="button">新增钻币礼包</a>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>礼包钻币数量</th>
+      <th>所需人次</th>
+      <th>过期天数</th>
+      <th>创建时间</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+
+    <% @coin_bags.each do |coin| %>
+        <tbody>
+
+        <tr>
+          <td><%= coin.coin_count %></td>
+          <td><%= coin.person_count %></td>
+          <td><%= coin.end_day %></td>
+          <td><%= time_format coin.created_at %></td>
+
+          <td>
+            <% if coin.is_published  %>
+                <a href="/admins/coin_bags/coins_to_user?id=<%= coin.id %>" class="admin_product_operate_a">分发钻币礼包</a>
+            <% else %>
+                未启用
+            <% end %>
+
+            <a href="javascript:void(0)" onclick="coin_bag_delete('<%= coin.id%>')" class="admin_product_operate_a">删除钻币礼包</a>
+          </td>
+
+
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @coin_bags, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<%= render partial: 'admins/coin_bags/coin_bag_modal' %>

@@ -1,0 +1,84 @@
+<div class="row">
+
+  <div class="col-lg-6">
+
+    <form action="/admins/users/users_list" method="post">
+      <div class="input-group">
+      <div class="col-xs-6">
+          <input type="text" name="nickname" class="form-control" placeholder="手机号/姓名搜索">
+      </div>
+      <div class="col-xs-6">
+        <select class="selectpicker" name="role">
+          <option value=0>全部</option>
+          <option value=1>普通用户	</option>
+          <option value=3>内测用户</option>
+        </select>
+
+      </div>
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">查询</button>
+      </span>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>
+
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>名字</th>
+      <th>手机号</th>
+      <th>角色</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+
+    <% @users.each_with_index do |user, index| %>
+        <tbody>
+
+        <tr>
+          <td><%= index+1 %></td>
+          <td><%= user.nickname %></td>
+          <td><%= user.phone %></td>
+          <td><%= user_roles_name user.role %></td>
+          <td>
+
+            <a href="javascript:void(0)" onclick="add_amdmin_role_for_user_modal(<%= user.id%>,'<%= user.nickname%>','<%= user.phone%>')"
+               class="admin_product_operate_a">添加权限</a>
+
+
+            <a href="javascript:void(0)" onclick="show_forget_password_modal(<%= user.id%>,'<%= user.nickname%>','<%= user.phone%>')"
+               class="admin_product_operate_a">重置密码</a>
+          </td>
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @admins, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+<%= render partial: 'admins/users/user_modal' %>

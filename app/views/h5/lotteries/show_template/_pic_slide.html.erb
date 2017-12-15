@@ -1,0 +1,17 @@
+<div class="pro-Tital">
+ <!--轮播-->
+  <div class="slide swiper-container">
+    <div class="swiper-wrapper">
+      <%if @product.product_type == 1%>
+        <%@product.images.each do |image|%>
+          <div class="swiper-slide"><%=image_tag SYSTEMCONFIG[:cdn_host]+image.url%></div>
+        <%end%>
+      <%end%>
+      <%if @product.product_type == 2%>
+        <div class="swiper-slide"><%=image_tag SYSTEMCONFIG[:cdn_host]+@product.head_image%></div>
+      <%end%>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <%=image_tag 'h5/images/pro-to.png', class: "pro-posa"%>
+</div>

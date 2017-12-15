@@ -1,0 +1,32 @@
+
+<div class="BuyRecord-box">
+  <div class="VirInvit-title">
+    <p>受邀好友</p>
+    <p>时间</p>
+    <p>所获奖励</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <% if @diamond_accounts.blank? %>
+    <div class="no-data">暂无记录</div>
+  <% else %>
+    <ul class="VirInvit-main">
+      <%# @users.each do |user| %>
+      <% @diamond_accounts.each do |diamond_account| %>
+        <% follower_user = diamond_account.follower_user %>
+        <li>
+          <div>
+            <%= image_tag (follower_user&.headimgurl.presence || "/default_image/header2x.png"), alt: '' %>
+            <span><%= follower_user&.nickname || follower_user&.phone %></span>
+          </div>
+          <%# gold_account = current_user.gold_gain_from_invite(user.id) %>
+          <div><%= diamond_account.created_at.strftime('%Y.%m.%d') %></div>
+          <div>
+            <%= image_tag "h5/images/money.png", alt: '' %>
+            <span><%#= number_to_currency gold_account.amount %><%= diamond_account.amount.to_i %></span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

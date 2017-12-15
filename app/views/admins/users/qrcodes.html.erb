@@ -1,0 +1,99 @@
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" data-toggle="modal" data-target="#addQrcodeModal" class="btn btn-primary">生成二维码</button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>推广者</th>
+      <th>邀请关注人数</th>
+      <th>二维码</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+
+    <% @qrcodes.each_with_index do |qrcode, index| %>
+        <tbody>
+
+        <tr>
+          <td><%= index+1 %></td>
+          <td><%= qrcode.user_name %></td>
+          <td><%= qrcode.qrcode_scan_records.length %></td>
+          <td><img width="80" src="<%= qrcode.qrcode_url %>"></td>
+          <td><a href="javascript:void(0)" onclick="qrcode_delete(<%= qrcode.id%>)" class="admin_product_operate_a">删除</a></td>
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @qrcodes, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<div class="modal fade" id="addQrcodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">生成二维码</h4>
+      </div>
+      <form action="/admins/users/generate_qrcode" method="get">
+        <div class="modal-body">
+          推广者名称：<input type="text" class="form-control" name='user_name'>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- 钻币礼包删除modal -->
+<div class="modal fade" id="deleteqrcodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">二维码删除</h4>
+      </div>
+      <form action="/admins/users/qrcodes_destroy" method="post">
+        <div class="modal-body">
+          <h3>确定删除?</h3>
+
+          <input type="hidden"  class="form-control" name='qrcode_id' id="del_qrcode_id">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>夺宝记录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script>
+    $(function(){
+      //0元夺宝选择领取弹框
+      function ZeroClick(){
+        $('.ZeroClick').show();
+        $('body').addClass('PostionFixed');
+      }
+      //兑换钻石提醒
+      function ZeroTx(){
+        $('.ZeroTx').show();
+        $('body').addClass('PostionFixed');
+      }
+      //隐藏弹框
+      function BoxClose(){
+        $('.BuyRecord-absolute').hide();
+        $('body').removeClass('PostionFixed');
+      }
+      //点击X号隐藏弹框
+      $('.BuyAbsolute-BoxClose').on('click',function(){
+        BoxClose()
+      })
+      //领取奖品按钮判断根据value值，1-分享福袋
+      $('.BrPrizeState-Receive').on('click', function() {
+        var value=$(this).attr('value');
+        if(value==1){
+          window.location.href="Receive-prizes.html"
+        }else{
+          ZeroClick();
+        }
+        //直接领取奖品
+        $('.BuyAbsolute-exchange img').on('click',  function() {
+          window.location.href="Receive-prizes.html"
+        });
+        //兑换钻石提醒
+        $('.BuyAbsolute-Receive img').on('click',  function() {
+          BoxClose();
+          ZeroTx();
+        });
+        //是
+        $('.Buyexchange-nextYes').on('click', function() {
+          BoxClose();
+          //兑换成功提醒
+          $('.ZreoSuccess').show();
+        });
+        //否
+        $('.Buyexchange-nextNo').on('click', function() {
+          BoxClose();
+        });
+      });
+      //查看号码
+      var a;
+      var wheight=window.innerHeight;
+      $('.click-showNumber').on('click',  function(event) {
+        a=$('body').scrollTop();
+        b=-Number(a);
+        $('.show-Number').show();
+        $('.posbg').show();
+        $('.BuyRecord-box').addClass('PostionFixed');
+        $('.BuyRecord-box').css({
+          height:'100%',
+          width:'100%',
+          top:b+'px'
+
+        });
+
+
+      });
+      //隐藏弹框
+      $('.hidden').on('click',function(){
+        $('.show-Number').hide();
+        $('.posbg').hide();
+        $('.BuyRecord-box').removeClass('PostionFixed');
+        $('.BuyRecord-box').css({
+          height:'auto',
+          top:'initial'
+        });
+        $('body').scrollTop(a);
+        
+      })
+    })
+  </script>
+</head>
+<body class="bodygray">
+<div class="BuyRecord-box">
+    <!-- <div class="BuyRecord-Null">
+      <img src="../images/icon-null.png" alt="">
+      <p>暂无夺宝记录</p>
+    </div> -->
+    <ul class="BuyRecord-ul" >
+        <!--为空的时候-->
+        <li>
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space">期号：20140102123265</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <!--左侧状态汇总-->
+                <p class="BuyRecordState fl">待揭晓，结果正在计算中...</p>
+                <!--状态2黑色 <p class="BuyRecordState fl Stateblack">获奖者：欧阳叽叽</p></p>
+                <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> -->
+                <!--右侧状态汇总-->
+                <p class="BrPrizeState fr white-space"></p>
+                <!-- <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive">领取奖品</span></p>
+                <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+                <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+                <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+            </div>
+            <!--中奖类别-->
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+            <!-- <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p> -->
+
+            <!--获奖后li添加class  Winning 右侧图片-->
+            <!-- <img class="BuyRecordSeal" src="../images/seal.png" alt=""> -->
+        </li>
+        <li>
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space">期号：20140102123265</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl Stateblack">获奖者：欧阳叽叽</p>
+            </div>
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+        </li>
+        <!--获奖 li添加Winning-->
+        <li class="Winning">
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space"><span style="color:#2e2b51;">期号：20140102123265</span></div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl BuyRecordStateP"><span class="BuyRecordState1 white-space">获奖者：黄飞鸿换个换个换个干活</span></p>
+                <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive" value='0'>领取奖品</span></p>
+            </div>
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+            <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <li class="Winning">
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space">期号：20140102123265</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl BuyRecordStateP"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p>
+                <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+            </div>
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+            <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <li class="Winning">
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber">期号：20140102123265</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl BuyRecordStateP"><span class="BuyRecordState1 white-space">获奖者：13412301231</span></p>
+                <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+            </div>
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+            <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <li class="Winning">
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber">期号：20140102123265</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>本期参与：</span><span class="perNum">2</span><span>人次</span> <a class="click-showNumber" href="#2">查看号码</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p>
+                <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p>
+            </div>
+            <p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p>
+            <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <!--********************************分享福袋*********************************************-->
+        <li>
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space">分享人：成吉思汗</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>抽奖号码：</span><span class="perNum">25666666</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl">待揭晓，结果正在计算中...</p>
+                <!--状态2黑色 <p class="BuyRecordState fl"><span class="BuyRecordState">获奖者：欧阳叽叽</span></p>
+                <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> -->
+                <!--右侧状态汇总-->
+                <p class="BrPrizeState fr white-space"></p>
+                <!-- <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive">领取奖品</span></p>
+                <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+                <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+                <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+            </div>
+            <!--中奖类别-->
+             <!--<p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p> -->
+            <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+
+            <!--获奖后li添加class  Winning 右侧图片-->
+            <!-- <img class="BuyRecordSeal" src="../images/seal.png" alt=""> -->
+        </li>
+        <li >
+            <div class="BuyRecordTop">
+                <div class="BuyRecordLeft">
+                    <img src="../images/pro.jpg" alt="">
+                </div>
+                <div class=" BuyRecordRight">
+                    <div class="BuyRecordNumber white-space">分享人：成吉思汗</div>
+                    <div class="BuyRecordOther">
+                        <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                        <p><span>抽奖号码：</span><span class="perNum">25666666</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="BuyRecordFoot">
+                <p class="BuyRecordState fl Stateblack">获奖者：欧阳叽叽</p>
+                <!-- <p class="BuyRecordState fl">待揭晓，结果正在计算中...</p>
+                <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> -->
+                <!--右侧状态汇总-->
+                <p class="BrPrizeState fr white-space"></p>
+                <!-- <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive">领取奖品</span></p>
+                <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+                <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+                <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+            </div>
+            <!--中奖类别-->
+             <!--<p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p> -->
+            <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+
+            <!--获奖后li添加class  Winning 右侧图片-->
+            <!-- <img class="BuyRecordSeal" src="../images/seal.png" alt=""> -->
+        </li>
+        <!--查看号码弹框-->
+        <div class="BuyRecord-absolute show-Number">
+          <div class="show-NumberBox">
+            <p><span>您参与了：</span><span class="colorRed">4</span>人次</p>
+            <p><span>夺宝号码：</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span><span>10002552、</span><span>10002554、</span></p>
+            <a href="#2" class="hidden">确认</a>
+          </div>
+        </div>
+        <li >
+          <div class="BuyRecordTop">
+              <div class="BuyRecordLeft">
+                  <img src="../images/pro.jpg" alt="">
+              </div>
+              <div class=" BuyRecordRight">
+                  <div class="BuyRecordNumber white-space">分享人：成吉思汗</div>
+                  <div class="BuyRecordOther">
+                      <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                      <p><span>抽奖号码：</span><span class="perNum">25666666</span></p>
+                  </div>
+              </div>
+          </div>
+          <div class="BuyRecordFoot">
+              <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> 
+              <!--右侧状态汇总-->
+              <p class="BrPrizeState fr white-space"><span class="BrPrizeState-Receive" value="1">领取奖品</span></p>
+              <!-- <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+              <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+              <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+          </div>
+          <!--中奖类别-->
+           <!--<p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p> -->
+          <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+
+          <!--获奖后li添加class  Winning 右侧图片-->
+          <!-- <img class="BuyRecordSeal" src="../images/seal.png" alt=""> -->
+        </li>
+        <li class="Winning">
+          <div class="BuyRecordTop">
+              <div class="BuyRecordLeft">
+                  <img src="../images/pro.jpg" alt="">
+              </div>
+              <div class=" BuyRecordRight">
+                  <div class="BuyRecordNumber white-space">分享人：成吉思汗</div>
+                  <div class="BuyRecordOther">
+                      <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                      <p><span>抽奖号码：</span><span class="perNum">25666666</span></p>
+                  </div>
+              </div>
+          </div>
+          <div class="BuyRecordFoot">
+              <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> 
+              <!--右侧状态汇总-->
+              <p class="BrPrizeState fr white-space"><span>奖品待发货</span></p>
+              <!-- <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+              <p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+          </div>
+          <!--中奖类别-->
+           <!--<p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p> -->
+          <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+
+          <!--获奖后li添加class  Winning 右侧图片-->
+          <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <li class="Winning">
+          <div class="BuyRecordTop">
+              <div class="BuyRecordLeft">
+                  <img src="../images/pro.jpg" alt="">
+              </div>
+              <div class=" BuyRecordRight">
+                  <div class="BuyRecordNumber white-space">分享人：成吉思汗</div>
+                  <div class="BuyRecordOther">
+                      <p class="BuyRecordTime white-space">抽奖时间：2017.02.05 13:25:23</p>
+                      <p><span>抽奖号码：</span><span class="perNum">25666666</span></p>
+                  </div>
+              </div>
+          </div>
+          <div class="BuyRecordFoot">
+              <p class="BuyRecordState fl"><span class="BuyRecordState1">获奖者：欧阳叽叽</span></p> 
+              <!--右侧状态汇总-->
+              <p class="BrPrizeState fr white-space"><span>已发货 顺丰107998935964</span></p>
+              <!--<p class="BrPrizeState fr white-space"><span>已兑换收益￥9,625.00</span></p> -->
+          </div>
+          <!--中奖类别-->
+           <!--<p class="BuyRecord-postionLeft postionLeft-blue">0元夺宝</p> -->
+          <p class="BuyRecord-postionLeft postionLeft-red">分享福袋</p>
+
+          <!--获奖后li添加class  Winning 右侧图片-->
+          <img class="BuyRecordSeal" src="../images/seal.png" alt="">
+        </li>
+        <div class="footer-box">
+          <div class="footer">
+            <div class="BuyRecord-fixed">
+              <a href="tel:400-400-400">400-400-400</a>
+            </div>
+          </div>
+        </div>
+    </ul>
+    <div class="BuyRecord-absolute ZeroClick">
+      0元夺宝选择领取
+      <div class="BuyAbsolute-Box">
+        <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+        <div class="BuyAbsolute-exchange" style="clear:both;">
+          <img src="../images/icon-p.png" alt="">
+          <p>直接领取奖品</p>
+        </div>
+        <p class="BuyAbsolute-line"><img src="../images/icon-or.png" alt=""></p>
+        <div class="BuyAbsolute-Receive">
+          <img src="../images/icon-diam.png" alt="">
+          <p>兑换等值钻石币</p>
+        </div>
+      </div>
+    </div>
+    <div class="BuyRecord-absolute ZeroTx">
+      0元夺宝兑换钻石提醒
+      <div class="BuyAbsolute-Box Buyexchange-ClickBox">
+        <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+        <div style="clear:both;">
+          <p class="Buyexchange-nextText">是否继续兑换？</p>
+          <div class="Buyexchange-nextClick">
+            <p><span class="Buyexchange-nextYes">是</span></p>
+            <p><span class="Buyexchange-nextNo">否</span></p>
+          </div>
+        </div>
+        <p class="Bor-line"></p>
+        <div class="Buyexchange-nextTx">
+          <p class="icon-questuin">兑换收益</p>
+          <p>您的中奖商品会等值兑换为钻石币，兑换成功后您将无权领取中奖商品</p>
+        </div>
+      </div>
+    </div>
+    <div class="BuyRecord-absolute ZreoSuccess">
+      0元夺宝钻石领取成功
+      <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+        <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+        <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+          <img src="../images/icon-success.png" alt="">
+          <p>兑换成功</p>
+          <p>您成功兑换<span class="colorRed">3525钻石币</span></p>
+        </div>
+        <div class="Buyexchange-share">
+          <p class="">分享中奖信息，可领取钻石币</p>
+          <p>立即分享</p>
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<div class="Pro-Mask" style="display:none;">
+  <div class="Pro-MaskPosition BuyRecord-MaskPosition">
+    <div class="Pro-close">
+      <%= image_tag "h5/images/icon-close.png", alt: '' %>
+    </div>
+    <div class="Pro-Buy">
+      <p>兑换钻币数量</p>
+      <div class="change">
+        <span class="minus"></span>
+        <input class="buy-cont" type="number" min="0" max="1" data-base="1" value="0" id="coin_num">
+        <span class="add"></span>
+      </div>
+      <!-- <p>可兑换钻石币：<span class="colorRed"> --><!--<span class="Change-Num">--><%#= can_exchange < 0 ? 0 : can_exchange %><!-- </span> --><!-- </span></p> -->
+       <p>每日最多兑换<span class="colorRed"><!--<span class="Change-Num">--><%= SYSTEMCONFIG[:admin_config][:exchange][:day_limit] %><!-- </span> --></span>钻币</p>
+      <p>今日已兑换钻币数：<span class="colorRed has_exchange"></span></p>
+      <!-- <p>（可用资金- --><%#= SYSTEMCONFIG[:admin_config][:user_register][:gold] %><!-- =可兑换的钻石币数） --><!-- 可用资金大于20000的部分才可兑换<span class="colorRed"> --><!-- <span class="Change-Num"></span> --><!-- </span> --><!-- </p> -->
+      <% useful_gold = current_user.available_gold - SYSTEMCONFIG[:admin_config][:user_register][:gold] %>
+      <% can_change = useful_gold > 0 ? (useful_gold / SYSTEMCONFIG[:admin_config][:diamond_exchange_rate]).to_i : 0 %>
+      <p>（当前模拟盘资金可兑换<%= can_change %>钻币）</p>
+    </div>
+    <div class="button-change">
+      <p id="exc_coin">兑换</p>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+  $('.exchange_coin').on('click', function() {
+    $.ajax({
+      type: 'GET',
+      url: "/h5/users/<%= current_user.id %>/check_diamond_coin",
+      data: {},
+      success: function(result){
+        if(result.status == 200){
+          $('#coin_num').attr('max', result.data.can_exchange.can_exchange);
+          $('#coin_num').attr('value', result.data.can_exchange.can_exchange);
+          // $('#coin_num').val(input_num);
+          $('.has_exchange').text(result.data.can_exchange.has_exchanged);
+          $('.Pro-Mask').show();
+          addMuin();
+        }else{
+          alertTx('获取信息失败，请重试')
+        }
+      },
+      error: function(XMLHttpResponse){
+        alertTx("获取信息失败，请重试");
+      }
+    })
+  });
+
+  $('#exc_coin').on('click', function(){
+    $('.Pro-Mask').hide();
+    var num = $('#coin_num').val();
+    ele = $(this);
+    $.ajax({
+      type: 'POST',
+      url: "/h5/users/" + <%= current_user.id %> + '/exec_coin',
+      data: {'num': num},
+      // async: false,
+      success: function(datas) {
+        if(datas['status'] == 200){
+          alertTx('兑换成功');
+          ele.hide();
+          setTimeout(function(){
+            window.location.href = "<%= redirect_url %>";
+          },1000);
+        }else{
+          if(datas['data'] <= 0){
+            Rankingalert('当前可用资金不足<br>',"/home/index",'去赚资金');
+          }else{
+            alertTx(datas['msg']);
+          }
+        }
+      },
+      error: function(XMLHttpResponse) {
+        alertTx("兑换失败");
+      }
+    })
+  })
+
+})
+
+</script>

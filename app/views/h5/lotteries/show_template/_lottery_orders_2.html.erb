@@ -1,0 +1,79 @@
+<ul id="lottery_order_items">
+  <div>
+    <p>夺宝时间</p>
+    <p>参与人次</p>
+    <p>查看号码</p>
+  </div>
+</ul>
+
+
+<!--查看号码弹框-->
+<script id="lottery_order_item" type="text/x-jsrender">
+<li>
+  <p><span>{{:~year(created_at)}}</span><br/><span>{{:~hour(created_at)}}</span></p>
+  <p><span class="txt-yellow">{{:total_count}}</span>人次</p>
+
+  <p><a class="click-showNumber" href="javascript:void(0)" id="lottery_order_{{:id}}"  lottery_id="lottery_{{:id}}" data_count="{{:total_count}}" data_text="{{:~code_show(lottery_order_items)}}">查看号码</a></p>
+</li>
+</script>
+
+<script type="text/javascript">
+$(function(){
+    // 页数\
+    function code_show(items){
+      var text = ""
+      $.each(items, function(index, item){
+        if(item.is_win){
+          text += "<span class='colorPurple'>"+item.lottery_code+"</span>"
+        }else{
+          text += "<span>"+item.lottery_code+"</span>"
+        }
+        if(index != items.length -1){
+          text += '、'
+        }
+      })
+      return text
+    }
+    function year(date){
+      return $.format.date(date, "yyyy-MM-dd");
+    }
+    function hour(date){
+      return $.format.date(date, "HH:mm:ss");
+    }
+    $.views.helpers({code_show: code_show, year: year, hour: hour})
+    var page = 0;
+    // dropload
+    $('#lottery_order_list').dropload({
+      scrollArea : window,
+      domDown: {domRefresh: ''},
+      loadDownFn : function(me){
+        $.ajax({
+          type : "GET",  //提交方式
+          url : "/h5/lottery_orders/self_lottery_orders.json",//路径
+          data : {page: page+1, q: { user_id_eq: <%=current_user.id%>, lottery_id_eq: <%= @lottery.id%>, s: "id desc"}  },//数据，这里使用的是Json格式进行传输
+          beforeSend: function(){
+            me.lock();
+          },
+          success : function(result) {//返回数据根据结果进行相应的处理
+            if(result.status == 200 && result.data.length > 0){
+              var tmpl = $.templates("#lottery_order_item");
+              var htmlOutput = tmpl.render(result.data);
+              $("#lottery_order_items").append(htmlOutput);
+              page += 1
+              // $.each(result.data, function (index, e) {
+              //   if((Date.now() - Date.parse(e.created_at)) / 1000 < 5 * 60){
+              //     GoodsBubble(e.user.headimgurl, e.user.nickname, e.total_count, parseInt((Date.now() - Date.parse(e.created_at)) / 1000),3)
+              //   }
+              // })
+              me.resetload();
+              me.unlock();
+            }
+          },
+          error: function(){
+          }
+        });
+      },
+      threshold : 1500
+    });
+});
+</script>

@@ -1,0 +1,55 @@
+<%= render partial: 'admins/lottery_orders/lottery_orders_search' %>
+<div class="table-responsive lottery-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>订单号</th>
+      <th>购买时间</th>
+      <th>期号</th>
+      <th>商品名称</th>
+      <th>购买人</th>
+      <th>参与人次</th>
+      <th>支付金额</th>
+
+      <th>订单状态</th>
+      <th>操作</th>
+
+
+    </tr>
+    </thead>
+
+    <% if !@lottery_orders.empty? %>
+        <% @lottery_orders.each do |order| %>
+            <tbody>
+
+            <tr>
+              <td><%= order.id %></td>
+              <td><%= time_format (order.created_at) %></td>
+              <td><%= order.lottery.lottery_code %></td>
+              <td><%= order.lottery.product_name %></td>
+              <td><%= nickname_or_phone order.user %></td>
+              <td><%= order.total_count %></td>
+              <td><%= order.total_price %></td>
+              <td><%= lottery_order_status order.status %></td>
+              <td>
+                <a href="/admins/lottery_orders/<%= order.id %>" class="admin_product_operate_a">管理订单</a>
+
+              </td>
+
+
+            </tr>
+
+            </tbody>
+        <% end %>
+    <% end %>
+
+  </table>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @lottery_orders, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+<%= render partial: 'admins/lotteries/lottery_modal' %>

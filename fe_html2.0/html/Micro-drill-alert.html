@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  	<meta http-equiv="X-UA-Compitable" content="IE=edge">
+  	<link rel="stylesheet" href="../css/common.css">
+  	<link rel="stylesheet" href="../css/style.css">
+  	<link rel="stylesheet" href="../css/media.css">
+  	<style>
+			.small-daimSuccess .Buyexchange-SuccBoxTop img{ width: 48%; margin-top: 52px; }
+			.small-daimFails .Buyexchange-SuccBoxTop img{ width:48%; margin-top: 14px; }
+  	</style>
+  </head>
+  <body>
+  	<div class="BuyRecord-absolute small-daimSuccess">
+  	  <!-- 0元夺宝钻石领取成功 -->
+  	  <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+  	    <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+  	    <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+  	      <img src="../images/small-daim.png" alt="">
+  	      <p>恭喜！</p>
+  	      <p>您成功抢到&nbsp;<span class="colorRed">3525微钻</span></p>
+  	    </div>
+  	    <div class="Buyexchange-share">
+  	      <p class="">分享微钻红包，可领取钻币</p>
+  	      <p>立即分享</p>
+  	    </div>
+  	  </div>
+  	</div>
+  	<div class="BuyRecord-absolute small-daimFails">
+  	  <!-- 0元夺宝钻石领取成功 -->
+  	  <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+  	    <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+  	    <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+  	      <img src="../images/small-fails.png" alt="">
+  	      <p>手慢了！</p>
+  	      <p>微钻已被一抢而空</p>
+  	    </div>
+  	    <div class="Buyexchange-share">
+  	      <p class="">分享微钻红包，可领取钻币</p>
+  	      <p>立即分享</p>
+  	    </div>
+  	  </div>
+  	</div>
+  </body>
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script>
+  	$(function(){
+  		daimSuccess()
+  		//成功弹框
+	    function daimSuccess(){
+	      $('.small-daimSuccess').show();
+	      Scrollheight()
+	    }
+	    //失败弹框
+	    function daimFails(){
+	      $('.small-daimFails').show();
+	      Scrollheight()
+	    }
+	    //隐藏弹框
+	    function BoxClose(){
+	      $('.BuyRecord-absolute').hide();
+	      unScrollheight()
+	    }
+	    //点击X号隐藏弹框
+	    $('.BuyAbsolute-BoxClose').on('click',function(){
+	      BoxClose();
+	    })
+  	})
+  </script>
+</html>

@@ -1,0 +1,592 @@
+/*媒体查询*/
+@media screen and (min-width:415px){
+  .get-verification ul li:nth-child(3)>input{
+    width: 80%;
+  }
+
+
+  .get-prize>a{
+    font-size: 14px;
+  }
+  .get-prize>h3{
+    font-size: 36px;
+  }
+  .get-prize .content>div{
+    height: 220px;
+  }
+  .get-prize .content>div>span{
+    font-size: 28px;
+    padding-top: 144px;
+  }
+  .get-prize .content>span:nth-child(2){
+    width: 292px;
+    height: 352px;
+  }
+  .get-prize .content>span:nth-child(3){
+    height: 50px;
+    line-height: 50px;
+  }
+  .get-prize .content>span:nth-child(2)>p:nth-child(1){
+    font-size: 62px;
+    font-weight: 600;
+    padding-top: 140px;
+  }
+  .get-prize .content>span:nth-child(2)>p:nth-child(2){
+    font-size: 32px;
+  }
+
+
+  /*弹框*/
+  /*.prompt-box>div{
+    width: 20%;
+    margin: 25% auto 0;
+  }*/
+
+  /*登录*/
+  .login .wechart{
+    background: url(../images/wechart.png) no-repeat left 37% top 10px;
+    background-size: 32px 27px;
+  }
+
+  /*钻石礼包 gift-list*/
+  .gift-banner{
+    height: 340px;
+    background-size: cover;
+  }
+  .gift-right{
+    margin-left: 30px;
+  }
+
+  /*分享礼包页面*/
+  .gift-wallet-bg{
+    margin: 348px auto 0 auto;
+    width: 405px;
+    height: 532px;
+  }
+  .gift-wallet>h3{
+    font-size: 34px;
+    padding-top: 80px;
+    margin-bottom: 20px;
+  }
+  .gift-wallet>p{
+    font-size: 18px;
+    padding: 4px 0;
+  }
+  .gift-wallet>span{
+    width: 100px;
+    height: 110px;
+    margin-top: 55px;
+    background-size: cover;
+  }
+  .gift-wallet>a{
+    width: 280px;
+    height: 75px;
+    line-height: 68px;
+    font-size: 22px;
+    margin: 35px auto 0 auto;
+  }
+
+  /*礼包领取页*/
+  .gift-receive .phone{
+    padding: 40px 0 5px 0;
+  }
+  .gift-receive .phone>img{
+    width: 90px;
+    height: 90px;
+  }
+  .gift-receive .gift-wallet>p{
+    font-size: 22px;
+    line-height: 34px;
+  }
+
+}
+@media screen and (max-width: 413px) and (min-width: 376px){
+  .get-prize>h3{
+    padding: 60px 0 30px 0;
+  }
+  .get-prize .content>span:nth-child(2){
+    margin: 20px auto;
+  }
+}
+@media screen and (max-width:375px) and (min-width: 321px){
+  /*.body-box{
+    padding-bottom: 140px;
+  }*/
+
+  /*领取奖励*/
+  .get-prize>h3{
+    padding: 50px 0 10px 0;
+  }
+  .get-prize .content>span:nth-child(2){
+    margin: 5px auto 10px auto;
+    width: 180px;
+    height: 225px;
+  }
+
+  /*本日收益率排行*/
+  .day-rank .banner li:nth-child(2){
+    margin-left: 10px;
+  }
+  .day-rank .text .navigation li{
+    font-size: 14px;
+  }
+  .market-box .market-text .house,.market-box .market-text .bill{
+    padding: 5px;
+  }
+  .market-box .market-text .house ul li,.market-box .market-text .bill ul li{
+    margin: 5px 0;
+    width: 50%;
+  }
+  .market-box .market-text .house ul li span,.market-box .market-text .bill ul li span{
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  .market-box .market-text .bill .line{
+    margin-top: 14px;
+  }
+
+
+  /*买入卖出*/
+  .buy-box .form .name .list{
+    font-size: 14px;
+    padding-left: 6%;
+  }
+
+  /*获取验证码*/
+  .get-verification{
+    padding: 0 57px;
+  }
+
+  /*钻石礼包 gift-list*/
+  .gift-banner{
+    height: 200px;
+  }
+
+  /*分享礼包页面*/
+  .gift-wallet-bg{
+    margin: 250px auto 0 auto;
+  }
+
+  /*福袋*/
+  .bless-join-text>p{
+    padding: 0;
+  }
+
+  /*分享礼包页面*/
+  .gift-receive .phone{
+    padding: 10px 0 5px 0;
+  }
+
+  .gift-wallet-bg{
+    margin: 240px auto 0 auto;
+    width: 235px;
+    height: 330px;
+    background-size: cover;
+  }
+  .gift-wallet>h3{
+    font-size: 22px;
+    padding-top: 35px;
+    margin-bottom: 15px;
+  }
+  .gift-wallet>p{
+    font-size: 12px;
+    padding: 1px 0;
+  }
+  .gift-receive .gift-wallet>p{
+    font-size: 16px;
+    padding: 5px 0;
+    line-height: 24px;
+  }
+  .gift-wallet>span{
+    width: 60px;
+    height: 70px;
+    margin-top: 25px;
+  }
+  .gift-wallet>a{
+    margin: 14px auto 0 auto;
+    width: 180px;
+    height: 50px;
+    line-height: 47px;
+    font-size: 18px;
+  }
+
+  /*新增领取奖品页prize-Add*/
+  .prize-pic{
+    width: 200px;
+    height: 200px;
+    margin: 10px auto 20px auto;
+  }
+}
+
+
+
+@media screen and (max-width: 374px) and (min-width: 321px){
+
+  /*本日收益率排行*/
+  .day-rank .banner li:nth-child(1){
+    width: 50px;
+    height: 50px;
+  }
+  .day-rank .banner li:nth-child(2){
+    margin-left: 8px;
+    width: 80%;
+  }
+  .day-rank .banner li:nth-child(2)>a{
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .day-rank .text .navigation li{
+    font-size: 13px;
+  }
+
+  /*分享礼包页面*/
+  .gift-wallet-bg{
+    margin: 230px auto 0 auto;
+    width: 230px;
+    height: 320px;
+    background-size: cover;
+  }
+  .gift-wallet>h3{
+    font-size: 22px;
+    padding-top: 35px;
+    margin-bottom: 15px;
+  }
+  .gift-wallet>p{
+    font-size: 12px;
+    padding: 1px 0;
+  }
+  .gift-wallet>span{
+    width: 60px;
+    height: 70px;
+    margin-top: 25px;
+  }
+  .gift-wallet>a{
+    margin: 14px auto 0 auto;
+    width: 180px;
+    height: 50px;
+    line-height: 47px;
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 320px){
+  /*.body-box{
+    padding-bottom: 220px;
+  }*/
+  /*领取奖励*/
+  .get-prize>h3{
+    padding: 60px auto 30px auto;
+  }
+  .get-prize .content>div{
+    height: 100px;
+  }
+  .get-prize .content>div>span{
+    padding-top: 62px;
+  }
+  .get-prize .content>span:nth-child(2){
+    width: 148px;
+    height: 157px;
+    margin: 26px auto;
+  }
+  .get-prize .content>span:nth-child(3){
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+  }
+  .get-prize .content>span:nth-child(2)>p:nth-child(1){
+    font-size: 30px;
+    font-weight: 600;
+    padding-top: 66px;
+  }
+  .get-prize .content>span:nth-child(2)>p:nth-child(2){
+    font-size: 16px;
+  }
+
+  /*本日收益率排行*/
+  .day-rank .banner li:nth-child(1){
+    width: 50px;
+    height: 50px;
+  }
+  .day-rank .banner li:nth-child(2){
+    margin-left: 8px;
+    width: 80%;
+  }
+  .day-rank .banner li:nth-child(2)>a{
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .day-rank .text .navigation li{
+    font-size: 13px;
+  }
+
+  /*登录*/
+  .login-banner{
+    margin: 80px 11% 40px 11%;
+  }
+  .login p{
+    height: 40px;
+    line-height: 40px;
+  }
+
+  /*行情*/
+  .market-box .market-text .house,.market-box .market-text .bill{
+    padding: 5px;
+  }
+  .market-box .market-text .house ul li,.market-box .market-text .bill ul li{
+    margin: 5px 0;
+    width: 50%;
+  }
+  .market-box .market-text .house ul li span,.market-box .market-text .bill ul li span{
+    font-size: 12px;
+    margin-left: 0px;
+  }
+  .market-box .market-text .bill .line{
+    margin-top: 14px;
+  }
+  .market-box .market-text .price ul:nth-child(1) li:nth-child(1){
+    width: 45%;
+  }
+  .market-box .market-text .price ul:nth-child(1) li:nth-child(2){
+    width: 52%;
+  }
+
+
+  /*获取验证码*/
+  .get-verification{
+    padding: 0 34px;
+  }
+
+  /*绑定手机号*/
+  .bind-phone{
+    padding: 0 15px;
+  }
+  /*select下拉*/
+  .buy-box .form .name .list{
+    font-size: 14px;
+    padding-left: 9%;
+  }
+
+  /*登录*/
+  .login .wechart{
+    background: url(../images/wechart.png) no-repeat left 25% top 10px;
+    background-size: 30px 23px;
+  }
+
+  /*钻石礼包 gift-list*/
+  .gift-banner{
+    height: 170px;
+  }
+
+  /*分享礼包页面*/
+  .gift-wallet-bg{
+    margin: 220px auto 0 auto;
+    width: 210px;
+    height: 262px;
+    background-size: cover;
+  }
+  .gift-wallet>h3{
+    font-size: 20px;
+    padding-top: 30px;
+    margin-bottom: 10px;
+  }
+  .gift-wallet>p{
+    font-size: 12px;
+    padding: 1px 0;
+  }
+  .gift-wallet>span{
+    width: 60px;
+    height: 70px;
+    margin-top: 25px;
+  }
+  .gift-wallet>a{
+    margin: 8px auto 0 auto;
+    width: 150px;
+    height: 50px;
+    line-height: 47px;
+    font-size: 16px;
+  }
+
+  /*礼包领取页*/
+  .gift-receive .phone{
+    padding: 10px 0 0 0;
+  }
+  .gift-receive .phone>img{
+    width: 40px;
+    height: 40px;
+  }
+  .gift-receive .gift-wallet>p{
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  /*微信弹框*/
+  .wechat-share{
+    width: 270px;
+    height: 120px;
+    margin: 50px auto 0 auto;
+  }
+
+  /*福袋*/
+  .bless-join-text>p{
+    padding: 0;
+  }
+
+  /*新增领取奖品页prize-Add*/
+  .prize-pic{
+    width: 200px;
+    height: 200px;
+    margin: 10px auto 10px auto;
+  }
+  #prize-rob{
+    height: 78px;
+  }
+  #prize-free{
+    height: 85px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 413px){
+
+  /*我的挂单*/
+  .list-box .header li>a,.buy-box .header li>a,.ranking-rate .header li>a{
+    font-size: 14px;
+  }
+  .list-box .record .business ul{
+    padding: 8px 10px;
+  }
+  .list-box .record .business ul li{
+    width: 44%;
+  }
+  .list-box .record .business ul li span{
+    font-size:12px;
+  }
+
+  /*首页 钻石投资竞赛*/
+  .competition .wallet .kind li{
+    width: 27%;
+  }
+  .competition .chest-bg{
+    padding: 20px 25px;
+  }
+
+  /*买入*/
+  .buy-box .header li span,.ranking-rate .header li span{
+    font-size: 14px;
+  }
+  .buy-box .form .name .list{
+    font-size: 15px;
+    padding-left: 6%;
+  }
+
+  /*钻石礼包 gift-list*/
+  .gift-left{
+    width: 100px;
+    height: 100px;
+  }
+  .gift-list h3{
+    font-size: 14px;
+  }
+  .gift-right>h3{
+    margin-bottom: 5px;
+  }
+  .gift-right>p,.gift-note>p{
+    font-size: 12px;
+  }
+  .gift-right>p{
+    line-height: 17px;
+  }
+  .gift-right>a{
+    margin-top: 10px;
+  }
+
+  /*领取成功*/
+  .gift-success-shop>ul{
+    padding: 0 0 10px 0;
+  }
+  .gift-success-rank>ul>li{
+    padding: 5px 0;
+  }
+  .gift-success-shop>ul>li>span{
+    width: 110px;
+    background-size: 38%;
+    font-size: 12px;
+    padding: 70px 10px 0 15px;
+  }
+  .gift-success-shop>ul>li>h3{
+    font-size: 14px;
+    margin: 16px auto 5px auto;
+  }
+  .gift-success-shop>ul>li>p{
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .gift-success-shop>h3{
+    font-size: 14px;
+    padding: 15px 0;
+  }
+  .share-btn{
+    font-size: 16px;
+  }
+
+  .gift-success-rank>ul>li>img{
+    width: 35px;
+  }
+  .gift-success-rank>ul>li>p{
+    font-size: 12px;
+    margin-left: 10px;
+  }
+  .gift-success-rank>ul>li>span{
+    font-size: 14px;
+  }
+  .gift-success-rank>ul>li>img,.gift-success-rank>ul>li>p,.gift-success-rank>ul>li>span{
+    height: 35px;
+    line-height: 35px;
+  }
+
+  /*领取已无*/
+  .nothing>span{
+    width: 80px;
+    height: 80px;
+  }
+  .nothing>p{
+    font-size: 14px;
+    padding: 10px 0;
+    line-height: 20px;
+  }
+
+  .gift-money .gift-text{
+    height: 50%;
+  }
+  .gift-text span{
+    width: 120px;
+    height: 120px;
+  }
+  .gift-text>span>p{
+    font-size: 14px;
+  }
+
+  /*分享福袋--立即分享*/
+  .bless-banner>span{
+    height: 55px;
+  }
+  .bless-banner>div{
+    height: 280px;
+  }
+  .bless-text>p,.bless-text>span{
+    font-size: 16px;
+  }
+  .bless-text>p{
+    padding: 0 6%;
+  }
+  .bless-text>a{
+    margin: 25px auto 0 auto;
+  }
+}
+
+@media screen and (min-width: 375px) and (max-width: 412px){
+  .prize-pic{
+    width: 220px;
+    height: 220px;
+  }
+}

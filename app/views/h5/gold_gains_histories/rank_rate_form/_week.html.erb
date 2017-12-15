@@ -1,0 +1,37 @@
+<div class="day week">
+  <a href="<%= rank_rate_detail_h5_gold_gains_histories_path(type: '本周收益率排行' ) %>">
+    <h3 class='prize_count_time'>周排名
+      <span class='seconds hide'><%= ("#{Date.today.end_of_week - 1} 17:30:00".to_time - Time.now).to_i %></span>
+      <span>距开奖时间：</span><span class='time_str'></span>
+    </h3>
+  </a>
+  <% unless @week_ranks.blank? %>
+    <ul class="win">
+      <% @week_ranks.first(3).each do |wr| %>
+        <% user = wr['user'] %>
+        <li>
+          <span></span>
+          <span><%= image_tag user['headimgurl'] %></span>
+          <span><%= user['nickname'] || user['phone'] %></span>
+          <% if !wr.blank? && wr['user_id'] == current_user.id && @self_week_rank_rate %>
+            <%= render partial: 'get_prize', locals: { ranking_config: @self_week_rank_rate, type: 'W', amount: (wr['amount'].presence.to_f || 0), from: 'rank_rate' } %>
+          <% else %>
+            <p>收益率<span><%= number_to_currency ((wr['amount'].to_f / @gold).to_f * 100).round(2) %>%</span></p>
+          <% end %>
+        </li>
+      <% end %>
+      <%# self_rank = @week_ranks.pluck(:user_id).index(current_user.id) rescue nil %>
+      <% unless @week_ranks.first(3).map{|i| i['user_id']}.include?(current_user.id) || @week_ranks.blank? %>
+        <li class="last">
+          <% self_rank = $redis.get("self_rank_#{current_user.id}_week_rank").to_i %>
+          <span><%= rank(self_rank) %></span>
+          <span><%= image_tag current_user.headimgurl %></span>
+          <span><%= current_user.nickname || current_user.phone %></span>
+          <%# self_amount = @week_ranks.where(user_id: current_user.id).first.amount rescue 0 %>
+          <% self_amount = JSON.parse($redis.get("self_rank_#{current_user.id}_week_data"))['amount'] rescue 0 %>
+          <%= render partial: 'get_prize', locals: { ranking_config: @self_week_rank_rate, type: 'W', amount: self_amount.to_f, from: 'rank_rate' } %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

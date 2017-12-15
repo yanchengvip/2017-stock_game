@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>收益排行</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+</head>
+<body class="body-box">
+<div class="gfc-box ranking-rate ranking">
+  <!--<div class="container-box">-->
+    <ul class="header">
+      <li onclick="RankinglistRate()"><span>收益率排行</span></li>
+      <li class="active"><span>收益排行</span></li>
+    </ul>
+    <div class="day">
+      <h3>本日排名<span>距开奖时间：</span><span id="time"></span></h3>
+      <ul class="win">
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li class="last">
+          <span>4</span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <a class="Get-prizes" href="day-rank.html">领取奖励</a>
+        </li>
+      </ul>
+    </div>
+    <div class="day week">
+      <h3>本周排名<span>距开奖时间：</span><span>24:30:05</span></h3>
+      <ul class="win">
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li class="last">
+          <span>4</span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <a class="already-receive" href="">已领取</a>
+        </li>
+      </ul>
+    </div>
+    <div class="day week">
+      <h3>本月排名<span>距开奖时间：</span><span>24:30:05</span></h3>
+      <ul class="win">
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li class="last">
+          <span>4</span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <a class="already-receive" href="">已领取</a>
+        </li>
+      </ul>
+    </div>
+    <div class="day week footer-top">
+      <h3>总排名<span></span></h3>
+      <ul class="win">
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li>
+          <span></span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <p><span class="logo-money"></span>1000</p>
+        </li>
+        <li class="last">
+          <span>4</span>
+          <span><img src="../images/header2x.png" alt=""></span>
+          <span>地瓜瓜</span>
+          <a class="already-receive" href="">已领取</a>
+        </li>
+      </ul>
+    </div>
+  <!--</div>-->
+</div>
+<div class="footer-box">
+  <div class="footer">
+    <ul>
+      <li onclick="index()">
+        <span></span>
+        <span>首页</span>
+      </li>
+      <li onclick="list()">
+        <span></span>
+        <span>交易记录</span>
+      </li>
+      <li onclick="RankinglistRate()">
+        <span></span>
+        <span>竞赛</span>
+      </li>
+      <li onclick="Indiana()">
+        <span></span>
+        <span>0元夺宝</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/base.js"></script>
+<script>
+  /*开奖倒计时*/
+  Conutdown('2017/03/29 11:00:00','time');
+
+  $(function(){
+    Rankingalert('领取奖励成功！<br>分享中奖结果，可得钻石币','http://www.baidu.com','立即分享');//提示文字，地址，按钮文字
+  })
+</script>
+</body>
+</html>

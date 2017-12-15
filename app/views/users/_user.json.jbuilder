@@ -1,0 +1,2 @@
+json.extract! user, :id, :phone, :encrypted_password, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :province, :openid, :nickname, :sex, :city, :country, :headimgurl, :unionid, :created_at, :updated_at
+json.url user_url(user, format: :json)

@@ -1,0 +1,166 @@
+<div class="gfc-box login-bg register-box">
+  <div class="register">
+    <input id="phone" maxlength='11' class="phone" type="tel" placeholder="请输入手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入手机号'">
+    <span class=" del-1"></span>
+    <%= rucaptcha_input_tag(class: ' code', placeholder: '图片验证码', id: "_rucaptcha") %>
+    <!-- , oninput: "clearWval(this)" -->
+    <span class="del-2"></span>
+    <input id="code" maxlength='6' id="identify-code" class="code" type="tel" placeholder="手机验证码" onfocus="this.placeholder=''"onblur="this.placeholder='手机验证码'">
+    <span class=" del-4"></span>
+    <input id="password" type="password" maxlength='16' placeholder="请输入密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入密码'">
+    <span class=" del-3"></span>
+    <span class="btn verification-code sendCode" data-type='1' id="sendCode">语音验证码</span>
+
+    <span class="img-btn img-verification-code"><%= rucaptcha_image_tag(alt: 'Captcha') %></span>
+    <!-- <a class="Voice-prompt sendCode" href="#1" data-type='1'>收不到验证码？请试试<span>语音验证码</span></a> -->
+    <span class="Onclick-event common-btn bg-red txt-white register-btn" >注册</span>
+    <a class="logged-in" href="/login">已有账号，去登录</a >
+    <p class="Agreement"><span class="Check-mark" id='accept_span' data_accept='1'></span>本人已阅读并同意<a href="agreement">《用户协议》</a></p>
+
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+  $(".rucaptcha-image").click(function(){
+      $(this).attr("src", "/rucaptcha/")
+    })
+  $(".rucaptcha-image").click()
+
+  DataValidation();
+
+  $(".Agreement>span").on("click",function(){
+      // $(".Agreement>span").toggleClass("Check-mark");
+      ele = $(this);
+      if(ele.hasClass('Check-mark')){
+        ele.removeClass('Check-mark');
+        $('.register-btn').attr('disabled', true);
+        ele.attr('data_accept', 0);
+        $('.register-btn').css("background-color","#9d91b5 ");
+        $('.register-btn').removeClass('register-btn');
+      }else{
+        $('.Onclick-event').css("background-color","#ed3f45 ");
+        ele.addClass('Check-mark');
+        ele.attr('data_accept', 1);
+        $('.Onclick-event').removeAttr("disabled");
+        $('.Onclick-event').addClass('register-btn');
+      }
+    })
+
+  $("input").focus(function(){
+    $(this).next("span").addClass("del")
+  })
+  $("input").blur(function(){
+    obj = $(this)
+    setTimeout('obj.next("span").removeClass("del")', 100)
+  })
+  $("body").on("click", ".del", function(){
+      $(this).prev("input").val("")
+    })
+  $(".sendCode").on('click', function(){
+    if (countdown == 60){
+      if($("#phone").val() == ""){
+        alertTx("手机号不能为空")
+        return false
+      }
+      if($("#phone").val().length !=  11){
+        alertTx("手机号格式不正确")
+        return false
+      }
+      if($('#_rucaptcha').val() == ''){
+        alertTx("图片验证码不能为空")
+        return false
+      }
+      var is_voice = $(this).attr('data-type');
+      $.ajax({
+        type : "POST",  //提交方式
+        url : "/session/send_verification_code_with_rucaptcha.json",//路径
+        data : { phone: $("#phone").val(), is_voice: $(this).attr('data-type'), _rucaptcha: $("#_rucaptcha").val()},//数据，这里使用的是Json格式进行传输
+        success : function(result) {//返回数据根据结果进行相应的处理
+          if(result.status == 200){
+            settime($("#sendCode"));
+            if(is_voice == '1'){
+              // alertTx("验证码将通过语音电话通知到您，请注意接听");
+              alertYzm("验证码将通过语音电话通知到您，请注意接听");
+            }
+          }else{
+            alertTx(result.msg);
+            $(".rucaptcha-image").click();
+          }
+        },
+        error: function(){
+        }
+      })
+    }
+  })
+  var countdown=60;
+  function settime(obj) {
+    if (countdown == 0) {
+      obj.removeAttr("disabled");
+      obj.html("语音验证码");
+      obj.css("background-color","#2e273e ");
+      obj.css("color","#cdc9ea ");
+      // alert(obj.attr('id'));
+      countdown = 60;
+      return;
+    } else {
+      obj.attr("disabled", true);
+      obj.html("重新发送(" + countdown + ")");
+      obj.css("background-color","#2e273e ");
+      obj.css("color","#cdc9ea ");
+      countdown--;
+      // console.log(countdown);
+    }
+    setTimeout(function(){settime(obj)},1000)
+  }
+  $(".register-btn").click(function(){
+    var accepter = $('#accept_span').attr('data_accept');
+    if($(this).attr('disabled') != 'disabled' && accepter == 1){
+      if($("#phone").val()==''){
+        alertTx("手机号不能为空")
+        return false
+      }
+      if($("#phone").val().length != 11){
+          alertTx("手机号格式不正确")
+          return false
+      }
+      if($('#_rucaptcha').val() == ''){
+        alertTx("图片验证码不能为空")
+        return false
+      }
+      if($("#code").val()==''){
+        alertTx("手机验证码不能为空")
+        return false
+      }
+      if($("#password").val()==''){
+        alertTx("密码不能为空")
+        return false
+      }
+      if($("#password").val().length < 6 || $("#password").val().length > 16 ){
+        alertTx("密码长度应在6-16位")
+        return false
+      }
+      $.ajax({
+        type : "POST",  //提交方式
+        url : "/session/create",//路径
+        data : { phone: $("#phone").val(), code: $("#code").val(), password: $("#password").val(), accepter: accepter},//数据，这里使用的是Json格式进行传输
+        success : function(result) {//返回数据根据结果进行相应的处理
+          if(result.status == 200){
+            window.location.href="/"
+          }else{
+            alertTx(result.msg)
+          }
+        },
+        error: function(){
+          alertTx("网络异常")
+        }
+      });
+    }
+  })
+
+})
+
+function clearWval(ele){
+  ele.value = ele.value.replace(/[&\|\\\*^%$#,.;/<>@\-]/g,"")
+}
+</script>
+

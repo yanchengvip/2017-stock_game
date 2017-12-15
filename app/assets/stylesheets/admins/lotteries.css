@@ -1,0 +1,20 @@
+.lottery-list {
+    margin-top: 50px;
+}
+
+.lottery-search-span {
+    float: left;
+    line-height: 34px;
+    margin-right: 10px;
+}
+
+.lottery-search-input {
+   width: 65% !important;
+}
+
+
+.lottery-search-button {
+    float:right !important;
+    margin-right: -50px;
+    margin-top: -35px;
+}

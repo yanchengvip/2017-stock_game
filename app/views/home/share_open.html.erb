@@ -1,0 +1,85 @@
+<div class="BuyRecord-box Share-box">
+
+  <% if @product %>
+
+      <!--领取奖品分享-->
+      <div class="shareOne">
+        <%= image_tag "h5/images/share1.png" %>
+
+        <div class="shareOne-abslute">
+          <div class="shareOne-ImgBox">
+            <div class="shareOne-userImg">
+              <img src="<%= @share_user.headimgurl %>" alt="">
+            </div>
+          </div>
+          <p class="shareOne-userName"><span><%= @share_user.nickname %></span><span>免费赢得</span></p>
+          <div class="shareOne-abslute2">
+            <div class="shareOne-left">
+              <%= image_tag @product.head_image %>
+            </div>
+            <div class="shareOne-right">
+              <p><%= @product.name %></p>
+              <p>价值<span>￥<%= number_to_currency @product.price %></span></p>
+            </div>
+            <div class="shareOne-proup">
+              <%= image_tag "h5/images/icon-up.png" %>
+            </div>
+          </div>
+        </div>
+        <div class="shareOne-ImgP">
+          <%= image_tag "h5/images/share1-ww.png" %>
+        </div>
+      </div>
+  <% else %>
+  <!--首页分享-->
+  <div class="shareTwo">
+    <%= image_tag "h5/images/share2.jpg" %>
+    <div class="shareOne-abslute">
+      <div class="shareTwoText">
+        <div class="shareTwoTextLeft">
+          <%= image_tag @share_user.headimgurl %>
+        </div>
+        <div class="shareTwoTextRight"><span>您的好友</span><span class="white-space"><%= @share_user.nickname %></span>
+        </div>
+        <div>邀请您一起玩【0元夺宝】</div>
+        <%= image_tag "h5/images/icon-r.png", class: "shareS" %>
+      </div>
+    </div>
+  </div>
+  <%end%>
+  <!--立即注册     注册链接-->
+  <div class="ShareSign">
+    <a href="<%= wechat_browser? ? '/?share_user_id='+params[:share_user_id] : '/register?share_user_id='+params[:share_user_id] %>"></a>
+  </div>
+
+
+  <div class="shareThree">
+    <%= image_tag "h5/images/share3.png" %>
+    <!--链接   夺宝首页-->
+    <a class="share3-pro" href="<%= wechat_browser? ? '/?share_user_id='+params[:share_user_id] : '/register?share_user_id='+params[:share_user_id] %>">
+      <%= image_tag "h5/images/share3-pro.png" %>
+    </a>
+    <!--链接   夺宝首页-->
+    <a class="share3-more" href="<%= wechat_browser? ? '/?share_user_id='+params[:share_user_id] : '/register?share_user_id='+params[:share_user_id] %>">
+      <%= image_tag "h5/images/share3-more.png" %>
+    </a>
+    <%= image_tag "h5/images/share3-bottom.png" %>
+  </div>
+
+  <div class="shareFive">
+    <%= image_tag "h5/images/share4.png" %>
+
+    <!--链接  夺宝首页-->
+    <a class="shareFive-a" href="<%= wechat_browser? ? '/?share_user_id='+params[:share_user_id] : '/register?share_user_id='+params[:share_user_id] %>">
+      <%= image_tag "h5/images/share5.png" %>
+    </a>
+  </div>
+
+
+  <div class="shareFour">
+    <%= image_tag "h5/images/sharetext.png" %>
+    <!--注册并领取20,000虚拟金-->
+    <a href="<%= wechat_browser? ? '/?share_user_id='+params[:share_user_id] : '/register?share_user_id='+params[:share_user_id] %>"></a>
+
+  </div>
+</div>

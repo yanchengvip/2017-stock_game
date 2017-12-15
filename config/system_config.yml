@@ -1,0 +1,89 @@
+development:
+  opencai_api: "http://101.37.96.166/"
+  host: "http://127.0.0.1:3000/"
+  #host: "http://wx.frp.balawo.com/"
+  domain: 127.0.0.1
+  redis:
+    url: "redis://127.0.0.1:6379/0"
+  cache_servers: localhost:11211
+  admin_config:
+    user_register: #首次分享
+      gold: 20000 # 送20000虚拟金
+      diamond_account: 10 # 送10钻石币
+    invite_user_each: #邀请用户
+      gold: 0 # 送500虚拟金
+      diamond_account: 100 # 送100钻石币
+      limit_count: 100 # 只有邀请前100人送钻石币和资金
+    box: #交易宝箱
+      trade_count: 10 #交易宝箱成交10次
+      gold: 0 # 送500虚拟金
+      diamond_account: 50 # 送50钻石币
+    diamond_trade_fee: 0.0005 #交易税费
+    winning_share:
+      diamond_account: 50 # 送50钻石币
+    diamond_exchange_rate: 2 #钻石币汇率
+    subscribe: #关注公众号
+      diamond_account: 30 #送30钻石币
+    exchange:
+      day_limit: 2000 #每天最多兑换2000钻石币
+    chest:
+      max_betting: 5000 #宝箱最大投注额
+    #4-27新增
+    wechat_share: #分享朋友圈
+      limit: 5 #分享朋友圈 每天5次
+      diamond_account: 20 #分享朋友圈  每次20
+    day_sign: #每日签到
+      diamond_account: 100 #每日签到赠送钻石币 每次20
+    micro_diamond: 100 #充值金额兑换微钻比例1元=100微钻
+  user_default_headimgurl: "/default_image/header2x.png" #用户默认头像
+  telephone_num: '400-000-123'
+  test: true
+  lottery_max_count_persent: 0.25 #单用户最大抽奖次数
+  lottery_system_persent: 0.2 #系统抽奖次数
+  cdn_host: "http://tgame.zuanliantech.com/"
+  authentication_token_expire_time: 300 #过期时间 秒
+  trade_time_interval_days: 1 #交易天数间隔
+production:
+  opencai_api: "http://101.37.96.166/"
+  host: "http://game.zuanliantech.com/"
+  domain: game.zuanliantech.com
+  redis:
+    url: "redis://:foobared8@10.0.1.52:6379/0"
+  cache_servers: localhost:11211
+  user_default_headimgurl: "/default_image/header2x.png"
+  admin_config:
+    user_register: #首次分享
+      gold: 20000 # 送20000虚拟金
+      diamond_account: 10 # 送10钻石币
+    invite_user_each: #邀请用户
+      gold: 0 # 送500虚拟金
+      diamond_account: 100 # 送100钻石币
+      limit_count: 100 # 只有邀请前100人送钻石币和资金
+    box: #交易宝箱
+      trade_count: 10 #交易宝箱成交10次
+      gold: 0 # 送500虚拟金
+      diamond_account: 50 # 送50钻石币
+    diamond_trade_fee: 0.0005 #交易税费
+    winning_share:
+      diamond_account: 50 # 送50钻石币
+    diamond_exchange_rate: 2 #钻石币汇率
+    subscribe: #关注公众号
+      diamond_account: 30 #送30钻石币
+    exchange:
+      day_limit: 2000 #每天最多兑换2000钻石币
+    #4-27新增
+    chest:
+      max_betting: 5000 #宝箱最大投注额
+    day_sign: #每日签到
+      diamond_account: 20 #每日签到赠送钻石币 每次20
+    wechat_share: #分享朋友圈
+      limit: 5 #分享朋友圈 每天5次
+      diamond_account: 20 #分享朋友圈  每次20
+    micro_diamond: 100 #充值金额兑换微钻比例1元=100微钻
+  telephone_num: '400-000-123'
+  test: true
+  lottery_max_count_persent: 0.25 #单用户最大抽奖次数
+  lottery_system_persent: 0.2 #系统抽奖次数
+  cdn_host: "http://127.0.0.1:3000/"
+  authentication_token_expire_time: 86400 #过期时间 24 * 3600 秒
+  trade_time_interval_days: 1 #交易天数间隔

@@ -1,0 +1,36 @@
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><%= @title%></div>
+  <div class="panel-body">
+
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>日期</th>
+    <th>人数</th>
+
+  </tr>
+  </thead>
+
+
+  <% @objs.each do |obj| %>
+
+      <tbody>
+      <tr>
+        <td> <%= obj.date %></td>
+        <td> <%= obj.count %></td>
+      </tr>
+      </tbody>
+
+  <% end %>
+
+</table>
+
+  </div>
+</div>
+
+
+<div class="digg_pagination">
+  <%= will_paginate @objs, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>

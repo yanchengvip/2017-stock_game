@@ -1,0 +1,18 @@
+.show_csv_data_table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-left: 1px solid #888;
+    border-top: 1px solid #888;
+    background: #efefef;
+}
+
+.show_csv_data_table th, .show_csv_data_table td {
+    border-right: 1px solid #888;
+    border-bottom: 1px solid #888;
+    padding: 5px 15px;
+}
+
+.show_csv_data_table th {
+    font-weight: bold;
+    background: #ccc;
+}

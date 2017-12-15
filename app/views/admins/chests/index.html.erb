@@ -1,0 +1,90 @@
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn add_chest btn-primary " style="margin-bottom: 10px">添加赔付</button>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-6">
+      <div class="alert alert-danger" role="alert">
+        提示：不能删除，只能修改或新增
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>赔付</th>
+      <th>数量</th>
+      <th>使用状态</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+    <% if !@chests.empty? %>
+        <% @chests.each_with_index do |chest, index| %>
+            <tbody>
+
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= chest.odds %></td>
+
+              <td><%= chest.total_count %></td>
+              <td><%= status_str(chest) %></td>
+              <td>
+                <a href="/admins/chests/<%= chest.id %>/edit" target="_self" class="admin_product_operate_a btn btn-sm btn-primary">修改信息</a>
+                <% if chest.status != 0 %>
+                   &nbsp;&nbsp;&nbsp;
+                  <a href="javascript:void(0)" class="disable_chest btn btn-sm btn-danger" id="chest_<%= chest.id %>">禁用</a>
+                <% end %>
+              </td>
+            </tr>
+
+            </tbody>
+        <% end %>
+    <% end %>
+  </table>
+
+</div>
+
+<%= render partial: 'chest_modal' %>
+
+<div class="flickr_pagination">
+  <%= will_paginate @chests, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+    $('.add_chest').on('click', function(){
+      $('#addChestModal').modal('show');
+    })
+
+    $('.disable_chest').on('click', function(){
+      var chest = $(this).attr('id').split('_')[1];
+      $.ajax({
+        type: 'POST',
+        url: "/admins/chests/" + chest + "/disable",
+        data: {},
+        success: function(result){
+          if(result.status == 200){
+            alert('禁用成功');
+            window.location.reload();
+          }else{
+            alert(result.msg)
+          }
+        },
+        error: function(XMLHttpResponse){
+          alert('操作失败，请重试')
+        }
+      })
+    })
+  })
+</script>

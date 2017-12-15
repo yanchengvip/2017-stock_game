@@ -1,0 +1,15 @@
+<%= simple_form_for(@share_config) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :desc %>
+    <%= f.input :img_url %>
+    <%= f.input :link_url %>
+    <%= f.input :user_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

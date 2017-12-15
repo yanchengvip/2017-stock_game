@@ -1,0 +1,134 @@
+
+<div class="row">
+  <div class="col-xs-6 col-md-4">
+
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">注册用户数</div>
+        <div class="panel-body">
+          <h3><%=@users_num%></h3>
+        </div>
+
+      </div>
+
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">已交易用户数</div>
+      <div class="panel-body">
+        <h3><%=@trade_users_num%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">总收益</div>
+      <div class="panel-body">
+        <h3><%= @total_profit%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">人均收益</div>
+      <div class="panel-body">
+        <h3><%= @patp%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">钻石币总数</div>
+      <div class="panel-body">
+        <h3><%= @diamond_coin_num%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">人均钻石币数量</div>
+      <div class="panel-body">
+        <h3><%= @padm%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="col-xs-6 col-md-4">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        昨日夺宝人数
+        <a href="/admins/homes/tj_more?model=lottery_orders&title=昨日夺宝人数">更多</a>
+      </div>
+      <div class="panel-body">
+        <h3><%= @yt_lo_num%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        昨日签到人数
+        <a href="/admins/homes/tj_more?model=day_signs&title=昨日签到人数">更多</a>
+      </div>
+      <div class="panel-body">
+        <h3><%= @yt_sign_num%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="col-xs-6 col-md-4">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        昨日模拟盘交易人数
+        <a href="/admins/homes/tj_more?model=diamond_trades&title=昨日模拟盘交易人数">更多</a>
+      </div>
+      <div class="panel-body">
+        <h3><%= @yt_trade_num%></h3>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</div>

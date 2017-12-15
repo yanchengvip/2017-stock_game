@@ -1,0 +1,80 @@
+<div class="gfc-box receive-prize">
+  <!--<div class="container-box">-->
+  <form id="address_form">
+    <ul class="mail">
+      <li>
+        <span>收货人</span>
+        <input id="name" name="user_name" type="text"  value="<%= @address.user_name %>" maxlength=10 placeholder="收货人姓名">
+      </li>
+      <li>
+        <span>手机号</span>
+        <input id="phone" name="phone" type="tel"  value="<%= @address.phone %>" maxlength='11' placeholder="请输入手机号">
+      </li>
+      <li>
+        <span>地址</span>
+        <input id="address" name="address" type="text" maxlength=255 value="<%= @address.address %>" placeholder="收货人地址">
+      </li>
+      <li>
+        <span>邮编</span>
+        <input class="zipCode" name="postcode" type="number"  value="<%= @address.postcode %>" maxlength='6' placeholder="输入邮编号">
+      </li>
+    </ul>
+  </form>
+  <div class="receive-Add-box">
+    <p class="Add-txt txt-gray-purple">设为默认地址</p>
+    <% if @address.is_default == true %>
+        <span class="select selected-gray"></span>
+    <% else %>
+        <span class="select"></span>
+    <% end %>
+  </div>
+  <a class="get-button button-l -gfc-sell" href="javascript:void(0)" onclick="address_update()">保存</a>
+  <!--<a class="get-button button-l -gfc-buy" href="#1">删除地址</a>-->
+  <!--</div>-->
+</div>
+
+<script>
+    $(function () {
+        $(".receive-Add-box").on("click", function () {
+            $(this).find(".select").toggleClass("selected-gray");
+        })
+    })
+
+    DataValidation();
+
+
+    function address_update() {
+        var is_empty = NoEmpty();
+        if(is_empty){
+            return false
+        }
+        var is_default = $('.select').hasClass('selected-gray');
+        var form_data = $("#address_form").serialize()
+        if (is_default) {
+            form_data += '&is_default=true'
+        } else {
+            form_data += '&is_default=false'
+        }
+        $.ajax({
+            type: 'put',
+            url: '/h5/addresses/<%= @address.id%>',
+            data: form_data,
+            success: function (response) {
+                if (response['status'] == 200) {
+                    alertTx('地址修改成功')
+                    //window.location.href='/h5/addresses'
+                    window.history.go(-1);
+                }
+                if (response['status'] == 500) {
+                    alertTx('地址修改失败')
+                }
+            },
+            error: function (response) {
+                alertTx('地址修改失败')
+            }
+
+        })
+
+    }
+
+</script>

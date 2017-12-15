@@ -1,0 +1,4 @@
+module Admins::LuckyBagsHelper
+
+
+end

@@ -1,0 +1,17 @@
+<% @all_users.each do |user|%>
+    <li class="list-group-item list-group-item-default" id="unselect_user_li<%= user.id%>">
+      <%= nickname_and_phone user%>
+      <input type="hidden" name= 'user_id' value="<%= user.id%>">
+      <input type="hidden" name='product_id' value="<%= @product.id%>">
+      <button   class="badge badge_cursor" onclick="show_selected_user('unselect_user_li<%= user.id%>',<%= user.id%>,'<%= user_nickname user%>','<%= user_phone user%>')">添加</button>
+    </li>
+
+<%end%>
+
+<%= will_paginate @all_users,:previous_label => t("上一页"), :next_label => t("下一页")%>
+
+<script>
+    $(function(){
+        $('.pagination a').attr('data-remote', 'true')
+    });
+</script>

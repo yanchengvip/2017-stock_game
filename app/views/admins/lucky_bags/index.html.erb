@@ -1,0 +1,98 @@
+<div class="row">
+
+  <div class="col-lg-6">
+
+    <form action="/admins/lucky_bags/search" method="post">
+      <div class="input-group">
+        <input type="text" name="product_name" class="form-control" placeholder="福袋名称搜索">
+
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">查询</button>
+      </span>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div style="margin-top: 20px">
+    <div class="col-xs-8">
+
+    </div>
+    <div class="col-xs-2" style="margin-left: 100px">
+      <a href="/admins/lucky_bags/new" target="_self" class="btn btn-primary btn-lg" role="button">新增福袋</a>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>福袋名称</th>
+      <th>所需人次</th>
+      <th>价值</th>
+      <th>有效期</th>
+      <th>剩余库存</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+    <% if !@lucky_bags.empty? %>
+        <% @lucky_bags.each do |lb| %>
+            <tbody>
+
+            <tr>
+              <td><%= lb.name %></td>
+              <td><%= lb.total_count %></td>
+              <td><%= lb.price %></td>
+              <td><%= time_format lb.end_time %></td>
+              <td><%= lb.inventory_count %></td>
+              <td>
+                <% if lb.is_published && lb.end_time >= Time.now %>
+                    <a href="/admins/lucky_bags/bags_to_user?id=<%= lb.id %>" class="admin_product_operate_a">分发福袋</a>
+                <% elsif !lb.is_published %>
+                    未启用
+                <% else %>
+                    已过期
+                <% end %>
+
+                <% if lb.ranking_config_items.length > 0 %>
+                    已参与竞赛排名
+                <% elsif lb.lotteries.length > 0 %>
+                    已分发
+                <% else %>
+                    <a href="javascript:void(0)" onclick="lucky_bag_delete(<%= lb.id%>,'<%= lb.name%>')" class="admin_product_operate_a">删除福袋</a>
+                <% end %>
+              </td>
+
+            </tr>
+
+            </tbody>
+        <% end %>
+    <% end %>
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @lucky_bags, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+<%= render partial: 'admins/lucky_bags/lucky_bags_modal' %>

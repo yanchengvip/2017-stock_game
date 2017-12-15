@@ -1,0 +1,114 @@
+<div class="BuyRecord-box VirMicroBill-box">
+  <% if @micro_records.length == 0 %>
+      <div class="no-data">暂无记录</div>
+  <% end %>
+  <% @micro_records.each do |micros| %>
+      <ul id="<%= micros[0][:created_year2] %>">
+        <div>
+          <%= micros[0][:created_year] %>
+        </div>
+
+        <% micros.each do |micro| %>
+            <li>
+              <div>
+                <p class="fl white-space"><%= micro[:micro_type] %></p>
+                <p class="fr">
+                    <% if micro[:amount] > 0 %>
+                       <span><i>+<%= micro[:amount] %></i>微钻</span>
+                    <% else %>
+                       <span><i><%= micro[:amount] %></i>微钻</span>
+                    <% end %>
+                  <span><%= micro[:created_day] %></span>
+                </p>
+              </div>
+            </li>
+        <% end %>
+      </ul>
+  <% end %>
+
+</div>
+
+
+<script id="record-ul" type="text/x-jsrender">
+
+			<ul id={{:created_year2}}>
+          <div>
+            {{:created_year}}
+          </div>
+			    {{:lis}}
+			</ul>
+
+
+</script>
+
+<script id="record-li" type="text/x-jsrender">
+        <li>
+              <div>
+                <p class="fl white-space">{{:micro_type}}</p>
+                <p class="fr">
+                  {{if amount > 0}}
+                   <span><i>+{{:amount}}</i>微钻</span>
+                  {{else}}
+                   <span><i>{{:amount}}</i>微钻</span>
+                  {{/if}}
+                  <span>{{:created_day}}</span>
+                </p>
+              </div>
+        </li>
+
+</script>
+
+<script>
+    var page = 1;
+    $('.VirMicroBill-box').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh">↑上拉加载更多-自定义内容</div>',
+            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中-自定义内容...</div>',
+            domNoData: '<div class="dropload-noData">暂无数据...</div>'
+        },
+        loadDownFn: function (me) {
+            $.ajax({
+                type: 'GET',
+                url: "/h5/charge_orders/my_micro_diamond_record_page",
+                dataType: 'json',
+                data: {page: page += 1, is_json: true},
+                beforeSend: function () {
+                    me.lock();
+                },
+                success: function (result) {
+                    var ul = ''
+                    var micro_records = result['data']['micro_records']
+                    if (micro_records.length == 0) {
+                        me.lock();
+                        me.noData();
+                    }
+                    for (var i = 0; i < micro_records.length; i++) {
+                        var month_records = micro_records[i]
+                        y_m2 = month_records[0]['created_year2']
+                        if ($('#' + y_m2).length > 0) {
+                            var li = $('#record-li').render(month_records);
+                            $('#' + y_m2).append(li)
+                        } else {
+                            var li = $('#record-li').render(month_records);
+                            var lis = {lis: li, created_year: month_records[0]['created_year'], created_year2: y_m2}
+                            ul = $('#record-ul').render(lis)
+                        }
+
+                        $('.VirMicroBill-box').append(ul)
+
+                    }
+                    me.resetload();
+                    me.unlock();
+
+                },
+                error: function () {
+                    me.resetload();
+                    me.unlock();
+                }
+            });
+        },
+        threshold: 50
+    })
+</script>

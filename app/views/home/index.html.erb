@@ -1,0 +1,231 @@
+
+  <!--<div class="body-header-bg">
+    <h3 class="body-header"><a href="">返回</a>钻石竞赛</h3>
+  </div>-->
+  <div class="gfc-box competition">
+    <!--<div class="container-box">-->
+      <!--banner start-->
+<!--       <div class="banner-bg">
+        <div class="index-banner">
+          <div class="head">
+            <div class="left">
+              <div class="Ind-Money">
+                <%=image_tag "h5/images/icon-logo.png", onclick:"window.location.href='/h5/posts/diamond_account_role'" %>
+                <span class="exchange_coin" id="exc_coin_num"><%= current_user.total_diamond_coin.to_i %>钻币</span>
+                <%=image_tag "h5/images/change-2.png", class:"img-pop exchange_coin"%>
+              </div>
+            </div>
+            <a class="right bg-white" href="/h5/diamond_trades">交易</a>
+          </div>
+        </div>
+      </div> -->
+      <div class="ind-top">
+        <div class="header">
+          <div class="Ind-Money">
+            <%=image_tag "h5/images/icon-logo.png", onclick:"window.location.href='/h5/posts/diamond_account_role'" %>
+            <span class="exchange_coin" id="exc_coin_num"><%= current_user.total_diamond_coin.to_i %>钻币</span>
+            <%=image_tag "h5/images/change-2.png", class:"img-pop exchange_coin"%>
+          </div>
+          <!-- <a  class="Ind-topbtn fr" href="">10钻币=1夺宝人次</a > -->
+          <a class="Ind-Return bg-purple txt-white fr bg-purple txt-white" href="/h5/hold_diamonds">交易</a >
+        </div>
+      </div>
+      <!-- <div>
+        <%#= render partial: 'h5/day_signs/form', locals: {user: current_user}  %>
+      </div> -->
+      <!--banner end-->
+      <!--总资产 start-->
+      <div class="wallet">
+        <div class="total">
+          <span><%=number_to_currency @total_assets %></span>
+          <p>账户总资产（元）</p>
+        </div>
+        <ul class="kind">
+          <li class="exchange_coin">
+            <span>可用资金</span>
+            <span><%=number_to_currency current_user.available_gold %></span>
+          </li>
+          <li onclick="window.location.href='/h5/hold_diamonds'">
+            <span>持仓</span>
+            <span> <%=@shorting_diamonds_count + @hold_diamonds_count%>  </span>
+          </li>
+          <li onclick="window.location.href='/h5/diamond_trades'">
+            <span>总收益</span>
+            <span><%=number_to_currency(@total_assets - SYSTEMCONFIG["admin_config"]["user_register"]["gold"])%></span>
+          </li>
+        </ul>
+
+      </div>
+      <!--总资产 end-->
+
+<!--       <ul class="share" id="share_btn" >
+        <li class="<%=wechat_browser? ? 'wechat' : ''%>" data-img ='index-box'>
+          <span></span>
+          <a class="wx_share ">分享领好礼</a>
+        </li>
+        <li class="<%=wechat_browser? ? 'wechat' : ''%>" data-img ='index-box'>
+          <span></span>
+          <a class="wx_invite">邀请赚资金</a>
+        </li>
+      </ul> -->
+      <!--分享 end-->
+
+      <!--钻价详情 start-->
+      <div class="carat-bg">
+        <%@sale_diamonds.each do |sale_diamond|%>
+        <%color = @sale_diamonds_price[sale_diamond.id] >= sale_diamond.yesterday_close_pirce ? "gfc-bg-red
+" : "minus-bg " %>
+        <div class="Com-carat" onclick="window.location.href='/h5/sale_diamonds/<%=sale_diamond.id%>'">
+          <ul>
+
+            <div class="diamonds">
+            <%if (count = @hold_diamonds[sale_diamond.id] + @shorting_diamonds[sale_diamond.id]) > 0%>
+              <span><%=count%></span>
+            <%end%>
+            </div>
+
+            <li class="first-line">
+              <span><%=sale_diamond.cn_name%></span>
+              <!--<span>0.3克拉</span>
+              <span class="position">3</span>-->
+              <span class="<%=color == 'gfc-bg-red
+' ? ' -gfc-red' : 'minus-bg gfc-green'%>"><%=number_to_currency( @sale_diamonds_price[sale_diamond.id] || 0 )%></span>
+            <li class="second-line">
+              <span><%=sale_diamond.exchange_name%></span>
+              <a class="<%=color%>" href="#1"><%=@sale_diamonds_price[sale_diamond.id] >= sale_diamond.yesterday_close_pirce ? "+" : ""%><%=number_to_currency(@sale_diamonds_price[sale_diamond.id] - sale_diamond.yesterday_close_pirce)%></a>
+            </li>
+          </ul>
+        </div>
+        <%end%>
+      </div>
+      <!--钻价详情 end-->
+      <!--分享 start-->
+      <ul class="Com-share">
+        <li id="share_btn" data-img="index-box" class="<%=wechat_browser? ? 'wechat' : ''%>" data-img ='index-box'></li>
+        <li onclick="window.location.href='http://e.eqxiu.com/s/pO0DOY4t'"></li>
+      </ul>
+      <!--分享 end-->
+      <!--宝箱 start-->
+<!--       <div class="chest-bg">
+        <ul class="chest">
+          <li class="circle">
+            <canvas id="canvas_1" width="120" height="120"></canvas>
+            <canvas id="canvas_2" width="120" height="120"></canvas>
+            <span class="<%=@box[:is_open] ? 'coin-close' : 'coin-open' %>"></span>
+            <div><span><%=@box[:current_count] > @box[:trade_count] ? @box[:trade_count] : @box[:current_count]%></span>/<%=@box[:trade_count]%></div>
+          </li>
+          <li>
+            <% if @box[:current_count] < @box[:trade_count] %>
+              <p>今日再完成<span><%= @box[:trade_count] - @box[:current_count] > 0 ? @box[:trade_count] - @box[:current_count] : 0 %></span>次交易<br/>可开启资金宝箱</p>
+              <a href="#1" class = "gfc-coin-gray">打开宝箱</a>
+            <%else%>
+              <p>今日交易次数已完成<br/><i class="can_open_txt"><%= @box[:is_open] ? '' : '可开启资金宝箱' %></i></p>
+              <a href="#1" id = "open_box" class = "<%=@box[:is_open] ? '-gfc-cancel' : 'gfc-coin-red'%> open_box "><%=@box[:is_open] ? '明日可再开启' : '打开宝箱' %></a>
+            <%end%>
+          </li>
+        </ul>
+      </div> -->
+      <!--宝箱 end-->
+    <!--</div>-->
+  </div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("share_btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+
+ <%= render partial: 'share_template/exchange_diamond', locals: {redirect_url: "/home/index"} %>
+
+<script type="text/javascript">
+$(function(){
+  $(".open_box").click(function(){
+    if($("#open_box").html()=="明日可再开启"){
+      return false
+    }
+    $.ajax({
+      type : "POST",  //提交方式
+      url : "/h5/trade_boxs/",//路径
+      data : {},
+      beforeSend: function(){
+      },
+      success : function(result) {//返回数据根据结果进行相应的处理
+        $(".open_box").html("明日可再开启")
+        $(".open_box").addClass("-gfc-cancel").removeClass("gfc-coin-red")
+        $(".coin-open").attr("class", "coin-close")
+        // var diamond_count = <%#= current_user.total_diamond_coin.presence || 0%>
+        // $('#exc_coin_num').text(diamond_count+<%#=SYSTEMCONFIG["admin_config"]["box"]["diamond_account"]%>+".00钻币")
+        $('#exc_coin_num').text(result.data+"钻币")
+        $('.can_open_txt').hide();
+        alertTx('宝箱打开成功<br/>获得<%=SYSTEMCONFIG["admin_config"]["box"]["diamond_account"]%>钻石币')
+      }
+    })
+  })
+})
+</script>
+
+<script type="text/javascript">
+$(function(){
+  function inte(percent) {
+    var canvas_1 = document.querySelector('#canvas_1');
+    var canvas_2 = document.querySelector('#canvas_2');
+    var ctx_1 = canvas_1.getContext('2d');
+    var ctx_2 = canvas_2.getContext('2d');
+    ctx_1.lineWidth = 10;
+    ctx_1.strokeStyle = "#ccc";
+
+    //画底部的灰色圆环
+    ctx_1.beginPath();
+    ctx_1.arc(canvas_1.width / 2, canvas_1.height / 2, canvas_1.width / 2 - ctx_1.lineWidth / 2, 3/4 * Math.PI, 9/4 * Math.PI, false);
+    //ctx_1.closePath();
+    ctx_1.lineCap="round";
+    ctx_1.stroke();
+    if (percent < 0 || percent > 100) {
+      throw new Error('percent must be between 0 and 100');
+      return
+    }
+    ctx_2.lineWidth = 10;
+    ctx_2.strokeStyle = "#ed3f45";
+    var angle = 0;
+    var timer;
+    (function draw() {
+      timer = requestAnimationFrame(draw);
+      ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height)
+      //百分比圆环
+      ctx_2.beginPath();
+      ctx_2.arc(canvas_2.width / 2, canvas_2.height / 2, canvas_2.width / 2 - ctx_2.lineWidth / 2, 0, angle * Math.PI / 180, false);
+      angle++;
+      var percentAge = parseInt((angle / 360 * (280/360) ) * 100)
+      if (angle > (percent / 100 * 360 * (280/360) )) {
+        percentAge = percent
+        window.cancelAnimationFrame(timer);
+      };
+      ctx_2.lineCap="round";
+      ctx_2.stroke();
+      ctx_2.closePath();
+      ctx_2.save();
+      ctx_2.beginPath();
+      ctx_2.rotate(90 * Math.PI / 180);
+      ctx_2.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx_2.strokeStyle = "#ed3f45";
+      //var text = percentAge + '%';
+      //ctx_2.fillText(text, 80, -90);
+      ctx_2.restore();
+    })()
+  }
+
+  function canvasProgress(Num){
+    var Num =Num;
+    if(Num<=0){
+      window.onload = inte(Num);
+      $('#canvas_2').css('visibility',' hidden');
+    }else{
+      $('#canvas_2').css('visibility','visible');
+      window.onload = inte(Num);
+    }
+  }
+  // canvasProgress(<%= @box[:current_count] > @box[:trade_count] ? 100 : (@box[:current_count] * 100.0 / @box[:trade_count])  %>)
+})
+
+</script>
+

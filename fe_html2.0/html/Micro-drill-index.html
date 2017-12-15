@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>微钻首页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/lucy-bag.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <link rel="stylesheet" href="../css/ui-component.css">
+  <link rel="stylesheet" href="../css/shake.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+</head>
+<body class="bodygray">
+<div class="gfc-box">
+  <div class="ind-top">
+    <div class="header">
+      <div class="Ind-Money">
+        <span class="span-icon logo-icon"></span>
+        <span class="txt-purple">888888</span>
+        <img class="img-pop" src="../images/change-2.png" alt="">
+      </div>
+      <div class="Ind-Money">
+        <span class="span-icon weizuan-icon"></span>
+        <span class="txt-purple">999999</span>
+        <img class="img-pop" src="../images/change-2.png" alt="">
+      </div>
+      <!-- <a class="Ind-Return bg-purple txt-white fr bg-purple txt-white" href="BuyRecord.html">夺宝记录</a> -->
+      <!-- <span class="span-icon msg-icon com-fl-r">
+        <span class="new-msg-quantity"></span>
+      </span>   --> 
+      <span class="span-icon rec-icon com-fl-r">
+      	<span>记录</span>
+      </span>
+    </div>
+  </div>
+	<div class="ui-box Micro-drill-index txt-al-c">
+		<div class="ui-txt txt1">
+			<h5 class="">还剩<span class=" span1 -gfc-red">20000微钻</span></h5>
+		</div>
+
+	    <div id="tree-wrapper">
+	    	<div class="tree-box">
+		        <img class="shake shake1 shake-rotate s2" src="../images/tree.png" alt="musica_byern">
+		        <img class="shake shake2 shake-rotate" src="../images/tree-header.png" alt="musica_byern">
+	    	</div>
+	    </div>
+		<div class="ui-txt txt2">
+			<p>20钻币一次</p>
+		</div>
+		<div class="ui-btn">
+			<span class="btn auto-btn">
+				<button class="-gfc-cb-wg"><h5>抢微钻 10：00开枪</h5></button>
+			</span>
+		</div>
+		<!-- <div class="ui-btn">
+			<span class="btn auto-btn">
+				<button class="-gfc-cb-wr"><h5><span class="span-icon shake-icon"></span>摇一摇抢微钻</h5></button>
+			</span>
+		</div>
+		<div class="ui-btn">
+			<span class="btn auto-btn">
+				<button class="-gfc-sell"><h5>已抢光，查看参与记录</h5></button>
+			</span>
+		</div> -->
+		<div class="ui-txt txt3">
+			<p>下一期05.23 10：00开枪</p>
+		</div>
+	</div>
+</div>
+
+
+  	<div class="BuyRecord-absolute small-daimSuccess">
+  	  <!-- 0元夺宝钻石领取成功 -->
+  	  <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+  	    <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+  	    <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+  	      <img src="../images/small-daim.png" alt="">
+  	      <p>恭喜！</p>
+  	      <p>您成功抢到&nbsp;<span class="colorRed">3525微钻</span></p>
+  	    </div>
+  	    <div class="Buyexchange-share">
+  	      <p class="">分享微钻红包，可领取钻币</p>
+  	      <p>立即分享</p>
+  	    </div>
+  	  </div>
+  	</div>
+  	<div class="BuyRecord-absolute small-daimFails">
+  	  <!-- 0元夺宝钻石领取成功 -->
+  	  <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+  	    <img class="BuyAbsolute-BoxClose" src="../images/icon-close.png" alt="">
+  	    <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+  	      <img src="../images/small-fails.png" alt="">
+  	      <p>手慢了！</p>
+  	      <p>微钻已被一抢而空</p>
+  	    </div>
+  	    <div class="Buyexchange-share">
+  	      <p class="">分享微钻红包，可领取钻币</p>
+  	      <p>立即分享</p>
+  	    </div>
+  	  </div>
+  	</div>
+  	<!-- 摇一摇树声 -->
+	<audio id="shake-tree-voice" autoplay>
+	  <source src="../video/shake-tree.mp3">
+	</audio>
+	<!-- 摇一摇中奖声音 -->
+	<audio id="shake-win-voice" autoplay>
+	  <source src="../video/shake-tree-win.mp3">
+	</audio>
+
+<script>
+	$(function(){
+	  //运动事件监听
+	  if (window.DeviceMotionEvent) {
+	      window.addEventListener('devicemotion',deviceMotionHandler,false);
+	  }
+console.log(new Date().getTime())
+	  //获取加速度信息
+	  //通过监听上一步获取到的x, y, z 值在一定时间范围内的变化率，进行设备是否有进行晃动的判断。
+	  //而为了防止正常移动的误判，需要给该变化率设置一个合适的临界值。
+	  var SHAKE_THRESHOLD = 2000;
+	  var last_update = 3000;
+	  var x, y, z, last_x = 0, last_y = 0, last_z = 0;
+	  function deviceMotionHandler(eventData) {
+	          clearTimeout(shakeTimer)
+	          var acceleration =eventData.accelerationIncludingGravity;
+	          var curTime = new Date().getTime();
+	          if ((curTime-last_update)> 150) {
+	              var diffTime = curTime -last_update;
+	              last_update = curTime;
+	              x = acceleration.x;
+	              y = acceleration.y;
+	              z = acceleration.z;
+	              var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;
+	              if (speed > SHAKE_THRESHOLD) {
+	                  // alert("你中奖啦！");  // Do something
+	                  
+	                  $(".shake2").addClass('shaking');//摇一摇树动
+	                  autoPlayAudio("#shake-tree-voice")//摇一摇树响
+	                  navigator.vibrate(1000);//震动1000毫秒
+	                  var shakeTimer = setTimeout(function(){
+	                  	$(".shake2").removeClass('shaking');
+	                  	daimSuccess()
+	                  }, 2000)
+	              }
+	              last_x = x;
+	              last_y = y;
+	              last_z = z;
+	          }
+	  }
+
+
+
+// if (window.DeviceMotionEvent) {
+//   window.addEventListener('devicemotion', deviceMotionHandler, false);
+// } else {
+//   document.getElementById("dmEvent").innerHTML = "Not supported on your device."
+// }
+// var SHAKE_THRESHOLD = 800;
+// var last_update = 0;
+// var x, y, z, last_x, last_y, last_z;       
+// function deviceMotionHandler(eventData) {        
+//   var acceleration =eventData.accelerationIncludingGravity;
+//   var curTime = new Date().getTime();       
+//   if ((curTime - last_update)> 3000) {                
+//       var diffTime = curTime -last_update;
+//       last_update = curTime;       
+//       x = acceleration.x;
+//       y = acceleration.y;
+//       z = acceleration.z;       
+//       var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;          
+//            if (speed > SHAKE_THRESHOLD) {
+//            	alert("你中奖啦！")
+//       		}
+//       last_x = x;
+//       last_y = y;
+//       last_z = z;
+//     }
+// } 
+
+
+             
+             //判断系统是否支持html5摇一摇的相关属性
+        //     if (window.DeviceMotionEvent){
+        //             var speed = 25;
+            
+        //             var x = t = z = lastX = lastY = lastZ = 0;
+        //             window.addEventListener('devicemotion',
+        //             function () {
+        //                     var acceleration = event.accelerationIncludingGravity;
+        //                     x = acceleration.x;
+        //                     y = acceleration.y;
+        //                     if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed) {
+                                    
+        //                             // 判断要不要执行
+        //                             alert("判断要不要执行")
+        //                             // if($('.home_mask').is(':visible')) return false;
+                                    
+        //                             //摇一摇后js代码
+        //                             // $('.home_page .ico').addClass('wobble');
+        //                             alert("摇一摇后js代码")
+                                    
+        //                              //手机震动1秒
+        //             if (navigator.vibrate) {
+        //                 navigator.vibrate(1000);//震动1000毫秒
+        //             } else if (navigator.webkitVibrate) {
+        //                 navigator.webkitVibrate(1000);
+        //             }
+                                    
+        //                             //打开弹窗
+        //                             setTimeout(function(){
+        //                                     // $('.home_mask').show();
+        //                                     // $('.home_page .ico').removeClass('wobble');
+                                            
+        //                             alert("弹框")
+        //                             }, 1000);
+        //                     };
+        //                     lastX = x;
+        //                     lastY = y;
+        //             },false);
+        //     }
+        //     else {
+        //     alert('not support mobile event');
+        // }
+
+  		
+  		//成功弹框
+	    function daimSuccess(){
+	      $('.small-daimSuccess').show();
+	      Scrollheight()
+	    }
+	    //失败弹框
+	    function daimFails(){
+	      $('.small-daimFails').show();
+	      Scrollheight()
+	    }
+	    //隐藏弹框
+	    function BoxClose(){
+	      $('.BuyRecord-absolute').hide();
+	      unScrollheight()
+	    }
+	    //点击X号隐藏弹框
+	    $('.BuyAbsolute-BoxClose').on('click',function(){
+	      BoxClose();
+	    })
+
+	})
+</script>
+</body>
+</html>

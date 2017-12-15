@@ -1,0 +1,51 @@
+<div class="gfc-box">
+  <div class="ui-box my-Recharge-detail">
+    <div class="stretch-box">
+      <div class="ui-content">
+        <ul class="line-vertical">
+          <li>
+            <p>
+              <span class="">支付金额</span>
+              <span class="Payment-amount -gfc-red com-fl-r">￥<%= @charge_order.price.to_f%></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="">支付时间</span>
+              <span class="txt-white com-fl-r"><%= @charge_order.created_at.strftime('%Y-%m-%d %H:%M')%></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="">支付方式</span>
+              <span class="txt-white com-fl-r"><%= h5_show_pay_type @charge_order.pay_type %></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="">支付状态</span>
+              <span class="-gfc-blue com-fl-r"><%= h5_show_pay_status @charge_order.status %></span>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--<div class="stretch-box">-->
+      <!--<div class="ui-content">-->
+        <!--<h5 class="txt-al-c">优众电商优惠码</h5>-->
+        <!--<ul class="flex-around">-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+          <!--<li>JSUDVE876SDJ7528</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+</div>

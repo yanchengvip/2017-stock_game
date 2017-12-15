@@ -1,0 +1,31 @@
+<div class="gfc-box gift-page">
+    <!--<div class="container-box">-->
+      <div class="gift-wallet-bg">
+        <ul>
+          <li class="gift-text-bg">
+            <div class="gift-left"></div>
+            <div class="gift-right">
+              <h3><%=@coin_bag_lottery.coin_count%>钻币礼包</h3>
+              <p>有效期至：<span><%=@coin_bag_lottery.end_time.strftime("%Y-%m-%d")%></span></p>
+              <p>礼包数量：<span><%=@coin_bag_lottery.person_count%></span>个</p>
+            </div>
+          </li>
+        </ul>
+        <a class="PC btn <%=wechat_browser? ? 'wechat' : ''%>" href="#1" data-img="gift-box" id="btn" data-clipboard-text="aaaaa">分享礼包给好友</a>
+      </div>
+   <!-- </div>-->
+  </div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<script type="text/javascript">
+$(function() {
+  $(".wechat").click()
+})
+</script>
+
+
+

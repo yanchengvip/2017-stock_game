@@ -1,0 +1,23 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">个人信息
+<!--
+    <button type="button" class="btn btn-default" style="float:right; margin-top: -5px">修改个人信息</button>
+-->
+  </div>
+  <!--<div class="panel-body">-->
+  <!--</div>-->
+  <ul class="list-group">
+    <li class="list-group-item">用户登录名: <%= user_phone current_user %></li>
+    <li class="list-group-item">登录密码:*******
+      <button type="button" class="btn btn-primary" onclick="show_password_modal()">修改密码</button>
+    </li>
+    <li class="list-group-item">姓名: <%= user_nickname current_user %></li>
+    <li class="list-group-item">手机号: <%= user_phone current_user %></li>
+
+  </ul>
+
+
+</div>
+
+<%= render partial: 'admins/users/user_modal' %>

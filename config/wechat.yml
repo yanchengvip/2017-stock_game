@@ -1,0 +1,31 @@
+default: &default
+
+  appid: "" #yan_dev
+  secret: "" #yan_dev
+  token:  ""
+  access_token: "/var/tmp/wechat_access_token"
+  jsapi_ticket: "/var/tmp/wechat_jsapi_ticket"
+
+production:
+  appid: ""
+  secret: ""
+  token:  ""
+  access_token: "/var/tmp/wechat_access_token"
+  jsapi_ticket: "/var/tmp/wechat_jsapi_ticket"
+  encoding_aes_key: 1
+
+dafuweng:
+  appid: ""
+  secret: ""
+  token:  ""
+  access_token: "/var/tmp/wechat_access_token"
+  jsapi_ticket: "/var/tmp/wechat_jsapi_ticket"
+  encoding_aes_key: 1
+
+development:
+  <<: *default
+  #trusted_domain_fullname: "http://your_dev.proxy.qqbrowser.cc"
+  trusted_domain_fullname: "http://wx.frp.balawo.com" #yan_dev
+
+test:
+  <<: *default

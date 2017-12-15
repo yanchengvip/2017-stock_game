@@ -1,0 +1,263 @@
+<div class="gfc-box lucky-bag">
+  <div class="content">
+    <div class="top">
+      <div class="img"></div>
+    </div>
+    <div class="desk"></div>
+    <div class="bottom">
+    <ul class="tab-box">
+      <li class="tab-btn <%=params[:status] == '0,1' ? 'active' : ''%>" ><span>待揭晓</span></li>
+      <li class="tab-btn <%=params[:status] == '2' ? 'active' : ''%>" ><span>已揭晓</span></li>
+      <li class="tab-btn <%=params[:status] == '0' || params[:status].blank? ? 'active' : ''%>"><span>我的福袋</span></li>
+    </ul>
+    </div>
+  </div>
+  <div class="baglist">
+    <ul class="tab-content" id="lottery_list">
+      <%if @lotteries.size == 0%>
+        <div class="BuyRecord-Null">
+          <%=image_tag "h5/images/fudainull.png" %>
+          <p>暂无福袋</p >
+        </div>
+      <%end%>
+    </ul>
+  </div>
+  <div class="text">
+    <h6>活动规则：</h6>
+    <ul class="numb-list">
+      <li>
+        福袋是由钻联公司指定用户拥有；
+      </li>
+      <li>
+        福袋的拥有者不能转赠他人，福袋的拥有者没有权利参与自己福袋的抽奖；
+      </li>
+      <li>
+        对于某个福袋，参与抽奖的用户，只有一次抽奖机会；
+      </li>
+      <li>
+        福袋分享到群内后，当参与人次达到要求时，群内好友必中福袋奖品；
+      </li>
+      <li>
+        福袋抽奖结束时，会公布抽奖结果及中奖用户；
+      </li>
+      <li>
+        其他未尽事宜，请咨询客服。
+      </li>
+    </ul>
+  </div>
+</div>
+<script id="nodata" type="text/x-jsrender">
+  <div class="BuyRecord-Null">
+    <%=image_tag "h5/images/fudainull.png" %>
+    <p>暂无福袋</p >
+  </div>
+</script>
+<script id="status0" type="text/x-jsrender">
+<li class="tab-lister" data-id="0">
+  <div class="top">
+    <div class="top-pub top-l">
+      <%=image_tag "h5/images/shere-bag.png" %>
+    </div>
+    <div class="top-pub top-r">
+      <h5>{{:product_name}}</h5>
+      <p class="Ind-Number">截止时间：{{:~format(end_time, "yyyy.MM.dd")}}</p>
+      <p class="bot">
+        <span>￥{{:~outputmoney(product.price)}}</span>
+        <!-- <span>{{:total_count}}人次</span> -->
+      </p>
+    </div>
+  </div>
+  <div class="Ind-Foot">
+    <div class="Ind-FootLeft">
+      <!-- 进度条 -->
+      <p class="Per-Progress">
+        <span style="width:{{:~sales_percent(sales_count, total_count) }}%"></span>
+      </p>
+      <p class="fl">总需人次<span>{{:total_count}}</span></p>
+      <p class="fr">剩余<span>{{:~left_count(sales_count, total_count)}}</span></p>
+    </div>
+    <div class="Ind-FootRight">
+      <a href="/h5/lotteries/lucky_package_share?id={{:id}}"><p>立即分享</p></a>
+    </div>
+  </div>
+</li>
+</script>
+<script id="status1" type="text/x-jsrender">
+<li class="tab-lister"  data-id="1">
+  <div class="top">
+    <div class="top-pub top-l">
+      <%=image_tag "h5/images/shere-bag.png" %>
+    </div>
+    <div class="top-pub top-r">
+      <h5>{{:product_name}}</h5>
+      <p class="Ind-Number">截止时间：{{:~format(end_time, "yyyy.MM.dd")}}</p>
+      <p class="bot">
+        <span>￥{{:~outputmoney(product.price)}}</span>
+        <!-- <span>{{:total_count}}人次</span> -->
+      </p>
+    </div>
+  </div>
+  <div class="Ind-Foot">
+    <div class="Ind-FootLeft">
+      <!--进度条-->
+      <p class="Per-Progress">
+        <span style="width:{{:~sales_percent(sales_count, total_count) }}%"></span>
+      </p>
+      <p class="fl">总需人次<span>{{:total_count}}</span></p>
+      <p class="fr">剩余<span>{{:~left_count(sales_count, total_count)}}</span></p>
+    </div>
+    <div class="Ind-FootRight">
+      <a href="javascript:void(0);"><p class="Inf-Footbg">等待揭晓</p></a>
+    </div>
+  </div>
+</li>
+</script>
+<script id="status2" type="text/x-jsrender">
+<li class="tab-lister"  data-id="2">
+  <div class="top">
+    <div class="top-pub top-l">
+      <img src="{{:product.head_image}}">
+    </div>
+    <div class="top-pub top-r">
+      <h5>{{:product_name}}</h5>
+      <p class="Ind-Number">截止时间：{{:~format(end_time, "yyyy.MM.dd")}}</p>
+      <p class="bot">
+        <span>￥{{:~outputmoney(product.price)}}</span>
+        <!-- <span>{{:total_count}}人次</span> -->
+      </p>
+    </div>
+  </div>
+  <div class="Ind-Foot">
+    <div class="Ind-FootLeft">
+      <p class="txt-blue">获奖用户：{{:~filter_string(win_user.nickname)}}</p>
+    </div>
+    <div class="Ind-FootRight">
+      <a href="/h5/lotteries/{{:id}}"><p class="-gfc-sell">查看结果</p></a>
+    </div>
+  </div>
+</li>
+</script>
+<script type="text/javascript">
+$(function(){
+  function sales_percent(sales_count, total_count){
+    return sales_count * 100 / total_count
+  }
+  function left_count(sales_count, total_count){
+    return total_count - sales_count
+  }
+  $.views.helpers({sales_percent: sales_percent, left_count: left_count});
+  var lotteries = <%= raw @lotteries.to_json%>
+  $.each(lotteries, function(index, lottery){
+    console.log(lottery)
+    if(<%=params[:status] == '0,1'%>){
+      var tmpl = $.templates("#status1");
+    }else{
+      var tmpl = $.templates("#status" + lottery.status);
+    }
+    var htmlOutput = tmpl.render(lottery);
+    $("#lottery_list").append(htmlOutput);
+  })
+
+})
+</script>
+<script type="text/javascript">
+$(function(){
+    // 页数
+    var page = 1;
+    var status = "<%=params[:status]%>"
+
+    $(".tab-box li").click(function(){
+      $(".tab-box li").removeClass("active")
+      $(this).addClass("active")
+      if($(this).index() == 0){
+        status = "0,1"
+      }
+      if($(this).index() == 1){
+        status = "2"
+      }
+      if($(this).index() == 2){
+        status = "0"
+      }
+      page = 0
+      load_lottery_data()
+    })
+    function load_lottery_data(){
+      $("#lottery_list").html("")
+      $.ajax({
+        type : "GET",  //提交方式
+        url : "/h5/lotteries/lucky_package.json",//路径
+        data : {page: page+1, status: status},//数据，这里使用的是Json格式进行传输
+        beforeSend: function(){
+        },
+        success : function(result) {//返回数据根据结果进行相应的处理
+          if(result.status == 200 && result.data.length > 0){
+            console.log(1)
+            $.each(result.data, function(index, lottery){
+              console.log(lottery)
+              if(<%=params[:status] == '0,1'%>){
+                var tmpl = $.templates("#status1");
+              }else{
+                var tmpl = $.templates("#status" + lottery.status);
+              }
+              var htmlOutput = tmpl.render(lottery);
+              $("#lottery_list").append(htmlOutput);
+            })
+            page += 1
+            dropload.resetload()
+            dropload.unlock();
+
+          }
+          if(result.data.length == 0){
+            $("#lottery_list").append($.templates("#nodata").render());
+          }
+        },
+        error: function(){
+        }
+      });
+    }
+
+
+    // dropload
+    var dropload = $('#lottery_list').dropload({
+        scrollArea : window,
+        domDown: {domRefresh: ''},
+        loadDownFn : function(me){
+          $.ajax({
+            type : "GET",  //提交方式
+            url : "/h5/lotteries/lucky_package.json",//路径
+            data : {page: page+1, status: status},//数据，这里使用的是Json格式进行传输
+            beforeSend: function(){
+              me.lock();
+            },
+            success : function(result) {//返回数据根据结果进行相应的处理
+              if(result.status == 200 && result.data.length > 0){
+                console.log(1)
+                $.each(result.data, function(index, lottery){
+                  console.log(lottery)
+                  if(<%=params[:status] == '0,1'%>){
+                    var tmpl = $.templates("#status1");
+                  }else{
+                    var tmpl = $.templates("#status" + lottery.status);
+                  }
+                  var htmlOutput = tmpl.render(lottery);
+                  $("#lottery_list").append(htmlOutput);
+                })
+                page += 1
+              }
+              me.resetload();
+              me.unlock();
+              if(result.data.length == 0){
+                me.lock();
+                me.noData();
+              }
+            },
+            error: function(){
+              me.resetload();
+              me.unlock();
+            }
+          });
+        },
+        threshold : 50
+    });
+});
+</script>

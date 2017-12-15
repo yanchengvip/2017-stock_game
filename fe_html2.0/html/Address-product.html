@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>选择收货地址</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+
+</head>
+<body>
+  <div class="gfc-box Add-product">
+    <ul class="Add-pro-box">
+      <li>
+        <div class="fl">
+          <span class="opt select"></span>
+        </div>
+        <ul class="fr">
+          <li class="fr-line1">
+            <p>欧阳</p>
+            <p class="teltxt">18322329023</p>
+          </li>
+          <li class="fr-line2">
+            <p><span class="default">【默认】</span>北京市海淀区林萃桥宝盛南路奥北科技园</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="fl">
+          <span class="opt select"></span>
+        </div>
+        <ul class="fr">
+          <li class="fr-line1">
+            <p>欧阳</p>
+            <p class="teltxt">18322329023</p>
+          </li>
+          <li class="fr-line2">
+            <p><span class="default">【默认】</span>北京市海淀区林萃桥宝盛南路奥北科技园奥园17号楼--钻联科技--3层309室钻联科技--3层309室</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="fl">
+          <span class="opt select"></span>
+        </div>
+        <ul class="fr">
+          <li class="fr-line1">
+            <p>欧阳</p>
+            <p class="teltxt">18322329023</p>
+          </li>
+          <li class="fr-line2">
+            <p><span class="default">【默认】</span>北京市海淀区林萃桥宝盛南路奥北科技园奥园17号楼--钻联科技--3层309室钻联科技--3层309室</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <button class="Add-pro-btn get-button button-l -gfc-sell txt-white">添加地址</button>
+    <div class="Rec-btn-box">
+      <div class="Rec-btn">
+        <button class="get-button button-l -gfc-buy txt-white">下一步</button>
+      </div>
+    </div>
+  </div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/base.js"></script>
+<script>
+  $(function(){
+    $(".Add-pro-box>li").attr("value","0");
+
+    $(".Add-pro-box>li").on("click",function(){
+      var Opt = $(this).find(".opt");
+      $(this).find(".select").toggleClass("selected-gray");
+
+      if(Opt.hasClass("selected-gray")){
+        $(this).attr("value","1").siblings().attr("value","0");
+        $(this).find(".default").css("display","inline");
+      }else{
+        $(this).attr("value","0");
+        $(this).find(".default").css("display","none");
+      }
+      $(".Add-pro-box>li[value='0']").find(".opt").removeClass("selected-gray");
+      $(".Add-pro-box>li[value='0']").find(".default").css("display","none");
+    })
+
+    /*手机号截取*/
+    $(".teltxt").html(cutPhone('.teltxt'));
+  })
+
+</script>
+</body>
+</html>

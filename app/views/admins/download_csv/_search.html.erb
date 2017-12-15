@@ -1,0 +1,65 @@
+<form action="" method="get">
+  <div class="input-group">
+
+
+    <div class="col-xs-12">
+
+
+      <% if @info_search_time || @change_search_time%>
+          <span class="lottery-search-span">统计时间&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:</span>
+          <div class="input-group input-daterange">
+            <input type="text" name="tongji_start_datetimepicker"  class="form-control csv_start_datetimepicker q1">
+            <div class="input-group-addon">至</div>
+            <input type="text" name="tongji_end_datetimepicker" class="form-control csv_end_datetimepicker q2">
+          </div>
+      <%end%>
+
+      <% if @remain_search_time%>
+          <span class="lottery-search-span">统计截止时间:</span>
+          <div class="input-group input-daterange">
+            <input type="text" name="tongji_end_datetimepicker" class="form-control csv_end_datetimepicker q3">
+          </div>
+      <%end%>
+
+
+      <% if @month_search_time%>
+          <span class="lottery-search-span">统计时间&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:</span>
+          <div class="input-group input-daterange">
+            <input type="text" name="tongji_date" class="form-control csv_datepicker q4">
+          </div>
+      <%end%>
+
+    </div>
+
+
+
+    <div class="col-xs-12">
+      <span class="lottery-search-span">用户注册时间:</span>
+      <div class="input-group input-daterange">
+        <input type="text" name="csv_start_datetimepicker" id="csv_start_datetimepicker" class="form-control csv_start_datetimepicker q5">
+        <div class="input-group-addon">至</div>
+        <input type="text" name="csv_end_datetimepicker" class="form-control csv_end_datetimepicker q6">
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <span class="lottery-search-span ">注册来源&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:</span>
+      <select class="selectpicker" id="q9" name="user_source"  title="用户来源">
+        <option  value="1">全部</option>
+        <option  value="2">微信注册</option>
+        <option  value="3">h5注册</option>
+      </select>
+
+    </div>
+
+    <div class="col-xs-12">
+      <span class="lottery-search-span">用户名&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:</span>
+      <div class="input-group input-daterange">
+        <input type="text" name="nickname" class="form-control q10">
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-6">
+  <button class="btn btn-primary" type="submit">确定查询</button>
+  </div>
+</form>

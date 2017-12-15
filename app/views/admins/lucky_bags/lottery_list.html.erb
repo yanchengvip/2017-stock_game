@@ -1,0 +1,58 @@
+
+<%= render partial: 'admins/lucky_bags/lottery_list_search'%>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>分享时间</th>
+      <th>福袋ID</th>
+      <th>福袋分享用户</th>
+      <th>福袋名称</th>
+      <th>已参与/总需</th>
+      <th>状态</th>
+      <th>操作</th>
+
+    </tr>
+    </thead>
+
+    <% if !@lotteries.empty?%>
+        <%@lotteries.each do |lo|%>
+            <tbody>
+
+            <tr>
+              <td><%= time_format lo.created_at%></td>
+              <td><%= lo.id%></td>
+              <td><%= user_nickname lo.user%></td>
+              <td><%= lo.product.name%></td>
+              <td><%=  lo.sales_count%>/<%=  lo.total_count%></td>
+              <td><%= lottery_status lo.status%></td>
+              <td>
+                <a href="/admins/lucky_bags/lottery_details?lottery_id=<%= lo.id%>"  class="admin_product_operate_a">查看抽奖记录</a>
+
+              </td>
+
+            </tr>
+
+            </tbody>
+        <%end%>
+    <%end%>
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+<div class="flickr_pagination">
+  <%= will_paginate @lotteries, :container => false,:previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
+
+
+
+
+

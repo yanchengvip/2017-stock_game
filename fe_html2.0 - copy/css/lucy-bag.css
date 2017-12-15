@@ -1,0 +1,651 @@
+/* 福袋页面 */
+.lucky-bag {
+	background-color: #2E273E;
+}
+.lucky-bag h6 {
+	color: #fff;
+	font-size: 16px;
+	padding-bottom: 10px;
+}
+.lucky-bag p {
+	/* color: #fff; */
+}
+
+.lucky-bag .content {
+position: relative;
+    /* height: 400px; */
+}
+.lucky-bag .content .top {
+height: 270px;
+    position: relative;
+    background-color: #2E273E;
+}
+.lucky-bag .content .top .img {
+    height: 330px;
+    width: 100%;
+    position: absolute;
+    bottom: -17px;
+    background: url(../images/bag-banner.png) no-repeat center / contain;
+    margin-bottom: -50px;
+}
+.lucky-bag .content .desk {
+    height: 73px;
+    /* background-image: url(../images/desk.png); */
+    background: #2E273E;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.lucky-bag .content .bottom {
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    /* line-height: 56px; */
+    padding-bottom: 15px;
+}
+.lucky-bag .content .bottom ul {    
+    margin: 4% 3% 0 3%;
+    border: 1px solid #b5adff;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.lucky-bag .content .bottom ul li {
+    float: left;
+    text-align: center;
+    width: 33.3333333333333333333%;
+    padding: 5px 0;
+}
+.lucky-bag .content .bottom ul li.active {
+        background: #b5adff;
+    color: black;
+}
+.lucky-bag .content .bottom-side {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: url(../images/lucky-bag-bottom-side.png) no-repeat center / contain;
+}
+.lucky-bag .content .bag-pic {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    height: 400px;
+    background: url(../images/bit-luky-bag.png) no-repeat center / contain;
+    background-color: #fff;
+}
+
+.lucky-bag .BuyRecord-Null {
+    margin-top: 20px;
+}
+
+
+/* banner部分 */
+.indbanner {
+    margin: 0px 10px;
+}
+.indbanner .img {
+    width: 100%;
+}
+.indbanner .img img {
+    width: 100%;
+}
+.indbanner .img-list {
+    margin-top: 10px;
+    overflow: hidden;
+}
+.indbanner .img-list img {
+    width: 100%;
+}
+.indbanner .img-list a {
+    width: 50%;
+}
+.indbanner .img-list a:nth-child(2n+1) {
+    float: left;
+}
+.indbanner .img-list a:nth-child(2n) {
+    float: right;
+}
+
+.indbanner .img-list a:nth-child(2n+1) li {
+    padding-right: 7px;
+}
+.indbanner .img-list a:nth-child(2n) li {
+    padding-left: 7px;
+}
+
+.baglist ul li {
+    position: relative;
+    overflow: hidden;
+    background: #433A57;
+    margin-bottom: 26px;
+}
+.baglist ul li:last-child{
+  margin-bottom: 15px;
+}
+
+.baglist ul li h5 {
+    /* color: #2e2b51; */
+    font-size: 16px;
+    line-height: 22px;
+    padding-bottom: 5px;
+}
+.baglist ul li p {
+	/* color: #636a7b; */
+}
+.baglist ul li:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0px;
+    background-image: url(../images/lucky-bag-bottom-side.png);
+        background-color: #2E273E;
+    background-size: contain;
+}
+.baglist ul li:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    top: 0px;
+    background-image: url(../images/lucky-bag-top-side.png);
+    background-size: contain;
+        background-color: #2E273E;
+}
+.baglist ul li .top {
+    overflow: hidden;
+    padding: 18px 18px 18px 0;
+}
+.baglist ul li .top .top-pub {
+height: 150px;
+    float: left;
+    width: 50%;
+}
+.baglist ul li .top .top-l {
+	position: relative;
+}
+.baglist ul li .top .top-l img {
+    height: 87%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+.baglist ul li .top .top-r {
+	position: relative;
+}
+.baglist ul li .top .bot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+.baglist ul li .Ind-FootLeft p.fl,.baglist ul li .Ind-FootLeft p.fr {
+    margin-top: 10px;
+}
+.baglist ul li .Ind-FootRight a{
+    display: inline-block;
+    margin-top: 20px;
+}
+.baglist .Ind-Foot .txt-blue {
+line-height: 63px;
+}
+.Ind-Foot .span1 {
+    font-size: 20px;
+}
+.lucky-bag .text {
+	overflow: hidden;
+  padding: 0 14px 14px 14px;
+	padding-bottom: 30px;
+}
+.lucky-bag .text p {
+	color: #fff;
+}
+.baglist ul li .top .bot {
+    line-height: 36px;
+    background-repeat: no-repeat;
+    background-size: 21px 33px;
+    background-position: 0px -7px;
+}
+.baglist ul li .top .bot span:nth-child(1) {
+    color: #FFDA2F;
+    font-size: 21px;
+    line-height: 29px;
+}
+.baglist ul li .top .bot span:nth-child(2) {
+	/* display: inline-block; */
+	float: right;
+}
+.baglist ul li .bottom {
+	height: 73px;
+    border-top: 1px solid #e5e4ea;
+}
+
+/* 数字序号列表  公共样式已添加*/
+/* .numb-list {
+    padding-left: 14px;
+}
+.numb-list li {
+    list-style: decimal;
+} */
+.lucky-bag .numb-list li {
+    color: #9D91B5;
+}
+
+/* 零元夺宝页面 */
+
+/*Indiana.html*/
+.ind-top {
+    overflow: hidden;
+    /* background-color: blue;
+    background: -moz-linear-gradient(top, #5F54E3 0%, #6E3DC2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5F54E3), color-stop(100%,#6E3DC2));
+    background: -webkit-linear-gradient(top, #5F54E3 0%,#6E3DC2 100%);
+    background: -o-linear-gradient(top, #5F54E3 0%,#6E3DC2 100%);
+    background: -ms-linear-gradient(top, #5F54E3 0%,#6E3DC2 100%);
+    background: linear-gradient(to bottom, #5F54E3 0%,#6E3DC2 100%); */
+    height: 50px;
+}
+.ind-top .header {
+    height: 60px;
+} 
+.Ind-Money{
+    margin-left: 14px;
+    color: #fff;
+    margin-top: 15px;
+    /* width: 75px; */
+    padding: 0 6px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    display: inline-block;
+    background: #6e3cff;
+    border-radius: 20px;
+
+
+    /*margin-left: 14px;
+    color: #fff;
+    margin-top: 15px;
+    line-height: 32px;
+    display: inline-block;
+    padding: 0 5px;
+    background: #544E61;
+    border-radius: 20px;*/
+}
+.Ind-Money img{ width: 20px; display: inline-block; margin-left: 4px; vertical-align: middle; }
+.Ind-Money span{
+    vertical-align: middle;
+    display: inline-block;
+    min-width: 20px;
+    font-size: 18px;
+}
+.Ind-FootRight .Ind-Money {
+    margin-top: 0;
+    margin-left: 0;
+
+}
+.Ind-topbtn {
+    background-image: url(../images/ind-topbtn.png);
+    background-size: 100% 95%;
+    background-repeat: no-repeat;
+    margin-top: 15px;
+    line-height: 34px;
+    text-align: center;
+    /*margin-right: 14px;*/
+    width: 155px;
+    text-indent: 10px;
+    color: #fefeff;
+    font-size: 16px;
+}
+.Ind-Return{ 
+    background: #6E3CFF;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 15px;
+    border-radius: 20px;
+    margin-right: 14px;
+    margin-top: 14px;
+    color: #fff;
+    font-size: 18px;
+}
+.Ind-main{
+    padding: 0 2%;
+}
+.GoodsState{ height: 44px; line-height: 44px; color: #2e2b51; font-size: 14px; background: url(../images/g-ing.png) no-repeat left center / contain; background-size: 20px; margin-left: 14px; padding-left: 30px; margin-bottom:-10px; }
+.GoodsStateEnd{background: url(../images/g-Old.png) no-repeat left center / contain; background-size: 20px; }
+.GoodsStateloading{background: url(../images/g-end.png) no-repeat left center / contain; background-size: 20px; }
+
+.NewGoods li{
+        background: #fff;
+}
+.NewGoods li:nth-child(2n+1) {
+    float: left;
+}
+.NewGoods li:nth-child(2n) {
+    float: right;
+}
+.NewGoods a.commodity-a {
+    width: 49%;
+    border-radius: 4px;
+    margin: 0 0 10px 0;
+}
+.NewGoods a.commodity-a li {
+        background: #fff;
+}
+.NewGoods a.commodity-a:nth-child(2n+1) {
+    float: left;
+}
+.NewGoods a.commodity-a:nth-child(2n) {
+    float: right;
+}
+
+
+.Ind-Number{ margin: 5px 0; color: #a4a8bf; font-size: 14px; }
+.Ind-GoodsName{ color: #fff !important; font-size: 16px; line-height: 24px; }
+.Ind-left{
+    width: 100px;
+    /* height: 100px; */
+    overflow: hidden;
+    vertical-align: middle;
+}
+.Ind-right{
+        width: 100%;
+    vertical-align: middle;
+}
+.Ind-right>div:nth-child(1){
+    color: black;
+}
+.commodity {    
+    padding: 10px 10px 0px 10px;
+}
+.commodity .Ind-left img {
+    width: 100%;
+}
+.BuyRecordOther{ min-height: 48px; }
+.BuyRecordOther .colorRed{ font-size: 18px; padding: 4px 0; }
+.Ind-Foot{
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid #e7e7ef;
+    overflow: hidden;
+}
+.bodygray .Indiana-main .NewGoods .Ind-Foot {
+    border-top: none;
+}
+.bodygray .Indiana-main .NewGoods .Ind-Foot p{
+    margin-left: 2%;
+}
+.bodygray .Indiana-main .NewGoods .Ind-Foot p.-gfc-red{
+    height: 16px;
+    line-height: 16px;
+    overflow: hidden;
+}
+.lucky-bag .Ind-Foot {
+    border-top: 1px solid #554D67;
+}
+.Ind-FootLeft {
+    overflow: hidden; text-overflow: ellipsis;white-space: nowrap;
+}
+.Ind-FootLeft,.Ind-FootRight{ display: inline-block; vertical-align: middle; }
+.Ind-FootLeft{
+width: 44%;
+    overflow: hidden;
+}
+.Per-Progress{
+    font-size: 0px;
+    height: 6px;
+    width: 98%;
+    margin: 0 auto;
+    background: #f0f0f7;
+    border-radius: 5px;
+    position: relative;
+    margin-top: 13px;
+}
+.Per-Progress span{ display: inline-block; min-width: 0; max-width: 100%; height: 6px; border-radius: 5px; position: absolute; top:0; ;left: 0;-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15); -webkit-transition: width .6s ease; -o-transition: width .6s ease; transition: width .6s ease;
+  background: -webkit-linear-gradient(left, #6b67ff , #ce37ff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #6b67ff , #ce37ff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, #6b67ff , #ce37ff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #6b67ff , #ce37ff); /* 标准的语法（必须放在最后） */}
+.Ind-FootLeft .fl{
+    color: #636a7d;
+    margin-bottom: 10px;
+}
+.Ind-FootLeft .fr{ color: #636a7d; }
+.Ind-FootLeft .fr span{ color: #FDD830;  }
+.Ind-FootLeft{ float: left; }
+.Ind-FootRight{
+    text-align: right;
+    /* width: 100px; */
+    float: right;
+}
+.Ind-FootRight>a{display: inline-block;}
+/*
+.Ind-FootRight p{ height: 32px; line-height: 32px; background: #ed3f45; padding: 0 18px; border-radius: 20px; color: #fefefe; margin: 0 auto; display: inline-block;}
+*/
+.Ind-FootLeftTimeBox{ color: #3f64ed; margin-bottom:6px; }
+.Ind-FootLeftPer{ color: #a4a8bf; }
+.Inf-Footbg{background:#9D91B5 !important;}
+.Ind-FootLeftUser{color: #ed3f45; margin-bottom:6px; }
+.Indiana-main2 .Ind-right{ height: 100px; position: relative;  }
+.Indiana-main2 .Ind-right .BuyRecordOther{margin-top: 4px;}
+.Indiana-main2 .Ind-right .Goods-Money{ position: absolute; margin:0; bottom: 2px; }
+/* .Indiana-main2 .Goods-Money{ margin-top:36px;  } */
+.Goods-Money{overflow: hidden; margin-top: 10px; color: #ed3f45;}
+.Goods-Money p{ display: inline-block;  color: #2e2b51; height: 32px; line-height: 32px; color: #ed3f45; font-size: 18px; }
+.Ind-share{ border-top: 1px solid #ebebeb; }
+.Ind-share p{ display: inline-block; width: 49%; padding: 20px 0; text-align: center; color: #fff; font-size:14px; }
+.Ind-share p img,.Ind-share p span{ display: block; margin: 0 auto; }
+.Ind-share p span{ color: #fff; }
+.Ind-share p a{ display:inline-block; }
+.Ind-share p img{ width:66%; height: auto; }
+.IndTab{ 
+    margin: 10px auto 20px;
+    height: 35px;
+    line-height: 28px;
+    width: 96%;
+    /* border: 1px solid #B5ADFF; */
+    border-radius: 4px;
+    /* overflow: hidden; */
+}
+.IndTab p{display: block;float: left;width: 50%; text-align: center; color: #777689;  }
+.Indclick{ background: #777689; color: #fff !important; }
+
+.Ind-right>div:nth-child(1) {
+    height: 41px;
+    line-height: 20px;
+    overflow: hidden;
+}
+.Ind-right>div:nth-child(1).white-space {
+        white-space: normal;
+}
+
+ul.NewGoods {    
+    overflow: hidden;
+}
+ul.NewGoods li {
+    float: left;
+    width: 100%;
+    border-radius: 4px;
+}
+ul.NewGoods .BuyRecord-Null{ 
+    margin: 20% auto 20% !important;
+ }
+.Ind-left {
+    margin: 0 auto;
+    width: 100%;
+    /* height: 260px; */
+    overflow: hidden;
+    /* vertical-align: middle; */
+}
+
+.IndTab p.active {
+    background: #777689;
+    color: #fff !important;
+}
+.IndTab li {
+    display: block;
+    float: left;
+    width: 50%;
+    line-height: 35px;
+    text-align: center;
+    color: #B5ADFF;
+    border: 1px solid #B5ADFF;
+    box-sizing: border-box !important;
+}
+/* .IndTab li:last-child {
+    border-right: none;
+} */
+/*.IndTab li:nth-child(2) {
+    border-right:none;
+}*/
+/*.IndTab li:nth-child(3) {
+    color: #ffcc00;
+    position: relative;
+    border: 1px solid #ffcc00;
+    text-indent: 35px;
+}*/
+.IndTab li.active {
+    background: #B5ADFF;
+    color: #fff !important;
+}
+.IndTab li:last-child:nth-child(3).active {
+    background: #ffcc00;
+    color: #2e273e !important;
+}
+
+/*.IndTab li:last-child:nth-child(3):before {
+    content: "";
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    background-image: url(../images/cup-yellow.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 30px;
+    top: 7px;
+}
+.IndTab li:last-child:nth-child(3).active:before {
+    content: "";
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    background-image: url(../images/cup-black.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 21px;
+    top: 7px;
+}*/
+.Ind-share p {
+    display: inline-block;
+    width: 30%;
+    padding: 20px 0;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* 排序列表切换 */
+ul.sort {
+    overflow: hidden;
+    height: 35px;
+}
+ul.sort li {    
+    width: 36%;
+    float: left;
+    color: #9d91b5;
+    text-align: center;
+    height: 14px;
+    line-height: 14px;
+}
+ul.sort li.active {
+    color: #fff;
+}
+ul.sort li:nth-child(1){
+    width: 28%;
+}
+ul.sort li span {
+    position: relative;
+    padding-right: 17px;
+    display: inline-block;
+    line-height: 14px;
+    height: 14px;
+}
+ul.sort li span:before {
+    content:"";
+    position: absolute;
+    width: 10px;
+    height: 7px;
+    background-image: url(../images/sort-up-nomal-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    right: 0;
+    top: 0;
+}
+ul.sort li span:after {
+    content:"";
+    position: absolute;
+    width: 10px;
+    height: 7px;
+    background-image: url(../images/sort-down-nomal-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    right:0;
+    bottom: 0;
+}
+ul.sort li span.down-active:after {
+    background-image: url(../images/sort-down-active-nomal-icon.png);
+}
+ul.sort li span.up-active:before {
+    background-image: url(../images/sort-up-active-nomal-icon.png);
+}
+
+
+/* 媒体查询 */
+/*@media screen and (max-width:430px) and (min-width:320px){*/
+    .Ind-FootRight {
+    text-align: right;
+    /* width: 78px; */
+    float: right;
+}
+.Ind-FootRight p {
+    padding: 0 0px;
+}
+.Ind-Money span {
+    vertical-align: middle;
+    /*font-size: 12px;*/
+}
+.Ind-Money img {
+/*width: 18px;*/
+    display: inline-block;
+    margin-left: 0;
+    vertical-align: middle;
+}
+.lucky-bag .Ind-FootLeft {
+    width: 53%;
+}
+.Indiana-main1 .Ind-FootRight .fl {
+    color: #a4a8bf;
+    margin-bottom: 4px;
+    margin-top: 5px;
+    font-size: 12px;
+    float: none;
+    margin-left: 0 !important;
+}
+.Ind-FootLeft {
+    width: 50%;
+    overflow: hidden;
+}
+.Ind-FootLeft .Per-money{
+    margin-top: 4px;
+    color: #6e3cff;
+    font-size: 14px;
+}
+.Ind-Foot {
+    padding: 0px 5px 5px 5px;
+    overflow: hidden;
+}
+.commodity {
+    padding: 5px 5px 0px 5px;
+}

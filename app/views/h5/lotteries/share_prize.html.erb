@@ -1,0 +1,28 @@
+<div class="gfc-box bless-active">
+  <!--<div class="container-box">-->
+  <div class="bless-banner">
+    <span id="prize-<%= @product.is_bag? ? 'rob' : 'free' %>"></span>
+    <!-- <img class="prize-pic" src="../images/header.jpg" alt=""> -->
+    <%= image_tag @product.head_image, class: "prize-pic", alt: '' %>
+  </div>
+  <div class="bless-text">
+    <% unless @product.product_second_type == 1 %>
+      <span class="prize-money">￥<%= number_to_currency @product.price %></span>
+    <% end %>
+    <p><%= @product.is_bag? ? '在钻联迎福袋活动中，您获得大奖。' : '在钻石币商城中，您获得大奖。' %><br/>分享中奖结果，可获得钻石币。</p>
+    <!-- <a id="btn" class="button-l -gfc-buy PC <%= wechat_browser? ? 'wechat' : '' %>" data-img="<%#= @product.is_bag? ? 'bless-box-black' : 'share-success-box' %>">立即分享</a> -->
+    <a id="btn" class="button-l -gfc-buy PC <%= wechat_browser? ? 'wechat' : '' %>" data-img="share-success-box">立即分享</a>
+  </div>
+  <!--</div>-->
+</div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<script type="text/javascript">
+$(function() {
+  $(".wechat").click()
+})
+</script>

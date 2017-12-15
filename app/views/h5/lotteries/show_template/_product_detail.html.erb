@@ -1,0 +1,114 @@
+<!--商品详情-->
+<div class="Pro-DetailBox">
+  <%if @product.product_type == 1%>
+    <%if @lottery.status == 0 || @lottery.status == 1%>
+      <!--start 未揭晓-->
+      <div>
+        <p class="Pro-GoodsName"><%=@product.name%></p>
+        <div class="Pro-Money clearfix">
+          <%if @product.product_second_type == 0%>
+          <p class="fl">￥<%=number_to_currency @product.price%></p>
+          <%end%>
+          <p class="fr"><span><%= @lottery.price.to_i %></span>钻币/人次</p>
+        </div>
+        <div class="padding-px">
+          <div class="white-space Pro-Number">期号：<%=@lottery.lottery_code%></div>
+        </div>
+        <div class="Per-progressBox">
+<!--           进度条 -->
+          <p class="Per-Progress">
+            <span style="width:<%=@lottery.sales_count * 100.0 / @lottery.total_count%>%"></span>
+          </p>
+          <div class="clearfix">
+            <p class="fl">总需人次<span><%=@lottery.total_count%></span></p>
+            <p class="fr">剩余<span><%=@lottery.left_count%></span></p>
+          </div>
+        </div>
+      </div>
+      <!--end-->
+    <%else%>
+      <!--start 已揭晓-->
+      <div>
+        <p class="Pro-GoodsName"><%=@product.name%></p>
+        <div class="Pro-Money clearfix">
+          <%if @product.product_second_type == 0%>
+          <p class="fl">￥<%=number_to_currency @product.price%></p>
+          <%end%>
+          <p class="fr"><span><%= @lottery.price.to_i %></span>钻币/人次</p>
+        </div>
+        <div class="clearfix padding-px">
+          <div class="Pro-Number white-space">期号：<%=@lottery.lottery_code%></div>
+        </div>
+      </div>
+    <!--end-->
+    <%end%>
+  <%else%>
+    <%if @lottery.status == 0 || @lottery.status == 1%>
+      <!--start 福袋未揭晓-->
+      <div>
+        <p class="Pro-GoodsName"><%=@product.name%></p>
+        <div class="Pro-Money clearfix">
+          <p class="fl">￥<%=number_to_currency @product.price%></p>
+        </div>
+        <div class="clearfix padding-px">
+          <p class="fl">分享人：<%=@lottery&.user&.nickname%></p>
+          <p class="fr">需要人次：<%=@lottery.total_count%></p>
+        </div>
+        <div class="Per-progressBox">
+          <!-- 进度条 -->
+          <p class="Per-Progress">
+            <span style="width:<%=@lottery.sales_count * 100.0 / @lottery.total_count%>%"></span>
+          </p>
+          <div class="clearfix">
+            <p class="fl">总需人次<span><%=@lottery.total_count%></span></p>
+            <p class="fr">剩余<span><%=@lottery.left_count%></span></p>
+          </div>
+        </div>
+      </div>
+    <%else%>
+      <!-- start 福袋已揭晓-->
+      <div>
+        <p class="Pro-GoodsName"><%=@product.name%></p>
+        <div class="Pro-Money clearfix">
+          <p class="fl">￥<%=number_to_currency @product.price%></p>
+        </div>
+        <div class="clearfix padding-px">
+          <p class="fl">分享人：<%=@lottery&.user&.nickname%></p>
+          <p class="fr">需要人次：<%=@lottery.total_count%></p>
+        </div>
+      </div>
+      <!--end-->
+    <%end%>
+  <%end%>
+
+  <div class="Pro-AttendanceBox Proann-AttendanceBox clearfix">
+    <%if @win_user && @win_user.id>0 %>
+      <!--中奖用户-->
+      <div class="Pro-luckyUserBox clearfix">
+        <div class="Pro-luckyUser">
+          <div class="Pro-recordLeft">
+            <img src="<%=@win_user.headimgurl%>">
+          </div>
+          <div class="Pro-recordRight">
+            <p >获奖用户：<span class="Pro-recordRightName"><%=filter_string @win_user.nickname%></span></p>
+            <p class="white-space">揭晓时间：<%=@lottery.lottery_time.strftime("%Y-%m-%d %H:%M:%S")%></p>
+            <p class="white-space font-Color">本期参与：<span><%=@lottery.participant_time%></span>人次</p>
+          </div>
+          <p class="Proann-UserState">幸运号码　<span><%=@lottery.win_lottery_code%></span></p>
+        </div>
+        <%=image_tag "h5/images/seal.png", class: "BuyRecordSeal"%>
+      </div>
+    <%elsif  @win_user && @win_user.id == 0%>
+      <!--机器中奖-->
+      <div class="Pro-luckyUserBox clearfix">
+        <div class="Pro-luckyUser">
+          <p class="LuckyNo">本期暂无中奖用户<br>该商品会重新进行夺宝</p>
+          <p class="Proann-UserState">幸运号码　<span><%=@lottery.win_lottery_code%></span></p>
+        </div>
+      </div>
+    <%end%>
+
+    <%= render partial: "h5/lotteries/lottery_order_items", locals:{lottery: @lottery}%>
+
+  </div>
+</div>

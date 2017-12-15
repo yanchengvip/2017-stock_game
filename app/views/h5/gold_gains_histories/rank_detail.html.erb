@@ -1,0 +1,155 @@
+<div class="gfc-box day-rank">
+  <!-- <div class="container-box"> -->
+    <ul class="banner">
+      <li><%= image_tag current_user.headimgurl, alt: '' %></li>
+      <li>
+        <h4><%= current_user.nickname || current_user.phone %></h4>
+        <%# if Time.now < "#{Date.today} 17:30:00".to_time %>
+          <%= render partial: 'prise', locals: {p_type: params[:type]} %>
+        <%# end %>
+      </li>
+    </ul>
+    <div class="news">
+      <p><%= update_rule_txt(params[:type]) %></p>
+    </div> 
+    <% show_type = show_which(params[:type]) %>
+
+    <div class="text ranking">
+      <div class="menu menu_tabs">
+        <ul class="navigation">
+          <li class="<%= show_type[:day] %>">日排行</li>
+          <li class="<%= show_type[:week] %>">周排行</li>
+          <li class="<%= show_type[:month] %>">月排行</li>
+          <li class="<%= show_type[:total] %>">总排行</li>
+        </ul>
+      </div>
+
+      <div class="menudiv">
+        <div class="menubox <%= show_type[:day].blank? ? 'hide' : '' %>" id="day_rank_rate">
+          <ul class="win">
+          <% ranks = (Time.now < "#{Date.today} 17:30:00".to_time) ? @day_ranks : @today_ranks %>
+              <% ranks.each_with_index do |dr, index| %>
+                <% user = dr['user'] %>
+              <li>
+                <span><%= index < 3 ? '' : index + 1 %></span>
+                <span><%= image_tag user['headimgurl'] || 'h5/images/header2x.png' %></span>
+                <span><%= user['nickname'] || user['phone'] %></span>
+                <p><span class="logo-money"></span><%= number_to_currency dr['amount'].to_f %></p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="menubox <%= show_type[:week].blank? ? 'hide' : '' %>" id="week_rank_rate">
+          <ul class="win">
+            <% @week_ranks.each_with_index do |wr, index| %>
+              <% user_week = wr['user'] %>
+              <li>
+                <span><%= index < 3 ? '' : index + 1 %></span>
+                <span><%= image_tag user_week['headimgurl'] || 'h5/images/header2x.png' %></span>
+                <span><%= user_week['nickname'] || user_week['phone'] %></span>
+                <p><span class="logo-money"></span><%= number_to_currency wr['amount'].to_f %></p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="menubox <%= show_type[:month].blank? ? 'hide' : '' %>" id="month_rank_rate">
+          <ul class="win">
+            <% @month_ranks.each_with_index do |mr, index| %>
+              <% user_month = mr['user'] %>
+              <li>
+                <span><%= index < 3 ? '' : index + 1 %></span>
+                <span><%= image_tag user_month['headimgurl'] || 'h5/images/header2x.png' %></span>
+                <span><%= user_month['nickname'] || user_month['phone'] %></span>
+                <p><span class="logo-money"></span><%= number_to_currency mr['amount'].to_f %></p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="menubox <%= show_type[:total].blank? ? 'hide' : '' %>" id="total_rank_rate">
+          <ul class="win">
+            <% @total_ranks.each_with_index do |tr, index| %>
+              <li>
+                <span><%= index < 3 ? '' : index + 1 %></span>
+                <span><%= image_tag tr['headimgurl'] || 'h5/images/header2x.png' %></span>
+                <span><%= tr['nickname'] || tr['phone'] %></span>
+                <p><span class="logo-money"></span><%= number_to_currency tr['total_gold_gains'].to_f %></p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+    <a href="<%= currency_description_h5_gold_gains_histories_path %>">活动规则>></a>
+  <!-- </div> -->
+</div>
+
+<script>
+  $(function(){
+    // alertTx("奖励领取成功");
+    // initLockBox();
+    $(".menu_tabs").each(function(){
+      var floor = $(this);
+      var floor_box = floor.next();
+      
+      floor.find("li").click(function(){
+        floor.find("li").removeClass("unique");
+        floor_box.find(".menubox").hide();
+        var nowindex = $(this).index();
+        $(this).addClass("unique");
+        floor_box.find(".menubox").eq(nowindex).show();
+        $('.prise').hide();
+
+        if(nowindex!=3){ 
+          if(nowindex==0){
+            if(<%= (@self_day_rank && get_left_time_by('D') > 0).presence || false %>){ 
+              $('#rank_1' ).show();  
+            }
+            if(<%= (@self_today_rank && get_left_time_by('TD') <= 0).presence || false %>){ 
+              $('#rank_4' ).show();  
+            }
+          }
+          else{
+            $('#rank_' + (nowindex + 1)).show();
+          }
+        }
+      });
+    });
+
+    $('.get_gain').on('click', function(){
+      ele = $(this);
+      var rc_id = $(this).attr('rc');
+      var prize_txt = $(this).attr('prize_txt');
+      var is_product = $(this).attr('is_product');
+      if(is_product == 1){
+        Rankingalert('领取奖励成功！<br>'+prize_txt+'<br>',"/h5/gold_gains_histories/receive_prizes?rc="+rc_id,'立即领奖');
+      }else{
+        $.ajax({
+          type: 'POST',
+          url: "/h5/gold_gains_histories/get_gain",
+          // async: false,
+          data: {'ranking_config_id': $(this).attr('rc')},
+          success: function(datas) {
+            if(datas['status'] == 200){
+              // alertTx("领取奖励成功");
+              // ele.after("<a class='already-receive' href='javascript:void(0)''>已领取</a>");
+              ele.hide();
+              Rankingalert('领取奖励成功！<br>'+prize_txt+'<br>分享得奖信息可得钻石币',"/h5/gold_gains_histories/share_prize?rc="+rc_id,'立即分享');
+            }
+            else{
+              alertTx("领取失败, 请重试");
+            }
+          },
+          error: function(XMLHttpResponse) {
+            alertTx("领取失败, 请重试");
+          }
+        })
+      }
+    })
+    
+  })
+</script>

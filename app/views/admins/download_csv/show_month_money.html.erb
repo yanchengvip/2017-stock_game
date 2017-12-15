@@ -1,0 +1,78 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">资金月报统计</div>
+  <div class="panel-body">
+
+    <%= render partial: 'admins/download_csv/search'%>
+<hr>
+    资金月报统计下载: <a href="javascript:void(0);" onclick="dowload_csv(4)">点击下载（可选中上方的选则条件统计下载)</a>
+
+  </div>
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th colspan="5">用户信息</th>
+      <th colspan="8">虚拟资金变化</th>
+      <th colspan="8">钻石币变化</th>
+    </tr>
+    <tr>
+      <th>用户ID</th>
+      <th>用户名</th>
+      <th>手机号</th>
+      <th>注册时间</th>
+      <th>注册来源</th>
+
+      <th>月初资金金额</th>
+      <th>注册赠送资金</th>
+      <th>邀请好友获得虚拟金</th>
+      <th>其他方式获得虚拟金</th>
+      <th>虚拟盘盈亏</th>
+      <th>兑换钻石币消耗的虚拟资金</th>
+      <th>其他方式消耗的虚拟金</th>
+      <th>月末资金金额</th>
+
+      <th>月初钻石币余额</th>
+      <th>注册获得</th>
+      <th>虚拟金兑换的钻石币</th>
+      <th>其他方式获得的钻石币</th>
+      <th>夺宝消耗的钻石币</th>
+      <th>其他方式消耗的钻石币</th>
+      <th>月末钻石币余额</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @user_data_month.each do |uda| %>
+        <tr>
+          <td><%= uda[0] %></td>
+          <td><%= uda[1] %></td>
+          <td><%= uda[2] %></td>
+          <td><%= uda[3] %></td>
+          <td><%= uda[4].nil? ? 'h5注册' : '微信注册' %></td>
+          <td><%= uda[5].to_f %></td><!--月初资金金额-->
+          <td><%= uda[6].to_f %></td><!--注册赠送资金-->
+          <td><%= uda[7].to_f %></td><!--邀请好友获得虚拟金-->
+          <td><%= uda[8].to_f %></td><!--其他方式获得虚拟金-->
+          <td><%= uda[9].to_f %></td><!--虚拟盘盈亏-->
+          <td><%= uda[10].to_f %></td><!--兑换钻石币消耗的虚拟资金-->
+          <td><%= uda[11].to_f %></td><!--其他方式消耗的虚拟金-->
+          <td><%= uda[12].to_f %></td><!--月末资金金额-->
+          <td><%= uda[13].to_f %></td><!--月初钻石币余额-->
+          <td><%= uda[14].to_f %></td><!--注册获得-->
+          <td><%= uda[15].to_f %></td><!--虚拟金兑换的钻石币-->
+          <td><%= uda[16].to_f %>
+          </td><!--其他方式获得的钻石币-->
+          <td><%= uda[17].to_f %></td><!--夺宝消耗的钻石币-->
+          <td><%= uda[18].to_f%></td><!--其他方式消耗的钻石币-->
+          <td><%= uda[19].to_f%></td><!--月末资金金额-->
+
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="flickr_pagination">
+  <%= will_paginate @users, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>

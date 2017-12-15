@@ -1,0 +1,100 @@
+<div class="gfc-box receive-prize">
+  <!--<div class="container-box">-->
+    <ul class="mail">
+      <li>
+        <span>收货人</span>
+        <input id ="user_name" maxlength="20" type="text" placeholder="收货人姓名" onfocus="this.placeholder=''" onblur="this.placeholder='收货人姓名'">
+      </li>
+      <li>
+        <span>手机号</span>
+        <input id="phone" maxlength="11" type="number" maxlength='11' placeholder="请输入手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入手机号'">
+      </li>
+      <li>
+        <span>地址</span>
+        <input id="address" maxlength="255" type="text" placeholder="收货人地址" onfocus="this.placeholder=''" onblur="this.placeholder='收货人地址'">
+      </li>
+      <li>
+        <span>邮编</span>
+        <input id="postcode" type="number" maxlength='6' placeholder="输入邮编号" onfocus="this.placeholder=''" onblur="this.placeholder='输入邮编号'">
+      </li>
+      <a class="get-button button-l -gfc-buy" id="submit" href="javascript:void(0)" rc="<%= @ranking_config_id %>">领取奖品</a>
+      <!-- <a class="get-button button-l -gfc-sell" href="#1">兑换成收益</a> -->
+      <p>领取奖品需要<span>10元</span>运费</p>
+    </ul>
+  <!--</div>-->
+  <!--领取成功 弹框-->
+  <div class="BuyRecord-absolute" style="display:none;">
+    <div class="BuyAbsolute-Box Buyexchange-SuccessBox">
+      <%=image_tag "h5/images/icon-close.png", class:"BuyAbsolute-BoxClose"%>
+      <div class="Buyexchange-SuccBoxTop" style="clear:both;">
+        <%=image_tag "h5/images/icon-success.png"%>
+        <p>领取成功</p>
+        <p>工作人员会在3个工作日内与您联系，确定发货时间</p>
+      </div>
+      <div class="Buyexchange-share">
+        <p class="">分享中奖信息，可领取钻石币</p>
+        <!-- <p id="btn" class="<%#=wechat_browser? ? 'wechat' : ''%>" data-img='share-success-box'>立即分享</p> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<%#unless wechat_browser? %>
+<!-- <script>
+  UrlCopy("btn", "<%#=@share_config[:link_url]%>")
+</script> -->
+<%#end%>
+<script>
+  $(function(){
+    $(".BuyAbsolute-BoxClose").click(function(){
+      $(".BuyRecord-absolute").hide()
+    })
+    $("#submit").click(function(){
+
+      if($("#user_name").val().length == 0){
+        alertTx("收货人不能为空")
+        return false
+      }
+      if($("#phone").val().length == 0){
+        alertTx("手机号不能为空")
+        return false
+      }
+      if($("#postcode").val().length == 0){
+        alertTx("邮编不能为空")
+        return false
+      }
+      if($("#address").val().length == 0){
+        alertTx("收货地址不能为空")
+        return false
+      }
+      obj = $(this);
+      obj.attr("id", "submitimg");
+      var rc_id = $(this).attr('rc');
+      $.ajax({
+        type : "POST",  //提交方式
+        url : "/h5/gold_gains_histories/get_gain",//路径
+        data : {'ranking_config_id': rc_id, address: {user_name: $("#user_name").val(), phone: $("#phone").val(), postcode: $("#postcode").val(), address: $("#address").val()}},//数据，这里使用的是Json格式进行传输
+        beforeSend: function(){
+        },
+        success : function(result) {//
+          obj.attr("id", "submit")
+          // 返回数据根据结果进行相应的处理
+          console.log(result)
+          if(result.status == 200){
+            // $(".BuyRecord-absolute").show();
+            // setTimeout(function(){
+            //   Rankingalert('领取奖励成功！<br>分享可得钻石币',"/h5/gold_gains_histories/share_prize?rc="+rc_id,'立即分享');
+            // },1000);
+            Rankingalert('领取奖励成功！<br>分享可得钻石币',"/h5/gold_gains_histories/share_prize?rc="+rc_id,'立即分享');
+          }else{
+            alertTx(result.msg)
+          }
+        },
+        error: function(){
+          obj.attr("id", "submit")
+        }
+      });
+    })
+
+  })
+</script>

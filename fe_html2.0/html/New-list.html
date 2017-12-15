@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>交易</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compitable" content="IE=edge">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/pullToRefresh.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/media.css">
+  <script src="../js/jquery-1.11.3.js"></script>
+  <script src="../js/base.js"></script>
+  <script src="../js/iscroll.js"></script>
+  <script src="../js/pullToRefresh.js"></script>
+</head>
+<body class="body-box">
+<div class="gfc-box list-box">
+  <!--<div class="container-box">-->
+  <!--<div class="head-style-box">-->
+  <ul class="head-style tab-box">
+    <li class="tab-btn"><span>持仓</span></li>
+    <li class="tab-btn"><span>挂单</span></li>
+  </ul>
+  <!--</div>-->
+  <div class="record">
+    <ul id="ul">
+      <div class="tab-content">
+        <!--持仓 start-->
+        <div class="market-box">
+          <div class="market-text">
+            <div>
+              <p>持仓</p>
+              <div class="house">
+                <ul>
+                  <li><span>商品品名</span><span>3380.00</span></li>
+                  <li><span>商品代码</span><span>3,380.00</span></li>
+                  <li><span>商品数量</span><span>3</span></li>
+                  <li><span>可卖数量</span><span>2</span></li>
+                  <li><span>成本价格</span><span>3,380.00</span></li>
+                  <li><span>市场价格</span><span>3,380.00</span></li>
+                  <li><span>当前市值</span><span>3,380.00</span></li>
+                  <li><span>浮动盈亏</span><span class="-gfc-red">+380.00</span></li>
+                </ul>
+                <div class="line"></div>
+                <span class="cancel -gfc-sell txt-white">卖出</span>
+              </div>
+              <div class="no-data">暂无持仓</div>
+            </div>
+            <div>
+              <p>做空</p>
+              <div class="house">
+                <ul>
+                  <li><span>商品品名</span><span>3,380.00</span></li>
+                  <li><span>商品代码</span><span>3,380.00</span></li>
+                  <li><span>做空价格</span><span>3,380.00</span></li>
+                  <li><span>现价</span><span>3,380.00</span></li>
+                  <li><span>做空数量</span><span>3,380.00</span></li>
+                  <li><span>浮动盈亏</span><span class="gfc-green">-380.00</span></li>
+                </ul>
+                <div class="line"></div>
+                <span class="cancel -gfc-buy txt-white">平仓</span>
+                <span class="cancel no-position">平仓</span>
+              </div>
+              <div class="no-data">暂无做空</div>
+            </div>
+          </div>
+        </div>
+        <!--持仓 end-->
+        <!--挂单 start-->
+        <div class="tab-lister">
+          <li class="list">
+            <div class="business top clearfix">
+              <ul>
+                <li><span>商品品名</span><span>0.3克拉钻石</span></li>
+                <li><span>商品代码</span><span>403011</span></li>
+                <li><span>挂单状态</span><span>已报</span></li>
+                <li><span>挂单方向</span><span class="gfc-sell">卖出</span></li>
+                <li><span>挂单价格</span><span>3,270.00</span></li>
+                <li><span>挂单数量</span><span>1</span></li>
+              </ul>
+              <div class="line"></div>
+              <span class="cancel -gfc-cancel txt-cancel">撤销</span>
+            </div>
+          </li>
+          <li class="list">
+            <div class="business top clearfix">
+              <ul>
+                <li><span>商品品名</span><span>0.3JVS2V</span></li>
+                <li><span>商品代码</span><span>403011</span></li>
+                <li><span>挂单状态</span><span>已报</span></li>
+                <li><span>挂单方向</span><span class="gfc-sell gfc-buy">平仓</span></li>
+                <li><span>挂单价格</span><span>3,270.00</span></li>
+                <li><span>挂单数量</span><span>1</span></li>
+              </ul>
+              <div class="line"></div>
+              <span class="cancel -gfc-cancel txt-cancel">撤销</span>
+            </div>
+          </li>
+        </div>
+        <!--挂单 end-->
+      </div>
+    </ul>
+  </div>
+  <!--</div>-->
+</div>
+</body>
+<script>
+  $(function(){
+    var allHeight=document.documentElement.clientHeight;
+    $('#wrapper').css('height',allHeight-100+'px');
+
+  })
+</script>
+<script>
+
+  $('.list-tab').on('click',function(){
+    $('.list-block').css('display','block');
+    $('.trade-block').css('display','none');
+  })
+  $('.trade-tab').on('click',function(){
+    $('.list-block').css('display','none');
+    $('.trade-block').css('display','block');
+  })
+  /*$(function(){
+   var TotalLength=10;//总条数
+   var eachLength=4;//每次加载条数
+   refresher.init({
+   id:"wrapper",//<------------------------------------------------------------------------------------┐
+   pullDownAction:Refresh,
+   pullUpAction:Load
+   });
+   /!*function getElm(){
+   el =document.querySelector("#wrapper #ul");
+   return el;
+   } *!/
+   function Refresh() {
+   setTimeout(function () {  // <-- Simulate network congestion, remove setTimeout from production!
+   var el, li, i;
+   el =document.querySelector("#wrapper ul");
+   // ----------这里写你的刷新代码-------------------------------------------
+   document.getElementById("wrapper").querySelector(".pullDownIcon").style.display="none";
+   document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="刷新成功";
+   setTimeout(function () {
+   wrapper.refresh();
+   document.getElementById("wrapper").querySelector(".pullDownLabel").innerHTML="";
+   },1000);//模拟qq下拉刷新显示成功效果
+   /!****remember to refresh after  action completed！ ---yourId.refresh(); ----| ****!/
+   }, 1000);
+   }
+   function Load() {
+   setTimeout(function () {// <-- Simulate network congestion, remove setTimeout from production!
+   var el, li,liLength, i;
+   el =document.querySelector("#wrapper ul");
+   liLength=$(el).children('li').length;
+   console.log(liLength)
+   if(liLength>=TotalLength){
+   wrapper.refresh();
+   $('.pullUp').children('.pullUpLabel').text('已加载全部')
+   $('.pullUp').children('.pullUpIcon').hide();
+   }else{
+   for (i=0; i<eachLength; i++) {
+   li = document.createElement('li');
+   li.getAttribute('class','li');
+   li.innerHTML='<div class="business top"> <ul><li><span>商品品名</span><span>0.3JVS2V</span></li><li><span>商品代码</span><span>403011</span></li><li><span>挂单状态</span><span>已报</span></li><li><span>挂单方向</span><span class="gfc-sell">卖</span></li><li><span>挂单价格</span><span>3,270.00</span></li><li><span>挂单数量</span><span>1</span></li></ul></div>';
+   el.appendChild(li, el.childNodes[0]);
+   }
+   liLength=$(el).children('li').length;
+   console.log(liLength);
+   if(liLength>=TotalLength){
+   wrapper.refresh();
+   $('.pullUp').children('.pullUpLabel').text('已加载全部');
+   $('.pullUp').children('.pullUpIcon').hide();
+   }
+   }
+   wrapper.refresh();/!****remember to refresh after action completed！！！   ---id.refresh(); --- ****!/
+   },2000);
+   }
+   var a=$('#ul').children('li').length;
+   if(a>=TotalLength){
+   $('.pullUp').hide();
+   }
+   })*/
+</script>
+</html>

@@ -1,0 +1,45 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">资金余额统计</div>
+  <div class="panel-body">
+
+    <%= render partial: 'admins/download_csv/search' %>
+    <hr>
+    资金余额统计下载: <a href="javascript:void(0);" onclick="dowload_csv(2)">点击下载（可选中上方的选则条件统计下载)</a>
+
+  </div>
+
+  <table class="table table-striped show_csv_data_table">
+    <thead>
+    <tr>
+      <th>用户ID</th>
+      <th>用户名</th>
+      <th>手机号</th>
+      <th>注册时间</th>
+      <th>注册来源</th>
+      <th>虚拟资金余额</th>
+      <th>可用于兑换钻石币的资金金额</th>
+      <th>钻石币余额</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @user_remain_balance.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.nickname %></td>
+          <td><%= user.phone %></td>
+          <td><%= time_format user.created_at %></td>
+          <td><%= user.openid.nil? ? 'h5注册' : '微信注册' %></td>
+          <td><%= user.ga1_amount %></td>
+          <td><%= (user.ga1_amount.to_f - 20000) > 0 ? user.ga1_amount - 20000 : 0 %></td>
+          <td><%= user.da1_amount %></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+  <div class="flickr_pagination">
+    <%= will_paginate @user_remain_balance, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+  </div>
+</div>

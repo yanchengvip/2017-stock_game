@@ -1,0 +1,48 @@
+<div class="carat">
+  <ul>
+    <div class="diamonds friend-pic">
+      <span>
+        <span class="Font-big"><%=SYSTEMCONFIG[:admin_config][:day_sign][:diamond_account]%></span>钻币
+      </span>
+    </div>
+    <li class="first-line">
+      <span class="fl">每日签到</span>
+    </li>
+    <li class="second-line">
+      <span>每日签到获得奖励</span>
+      <button class="txt-white bg-red day_sign <%= current_user.day_signed? ? 'bg-light-purple alreadySign' : '' %>">
+        <%= current_user.day_signed? ? '已签到' : '签到' %>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.day_sign').on('click', function(){
+      ele = $(this);
+      if(!$(this).hasClass('alreadySign')){
+        $.ajax({
+          type: "POST",
+            url: '/h5/day_signs',
+            data: {},
+            success: function(result){
+              if(result.status == 200){
+                $('.day_sign').addClass('bg-light-purple').css('color', '#fff');
+                $('.day_sign').addClass('alreadySign').text('已签到');
+                ele.attr('disabled', 'disabled');
+                alertDb("签到成功<br>获得<%=SYSTEMCONFIG[:admin_config][:day_sign][:diamond_account]%>钻石币", '知道了');
+                // 修改显示用户的钻石币数量
+                $('#user_total_coin').text(result.data.user_coin);
+              }else{
+                alertTx('签到失败，请重试')
+              }
+            },
+            error: function(XMLHttpResponse){
+              alertTx('签到失败，请重试')
+            }
+        })
+      }
+    })
+  })
+</script>

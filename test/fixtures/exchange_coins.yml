@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  diamond_exchange_rate: 1
+  num: 1
+  gold_account_id: 1
+  diamond_account_id: 1
+
+two:
+  user_id: 1
+  diamond_exchange_rate: 1
+  num: 1
+  gold_account_id: 1
+  diamond_account_id: 1

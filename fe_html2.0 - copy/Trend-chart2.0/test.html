@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    </head>
+    <script src="../js/jquery-1.11.3.js"></script>
+    <script src="../js/highstock.js"></script>
+    <style>
+		.box {
+			width: 100px;
+			height: 100px;
+			background-color: red;
+		}
+		.box.active {
+			background-color: #fff;
+		}
+    </style>
+    <body>
+    <div style="width:900px;height:900px"></div>
+<div id="container" style="max-width: 1000px"></div>
+
+    <script>
+     //匿名函数
+$(function () {
+
+          $.ajax({
+            type: "post",
+            url: "/h5/sale_diamonds/403011/diamond_history_price",
+            data: null,
+            success: function(res){
+              console.log(res)
+            },
+            error: function(){
+            }
+          })
+   
+});
+
+    </script>
+    </body>
+</html>

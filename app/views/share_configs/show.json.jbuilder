@@ -1,0 +1,1 @@
+json.partial! "share_configs/share_config", share_config: @share_config

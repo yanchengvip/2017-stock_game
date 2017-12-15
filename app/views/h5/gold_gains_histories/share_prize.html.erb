@@ -1,0 +1,24 @@
+<div class="gfc-box get-prize">
+  <div class="prize-banner"></div>
+  <div class="prize-content-bg">
+    <div class="prize-content">
+      <% ranking_config_item = @ranking_config.ranking_config_items.first %>
+      <p>您在本届竞赛荣获第<span><%= to_zw(@ranking_config.ranking) %></span>名<br/>
+        获得<span><%= ranking_config_item&.price&.to_i %></span><%= rank_item_name(ranking_config_item) %>
+      </p>
+      <div class="num-box"><%= image_tag "h5/images/num-#{@ranking_config.ranking}.png", alt: ''  %></div>
+      <button id="btn" class="<%= wechat_browser? ? 'wechat' : '' %>" data-img="share-success-box">分享并领取奖励</button>
+    </div>
+  </div>
+</div>
+
+<%unless wechat_browser? %>
+<script>
+  UrlCopy("btn", "<%=@share_config[:link_url]%>")
+</script>
+<%end%>
+<script type="text/javascript">
+$(function() {
+  $(".wechat").click()
+})
+</script>

@@ -1,0 +1,96 @@
+  <script>
+    $(function(){
+      /*领取奖品*/
+      $('.Pro-postion p').click(function(){
+
+      })
+      //initLockBox();
+      //alertTx('领取奖励成功');
+      /*查看公式详情*/
+      // $('.Pro-LuckyTitle img').click(function(){
+      //   window.location.href="Formula.html";
+      // })
+    })
+  </script>
+
+<div class="BuyRecord-box Product-box">
+   <!--banner-->
+    <div class="RedDraw-banner">
+      <%=image_tag "h5/images/pro-l.png" %>
+    </div>
+  <!--商品详情-->
+  <div class="Pro-DetailBox">
+    <div>
+      <p class="Pro-GoodsName"><%=@lottery.product.name%></p>
+      <div class="Pro-Money clearfix">
+        <p class="fl">￥<%=number_to_currency @lottery.product.price%></p>
+      </div>
+      <div class="clearfix padding-px">
+        <p class="fl">分享人：<%=@lottery&.user&.nickname%></p>
+        <p class="fr">需要人次：<%=@lottery.total_count%></p>
+      </div>
+    </div>
+    <!--中奖-->
+    <div class="Pro-AttendanceBox Proann-AttendanceBox clearfix">
+      <!--中奖用户-->
+      <% if @win_user && @win_user.id>0%>
+      <div class="Pro-luckyUserBox">
+        <div class="Pro-luckyUser">
+          <div class="Pro-recordLeft">
+            <%=image_tag @win_user.headimgurl %>
+          </div>
+          <div class="Pro-recordRight">
+            <p >获奖用户：<span class="Pro-recordRightName"><%=@win_user.nickname%></span></p>
+            <p class="white-space">揭晓时间：<%=@lottery.lottery_time.strftime("%Y-%m-%d %H:%M:%D")%></p>
+          </div>
+          <p class="Proann-UserState">幸运号码　<span><%=@lottery.win_lottery_code%></span></p>
+        </div>
+        <%= image_tag "h5/images/seal.png", class:"BuyRecordSeal" %>
+      </div>
+      <%end%>
+      <!--用户参与-->
+      <%if @current_user_lottery_order_item%>
+        <div class="Proann-Userparticipation">
+          <p>您的抽奖号码：<%= @current_user_lottery_order_item.lottery_code%></p>
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <!--公式-->
+  <div class="Pro-LuckyNumber">
+    <p class="Pro-LuckyTitle" ><span>幸运号码计算公式</span><img src="<%=asset_path 'h5/images/h1_03.png' %>"></p>
+    <p class="Pro-formula">[(数值A+数值B)÷商品总需人次]取余数+10000001</p>
+  </div>
+  <!--分割线-->
+  <div class="Pro-gray"></div>
+  <%= render partial: "lottery_orders", locals:{lottery: @lottery}%>
+
+  <!--分割线-->
+  <div class="Pro-gray" style="height:80px;"></div>
+  <div class="Pro-postion">
+    <%if @lottery.status == 2 && @win_user&.id == current_user.id%>
+      <%if @lottery.take_award == true%>
+        <a href="javascript:void(0)"><p class="Inf-Footbg">已领取</p></a>
+      <%else%>
+        <a href="/h5/lotteries/<%=params[:id]%>/receive_prizes"><p>领取奖品</p></a>
+      <%end%>
+    <%else%>
+      <a href="/h5/lotteries"><p>查看其它夺宝机会</p></a>
+    <%end%>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    <%if @current_user_lottery_order_item%>
+      alertTx("参与成功<br/> 您的抽奖号码为:" + "<%=@current_user_lottery_order_item.lottery_code%>")
+    <%else%>
+      alertTx("该福袋已被其他好友领走")
+    <%end%>
+    $('.Pro-LuckyTitle img').click(function(){
+      window.location.href="/h5/lotteries/formula_detail?id=<%=@lottery.id%>";
+    })
+  })
+</script>

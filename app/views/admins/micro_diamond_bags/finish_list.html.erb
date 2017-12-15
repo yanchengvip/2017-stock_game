@@ -1,0 +1,70 @@
+<div class="row">
+
+  <div class="col-lg-6">
+
+    <form action="/admins/lucky_bags/search" method="post">
+      <div class="input-group">
+        <input type="text" name="product_name" class="form-control" placeholder="微钻红包">
+
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">查询</button>
+      </span>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>上架时间</th>
+      <th>开抢时间</th>
+      <th>红包微钻数量</th>
+      <th>红包个数</th>
+      <th>参与需钻币数</th>
+      <th>红包状态</th>
+      <th>抢完耗时</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+
+    <% @micro_bags.each do |micro| %>
+        <tbody>
+
+        <tr>
+          <td><%= time_format micro.published_at %></td>
+          <td><%= time_format micro.buy_at %></td>
+          <td><%= micro.micro_diamond_amount.to_f %></td>
+          <td><%= micro.micro_diamond_bag_items.size%>/<%= micro.person_count.to_i %></td>
+          <td><%= micro.buy_diamond_amount.to_f %></td>
+          <td><%= admin_micro_diamond_bags_status micro.status %></td>
+          <td><%= micro.duration_time%>秒</td>
+          <td>
+            <a href="/admins/micro_diamond_bags/<%=micro.id%>" onclick="" class="admin_product_operate_a">查看详情</a>
+          </td>
+        </tr>
+
+        </tbody>
+    <% end %>
+
+
+  </table>
+
+
+  <div>
+
+
+  </div>
+
+</div>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate @micro_bags, :container => false, :previous_label => t("上一页"), :next_label => t("下一页") %>
+</div>
